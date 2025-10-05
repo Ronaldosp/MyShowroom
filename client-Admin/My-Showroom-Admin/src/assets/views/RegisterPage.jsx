@@ -74,30 +74,6 @@ function RegisterPage(){
             }}
              />
           </div>
-          <div className="mb-3">
-            <label className="form-label">Phone Number</label>
-            <input 
-            className="form-control" 
-            type="text"
-            value={phoneNumber}
-            onChange={(event)=>{
-              const value = event.target.value
-              setphoneNumber(value)
-            }}
-             />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Address</label>
-            <input 
-            className="form-control" 
-            type="text"
-            value={address}
-            onChange={(event)=>{
-              const value = event.target.value
-              setAddress(value)
-            }}
-             />
-          </div>
           
           <div className="d-flex justify-content-center text-align-center">
            <Button  type="submit" className="btn btn-dark">

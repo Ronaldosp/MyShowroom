@@ -10,8 +10,8 @@ export default createBrowserRouter([
         element:<Layout/>,
         loader:()=>{
             console.log(localStorage.access_token);
-            if(!localStorage.access_token) return redirect('/login')
-            return null
+            //if(!localStorage.access_token) return redirect('/login')
+           // return null
         },
         children:[
             {
