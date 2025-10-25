@@ -5,18 +5,19 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import AddBrand from "./AddBrand"
+import { createBrands, fetchBrands } from "../store/action/actionCreator.js";
 
 
 function HomePage() {
-    //const data = useSelector((state)=>{
-    //  return state.itemReducer.items
-    //})
-    //console.log(data);
+    const data = useSelector((state)=>{
+     return state.brandReducer.brands
+    })
+    console.log(data , "data");
     const dispatch = useDispatch()
     
-    //useEffect(()=>{
-    //    dispatch(fetchItems())
-    //},[])
+    useEffect(()=>{
+       dispatch(fetchBrands())
+    },[])
   const [modalShow, setModalShow] = useState(false);
 
   return (
@@ -55,18 +56,13 @@ function HomePage() {
                 <th>Name</th>
                 <th>Logo</th>
                 <th>Country</th>
-                <th>Image</th>
-                <th>Ingredients</th>
-                <th>Price</th>
-                <th>Created By</th>
-                <th></th>
               </tr>
             </thead>
-            {(
+            {/* {(
               data.map((el , index) => {
                 return <FoodTable el={el} index={++index} key={el.id} />;
               })
-            )}
+            )} */}
           </Table>
         </div>
       </div>

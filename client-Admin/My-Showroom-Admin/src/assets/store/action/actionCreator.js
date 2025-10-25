@@ -54,7 +54,7 @@ export const login = (body) =>{
 export const fetchBrands = () =>{
     return async(dispatch)=>{
         try {
-            const response = await fetch(BASE_URL+`/brand`,{
+            const response = await fetch(BASE_URL+`/brands`,{
                 headers:{
                     'Content-Type':'application/json',
                     //access_token:localStorage.access_token

@@ -3,7 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from "react-redux";
 import Form from 'react-bootstrap/Form';
-import { createBrand, fetchBrand } from "../store/action/actionCreator";
+import { createBrands, fetchBrands } from "../store/action/actionCreator.js";
 
 function AddBrand(props){
     const [name , setName] = useState("")
@@ -13,18 +13,18 @@ function AddBrand(props){
     const dispatch = useDispatch()
 
     useEffect(()=>{
-        dispatch(fetchBrand())
+        dispatch(fetchBrands())
     },[])
 
     return <Modal
     {...props}
-    size="lg"
+    size="md"
     aria-labelledby="contained-modal-title-vcenter"
     centered
     >
-        <Modal.Header closeButton>
-      <Modal.Title id="contained-modal-title-vcenter">
-        Add New Brand
+        <Modal.Header closeButton style={{paddingLeft: 25}}>
+      <Modal.Title id="contained-modal-title-vcenter" >
+        <h2>Add New Brand</h2>
       </Modal.Title>
     </Modal.Header>
     <Modal.Body>
@@ -39,7 +39,7 @@ function AddBrand(props){
         logo,
       }
       console.log(brandData);
-      dispatch(createBrand(brandData))
+      dispatch(createBrands(brandData))
       props.onHide()
     }}>
       <div className="mb-3">
@@ -52,9 +52,9 @@ function AddBrand(props){
           const value = event.target.value
           setName(value)
         }}
-         />
+        />
       </div>
-      /<div className="mb-3">
+      <div className="mb-3">
         <label className="form-label">Country</label>
         <input 
         className="form-control" 
@@ -88,7 +88,7 @@ function AddBrand(props){
     </div>
     </Modal.Body>
       <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
+        {/* <Button onClick={props.onHide}>Close</Button> */}
       </Modal.Footer>
     </Modal>
 }

@@ -9,4 +9,5 @@ export default function brandReducer(state=initialState , action){
             brands : action.payload
         }
     }
+    return state;
 }

@@ -81,10 +81,15 @@ app.get('/brands', async(req , res)=>{
 
 app.post('/brands', async(req,res)=>{
   try {
+    console.log(req.body);
+    
     const {name , country, logo} = req.body;
-    const brand = await Brand.Create({name , country , logo})
+    const brand = await Brand.create({name , country , logo})
+    console.log(brand);
     res.status(201).json(`Created New Brand ${name}`)
   } catch (error) {
+    console.log(error);
+    
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
@@ -172,7 +177,7 @@ app.delete('/categories/:id', async(req,res)=>{
 app.post('/categories', async(req,res)=>{
   try {
     const {name} = req.body
-    const category = Category.Create({name})
+    const category = Category.create({name})
     res.status(201).json(`Created New Category ${name}`)
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
@@ -206,7 +211,7 @@ app.get('/cars/:id', async(req,res)=>{
 app.post('/cars', async(req,res)=>{
   try {
     const {model , brand_id , thumbnail , category_id , price} = req.body;
-    const cars = Car.Create({model , brand_id , thumbnail , category_id , price})
+    const cars = Car.create({model , brand_id , thumbnail , category_id , price})
     res.status(201).json(`Created New Car ${model}`)
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
@@ -261,7 +266,7 @@ app.get('/specifications' , async(req,res)=>{
 app.post('/specifications' , async(req,res)=>{
   try {
     const {car_id , description , exterior_desc , interior_desc , engine_desc, safety_desc} = req.body
-    const specification = Specification.Create({car_id , description , exterior_desc , interior_desc , engine_desc, safety_desc})
+    const specification = Specification.create({car_id , description , exterior_desc , interior_desc , engine_desc, safety_desc})
     res.status(201).json(`Created New Specification for Car id: ${car_id}`)
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
@@ -397,7 +402,7 @@ app.get('/technology', async(req,res)=>{
 app.post('/technology', async(req,res)=>{
   try {
     const{ specification_id , name , thumbnail} = req.body
-    const technology= await technology.Create({ specification_id , name , thumbnail})
+    const technology= await technology.create({ specification_id , name , thumbnail})
     res.status(201).json(`Created New technology ${name}`)
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
@@ -465,7 +470,7 @@ app.get('/performance', async(req,res)=>{
 app.post('/performance', async(req,res)=>{
   try {
     const{ specification_id , name , thumbnail} = req.body
-    const performance= await Performance.Create({ specification_id , name , thumbnail})
+    const performance= await Performance.create({ specification_id , name , thumbnail})
     res.status(201).json(`Created New performance ${name}`)
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
@@ -601,7 +606,7 @@ app.get('/gallery', async(req,res)=>{
 app.post('/gallery', async(req,res)=>{
   try {
     const{ specification_id , exterior_images , interior_images} = req.body
-    const gallery= await Gallery.Create({ specification_id , exterior_images , interior_images})
+    const gallery= await Gallery.create({ specification_id , exterior_images , interior_images})
     res.status(201).json(`Created New gallery ${name}`)
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });

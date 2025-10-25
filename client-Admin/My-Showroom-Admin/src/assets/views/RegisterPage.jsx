@@ -26,13 +26,14 @@ function RegisterPage(){
         backgroundColor: 'white',
         padding: '25px 30px',
         borderRadius: '5px',
-        boxShadow: '0 5px 10px rgba(0, 0, 0, 0.15)',width:400 , padding: 25, border:5 }}>
+        boxShadow: '0 5px 10px rgba(0, 0, 0, 0.15)',
+        border:'5' }}>
             <h1 className="d-flex justify-content-center text-align-center">Register Form</h1>
             <div className="container" >
          <form onSubmit={(event)=>{
           event.preventDefault()
           const registerData={
-            email , password , username , role , phoneNumber , address
+            email , password , username , role
           };
           dispatch(register(registerData))
           navigate('/')
