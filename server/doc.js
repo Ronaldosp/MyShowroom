@@ -9,7 +9,7 @@
  * 
  * 
  * npx sequelize-cli model:generate --name User --attributes username:string,email:string,password:string,role:string
- * npx sequelize-cli model:generate --name Brand --attributes name:string,country:string
+ * npx sequelize-cli model:generate --name Brand --attributes name:string,country:string,logo:string
  * npx sequelize-cli model:generate --name Category --attributes name:string
  * npx sequelize-cli model:generate --name Car --attributes model:string,brand_id:integer,thumbnail:string,category_id:integer,price:integer
  * npx sequelize-cli model:generate --name Specification --attributes car_id:integer,description:string,exterior_desc:string,interior_desc:string,engine_desc:string,safety_desc:string

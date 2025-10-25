@@ -81,8 +81,8 @@ app.get('/brands', async(req , res)=>{
 
 app.post('/brands', async(req,res)=>{
   try {
-    const {name , country} = req.body;
-    const brand = await Brand.Create({name , country})
+    const {name , country, logo} = req.body;
+    const brand = await Brand.Create({name , country , logo})
     res.status(201).json(`Created New Brand ${name}`)
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
@@ -92,9 +92,9 @@ app.post('/brands', async(req,res)=>{
 app.put('/brands/:id', async(req,res)=>{
   try {
     const {id} = req.params
-    const {country , name} = req.body
+    const {country , name, logo} = req.body
     const brand = await Brand.update(
-      {country,name},
+      {country,name, logo},
       {where :{id : id}}
     )
     if(!brand){

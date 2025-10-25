@@ -4,15 +4,14 @@ import Button from "react-bootstrap/Button";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-
-
+import AddBrand from "./AddBrand"
 
 
 function HomePage() {
     //const data = useSelector((state)=>{
     //  return state.itemReducer.items
     //})
-    console.log(data);
+    //console.log(data);
     const dispatch = useDispatch()
     
     //useEffect(()=>{
@@ -39,13 +38,13 @@ function HomePage() {
         padding: '25px 30px',
         borderRadius: '5px',
         boxShadow: '0 5px 10px rgba(0, 0, 0, 0.15)'}}>
-      <h1 className="d-flex justify-content-center text-align-center" style={{fontFamily:'Times New Roman' , fontStyle:'italic'}}>Food List</h1>
+      <h1 className="d-flex justify-content-center text-align-center" style={{fontFamily:'Times New Roman' , fontStyle:'italic'}}>Brand List</h1>
       <div className="d-flex justify-content-center text-align-center">
         <Button variant="outline-primary" onClick={() => setModalShow(true)}>
-          Add New Food
+          Add New Brands
         </Button>
       </div>
-      <AddFood show={modalShow} onHide={() => setModalShow(false)} />
+      <AddBrand show={modalShow} onHide={() => setModalShow(false)} />
       <div className="container">
         {/* BaseCard */}
         <div className=" row container d-flex grid gap-3 mt-4 row mx-auto ">
@@ -54,8 +53,8 @@ function HomePage() {
               <tr>
                 <th>#</th>
                 <th>Name</th>
-                <th>Description</th>
-                <th>Category</th>
+                <th>Logo</th>
+                <th>Country</th>
                 <th>Image</th>
                 <th>Ingredients</th>
                 <th>Price</th>

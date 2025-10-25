@@ -38,6 +38,18 @@ module.exports = (sequelize, DataTypes) => {
           msg:"Country is required (Brand)"
         }
       }
+    },
+    logo: {
+      type:DataTypes.STRING,
+      allowNull:false,
+      validate:{
+        notEmpty:{
+          msg:"Logo is required (Brand) "
+        },
+        notNull:{
+          msg:"Logo is required (Brand)"
+        }
+      }
     }
   }, {
     sequelize,
