@@ -25,7 +25,7 @@ export const register = (body) =>{
     return async (dispatch)=>{
         try {
             console.log(body);
-            const response = await fetch(BASE_URL+`/register`,{
+            const response = await fetch(BASE_URL+`/registerAdmin`,{
                 method:"POST",
                 body: JSON.stringify(body),
                 headers:{
@@ -45,7 +45,7 @@ export const register = (body) =>{
 export const login = (body) =>{
     return async(dispatch)=>{
         try {
-            const response = await fetch(BASE_URL+`/login`,{
+            const response = await fetch(BASE_URL+`/loginAdmin`,{
                 method:"POST",
                 body: JSON.stringify(body),
                 headers:{

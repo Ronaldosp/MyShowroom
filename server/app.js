@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const port = 3000
 const cors = require("cors");
-const { User, Brand, Category, Car, Specification, Design, Technology, Performance, Accessories, Gallery } = require('./models');
+const {  Brand, Category, Car, Specification, Design, Technology, Performance, Accessories, Gallery, UserProfile, DealerProfile, Admin } = require('./models');
 const { comparePassword } = require('./helpers/bcrypt');
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
@@ -18,9 +18,27 @@ app.listen(port, () => {
 
 app.post('/register',async(req , res)=>{
   try {
-    const {username, email , password} = req.body;
-    const user = await User.create({ username, email, password });
+    const {username, email , role, password} = req.body;
+    const user = await UserProfile.create({ username, email, role, password });
     res.status(201).json({ id: user.id, email: user.email });
+  } catch (error) {
+    if (
+      error.name === "SequelizeValidationError" ||
+      error.name === "SequelizeUniqueConstraintError"
+    ) {
+      res.status(400).json({ message: error.errors[0].message });
+    } else {
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+    console.log(error);
+  }
+});
+
+app.post('/registerAdmin',async(req , res)=>{
+  try {
+    const {username, email , password} = req.body;
+    const admin = await Admin.create({ username, email, password });
+    res.status(201).json({ id: admin.id, email: admin.email });
   } catch (error) {
     if (
       error.name === "SequelizeValidationError" ||
@@ -37,7 +55,32 @@ app.post('/register',async(req , res)=>{
 app.post('/login', async(req , res)=>{
   try {
     const {email , password} = req.body;
-    const user = User.findOne({Where : email});
+    const user = UserProfile.findOne({Where : email});
+    if(!user){
+      throw { message : "UserNotFound" };
+    }
+    const passValid = comparePassword(password , user.password);
+    if(!passValid){
+      throw { message : "UserNotFound"};
+    }
+    const token = signToken({ id: user.id , email: user.email})
+    res.status(200).json({ access_token: token });
+  } catch (error) {
+    console.log(error);
+    if (error.name === "SequelizeValidationError") {
+      res.status(400).json({ message: error.errors[0].message });
+    } else if (error.message === "UserNotFound") {
+      res.status(500).json({ message: "Invalid email/password" });
+    } else {
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+});
+
+app.post('/loginAdmin', async(req , res)=>{
+  try {
+    const {email , password} = req.body;
+    const user = Admin.findOne({Where : email});
     if(!user){
       throw { message : "UserNotFound" };
     }
@@ -61,7 +104,7 @@ app.post('/login', async(req , res)=>{
 
 app.get('/users', async(req , res)=>{
   try {
-    const data = await User.findByPk(req.user.id);
+    const data = await UserProfile.findByPk(req.user.id);
     res.status(200).json(data);
   } catch (error) {
     console.log(error);

@@ -23,7 +23,7 @@ function CarPage(){
 
     return (
         <div style={{
-          backgroundImage: 'url("https://images7.alphacoders.com/109/1097602.jpg")',
+          backgroundImage: 'url("")',
           backgroundSize: "cover",
           // backgroundColor: '#20B2AA',
           backgroundRepeat: "no-repeat",
