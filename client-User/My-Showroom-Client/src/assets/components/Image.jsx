@@ -4,7 +4,7 @@ import "../styling/Image.scss";
 export default function Image(src){
     return(
         <div className="image-container"> 
-            <img src={src}alt=""/>
+            <img src={src.src}alt=""/>
         </div>
     )
 }

@@ -9,6 +9,11 @@ import Carousel from "../components/Carousel.jsx";
 import Welcome from "../components/Welcome.jsx";
 import Collaborator from "../components/Collaborators.jsx";
 import AboutUs from "../components/AboutUs.jsx";
+import Image from "../components/Image.jsx";
+import Footer from "../components/Footer.jsx";
+import CategoryCards from "../components/CategoryCard.jsx";
+
+import testCar8 from "../images/test-car-8.jpg";
 
 function HomePage(){
 
@@ -27,6 +32,9 @@ function HomePage(){
         <Welcome/>
         <Collaborator/>
         <AboutUs/>
+        <Image src={testCar8}/>
+        <CategoryCards/>
+        <Footer/>
         </div>
       );
 }
