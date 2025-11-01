@@ -8,8 +8,13 @@
  * 
  * 
  * 
- * npx sequelize-cli model:generate --name User --attributes username:string,email:string,password:string,role:string
- * npx sequelize-cli model:generate --name DealerProfile --attributes user_id:integer,shop_name:string,type:string,address:string,phone:string,description:text,logo:string,brand_id:integer
+ * npx sequelize-cli model:generate --name UserProfile --attributes username:string,email:string,password:string,role:string,dealerProfile_id:integer
+ * 
+ * npx sequelize-cli model:generate --name Admin --attributes username:string,email:string,password:string
+ * 
+ * npx sequelize-cli model:generate --name DealerProfile --attributes shopName:string,car_id:integer,type:string,address:string,instagramLink:string,whatsAppLink:string,brand_id:integer,user_id:integer
+ * 
+ * 
  * npx sequelize-cli model:generate --name Brand --attributes name:string,country:string,logo:string
  * npx sequelize-cli model:generate --name Category --attributes name:string
  * npx sequelize-cli model:generate --name Car --attributes model:string,brand_id:integer,thumbnail:string,category_id:integer,price:integer,dealer_id: integer

@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       Car.belongsTo(models.Brand,{foreignKey:"brand_id"})
       Car.belongsTo(models.Category , {foreignKey:"category_id"})
       Car.hasMany(models.Specification,{foreignKey:"car_id"})
+      Car.belongsTo(models.DealerProfile,{foreignKey:"car_id"})
     }
   }
   Car.init({

@@ -1,0 +1,78 @@
+'use strict';
+const {
+  Model
+} = require('sequelize');
+module.exports = (sequelize, DataTypes) => {
+  class UserProfile extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+      UserProfile.hasOne(models.DealerProfile, { foreignKey: "user_id" });
+    }
+  }
+  UserProfile.init({
+    username: {
+      type:DataTypes.STRING,
+      allowNull:false,
+      unique:{
+        msg:"Username must be Unique",
+        args:true
+      },
+      validate:{
+        notEmpty:{
+          msg:"Username is Required"
+        },
+        notNull:{
+          msg:"Username is Required"
+        },
+      }
+    },
+    email: {
+      type:DataTypes.STRING,
+      allowNull:false,
+      unique:{
+        msg:"Email must be unique",
+        args:true
+      },
+      validate:{
+        notEmpty:{
+          msg:"Email is Required"
+        },
+        notNull:{
+          msg:"Email is Required"
+        },
+        isEmail:{
+          msg:"Must be Email format",
+          args:true
+        }
+      }
+    
+    },
+    password: {
+      type:DataTypes.STRING,
+      allowNull:false,
+      validate:{
+        notEmpty:{
+          msg:"Password is required"
+        },
+        notNull:{
+          msg:"Password is required"
+        }
+      }
+    },
+    role: {
+      type:DataTypes.STRING,
+      defaultValue:"Customer"
+    
+    },
+    dealerProfile_id: DataTypes.INTEGER
+  }, {
+    sequelize,
+    modelName: 'UserProfile',
+  });
+  return UserProfile;
+};
