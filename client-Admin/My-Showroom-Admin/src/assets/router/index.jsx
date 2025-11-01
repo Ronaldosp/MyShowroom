@@ -3,6 +3,8 @@ import HomePage from '../views/HomePage'
 import LoginPage from '../views/LoginPage'
 import RegisterPage from '../views/RegisterPage'
 import Layout from '../components/Layout'
+import CategoryPage from '../views/CategoryPage'
+import CarPage from '../views/CarPage'
 
 export default createBrowserRouter([
     {
@@ -21,6 +23,14 @@ export default createBrowserRouter([
             {
                 path:"/register",
                 element  :<RegisterPage/>
+            },
+            {
+                path:"/categories",
+                element  :<CategoryPage/>
+            },
+            {
+                path:"/cars",
+                element  :<CarPage/>
             }
         ]
     },
