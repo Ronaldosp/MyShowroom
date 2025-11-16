@@ -20,7 +20,7 @@ function NavBar(){
             <Nav className="me-auto">
                 <NavLink to='/' className="nav-link">Home</NavLink>
                 {/* <NavLink to='/brand' className="nav-link" >Brands</NavLink> */}
-                <NavLink to='/categories' className="nav-link" >Categories</NavLink>
+                <NavLink to='/listing' className="nav-link" >List Page</NavLink>
                 <NavLink to='/cars' className="nav-link" >Add Cars</NavLink>
             </Nav>
             <Nav className="ms-auto">

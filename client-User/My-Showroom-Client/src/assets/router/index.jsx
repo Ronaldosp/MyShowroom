@@ -4,6 +4,7 @@ import LoginPage from '../views/LoginPage'
 import RegisterPage from '../views/RegisterPage'
 import Layout from '../components/Layout'
 import CarsPage from '../views/CarsPage'
+import ListingPage from '../views/ListingPage'
 
 export default createBrowserRouter([
     {
@@ -27,6 +28,10 @@ export default createBrowserRouter([
             {
                 path:"/cars",
                 element  :<CarsPage/>
+            },
+            {
+                path:"/listing",
+                element  :<ListingPage/>
             }
         ]
     },
