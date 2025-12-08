@@ -1,0 +1,177 @@
+.compare-page-component{
+    width: 100%;
+    .compare-page-component-container{
+        height: 100%;
+        margin-left: 15%;
+        margin-right: 15%;
+        margin-top: 5%;
+        margin-bottom: 5%;
+        .compare-page-component-items{
+            width: 100%;
+            .compare-page-component-items-container{
+                display: flex;
+                flex-direction: column;
+                gap: 50px;
+                .compare-page-component-items-top-container{
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-evenly;
+                    overflow-x: auto;
+                    scroll-behavior: smooth;
+                    scrollbar-width: thin;               
+                    scrollbar-color: #ccc transparent;
+                    gap: 20px;
+                    .compare-page-component-items-top{
+                        flex: 0 0 31%;                    
+                        max-width: 31%;
+                        min-width: 300px;                 
+                        display: flex;
+                        flex-direction: column;
+                        text-align: center;
+                        padding-bottom: 40px;
+                        position: relative;
+
+                        &::after {
+                            content: "";
+                            position: absolute;
+                            right: -15px;
+                            top: 0;
+                            height: 100%;
+                            width: 1px;
+                            background: #dcdcdc;
+                        }
+
+                        &:last-child::after {
+                            display: none;
+                        }
+                        .compare-page-component-items-title{
+                            padding-bottom: 40px;
+                            h4{
+    
+                            }
+                        }
+                        .compare-page-component-items-thumbnail{
+                            img{
+                                width: 400px;
+                                height: 200px;
+                                object-fit: cover;
+                            }
+                        }
+                    }
+                }
+
+                .compare-page-component-items-price{
+                    h2{
+
+                    }
+                    .compare-page-component-items-price-container{
+                        display: flex;
+                        gap: 50px;
+                        padding: 20px;
+                        align-items: center;
+                        .compare-page-component-items-price-title{
+
+                            h4{
+                                margin-bottom: 0;
+                            }
+                        }
+
+                        .compare-page-component-items-price-nominal{
+                            display: flex;
+                            gap: 20px;
+                            h4{
+                                font-weight: 400;
+                                margin-bottom: 0;
+                            }
+                            .price-tag{
+                                background: gray;
+                                border-radius: 50px;
+                                padding: 8px 40px;
+
+                            }
+                            .price-tag.cheapest{
+                                background: #228B22;
+                                color: #F8F8FF;
+                            }
+                            .price-tag.expensive{
+                                background: #FF4500;
+                                color: #F8F8FF;
+                            }
+                            svg{
+                                width: 25px;
+                                height: 25px;
+                            }
+                        }
+                    }
+                }
+
+                .compare-page-component-items-performance{
+                    h2{
+
+                    }
+                    .compare-page-component-items-performance-container{
+
+                        .compare-page-component-items-performance-title{
+
+                            h4{
+
+                            }
+                        }
+
+                        .compare-page-component-items-performance-description{
+
+                            h4{
+
+                            }
+                        }
+                    }
+                }
+
+                .compare-page-component-items-features{
+                    h2{
+
+                    }
+                    .compare-page-component-items-features-container{
+
+                        .compare-page-component-items-features-title{
+
+                            h4{
+
+                            }
+                        }
+
+                        .compare-page-component-items-features-description{
+
+                            h4{
+
+                            }
+                        }
+                    }
+                }
+
+                .compare-page-component-items-technology{
+                    h2{
+
+                    }
+                    .compare-page-component-items-technology-container{
+
+                        .compare-page-component-items-technology-title{
+
+                            h4{
+
+                            }
+                        }
+
+                        .compare-page-component-items-technology-description{
+
+                            h4{
+
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+}

@@ -3,8 +3,9 @@ import HomePage from '../views/HomePage'
 import LoginPage from '../views/LoginPage'
 import RegisterPage from '../views/RegisterPage'
 import Layout from '../components/Layout'
-import CarsPage from '../views/CarsPage'
 import ListingPage from '../views/ListingPage'
+import ComparePage from '../views/ComparePage'
+import CarsDetailPage from '../views/CarsDetailPage'
 
 export default createBrowserRouter([
     {
@@ -32,6 +33,14 @@ export default createBrowserRouter([
             {
                 path:"/listing",
                 element  :<ListingPage/>
+            },
+            {
+                path:"/compare",
+                element  :<ComparePage/>
+            },
+            {
+                path:"/detail",
+                element  :<CarsDetailPage/>
             }
         ]
     },
