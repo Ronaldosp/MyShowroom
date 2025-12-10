@@ -9,26 +9,17 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      specificationCategory_id: {
+        type: Sequelize.INTEGER,
+        references:{
+          model:'SpecificationCategories',
+        },
+      },
       car_id: {
         type: Sequelize.INTEGER,
         references:{
-          model:"Cars"
-        }
-      },
-      description: {
-        type: Sequelize.STRING
-      },
-      exterior_desc: {
-        type: Sequelize.STRING
-      },
-      interior_desc: {
-        type: Sequelize.STRING
-      },
-      engine_desc: {
-        type: Sequelize.STRING
-      },
-      safety_desc: {
-        type: Sequelize.STRING,
+          model:'Cars',
+        },
       },
       createdAt: {
         allowNull: false,

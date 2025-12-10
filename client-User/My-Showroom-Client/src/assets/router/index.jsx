@@ -27,10 +27,6 @@ export default createBrowserRouter([
                 element  :<RegisterPage/>
             },
             {
-                path:"/cars",
-                element  :<CarsPage/>
-            },
-            {
                 path:"/listing",
                 element  :<ListingPage/>
             },
