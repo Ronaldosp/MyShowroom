@@ -1,7 +1,13 @@
 import "../styling/ListingPage.scss";
 import testCar8 from "../images/test-car-8.jpg";
+import { useNavigate } from "react-router-dom";
 
 export default function ListingPage(){
+
+    const navigate = useNavigate();
+    const handleClick=()=>{
+        navigate('/detail')
+    }
     return(
         <div className="listing-page-component">
             <div className="listing-page-container">
@@ -38,7 +44,7 @@ export default function ListingPage(){
                                         <p>Rp. 3.000.000.000</p>
                                     </div>
                                     <div className="listing-page-card-button">
-                                            <a href="#">Learn More</a>
+                                            <a href="#" onClick={handleClick()}>Learn More</a>
                                     </div>
                                 </div>
                             </div>
