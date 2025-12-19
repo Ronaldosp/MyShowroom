@@ -27,13 +27,6 @@ module.exports = {
         type: Sequelize.STRING,
         defaultValue:"customer"
       },
-      dealerProfile_id: {
-        type: Sequelize.INTEGER,
-        allowNull:false,
-        references:{
-          model:"DealerProfiles"
-        }
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

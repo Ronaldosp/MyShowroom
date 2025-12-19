@@ -12,12 +12,6 @@ module.exports = {
       shopName: {
         type: Sequelize.STRING
       },
-      car_id: {
-        type: Sequelize.INTEGER,
-        references:{
-          model:"Cars"
-        }
-      },
       type: {
         type: Sequelize.STRING
       },
@@ -37,7 +31,11 @@ module.exports = {
         }
       },
       user_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references:{
+          model:"UserProfiles",
+          key: "id"
+        }
       },
       createdAt: {
         allowNull: false,

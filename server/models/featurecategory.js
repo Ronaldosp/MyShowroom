@@ -11,11 +11,34 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      FeatureCategory.hasMany(models.Feature , {foreignKey:"featureCategory_id"})
     }
   }
   FeatureCategory.init({
-    name: DataTypes.STRING,
-    description: DataTypes.STRING
+    name: {
+      type:DataTypes.STRING,
+      allowNull:false,
+      validate:{
+        notEmpty:{
+          msg:"Feature Category Name is required"
+        },
+        notNull:{
+          msg:"Feature Category Name is required"
+        }
+      }
+    },
+    description: {
+      type:DataTypes.STRING,
+      allowNull:false,
+      validate:{
+        notEmpty:{
+          msg:"Feature Category Description is required"
+        },
+        notNull:{
+          msg:"Feature Category Description is required"
+        }
+      }
+    },
   }, {
     sequelize,
     modelName: 'FeatureCategory',
