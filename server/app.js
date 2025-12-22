@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const port = 3000
 const cors = require("cors");
-const {  Brand, Category, Car, Specification, SpecificationCategory, SpecificationField, FeatureCategory, Feature, Gallery, UserProfile, DealerProfile, Admin } = require('./models');
+const {  Brand, Category, Car, Specification, SpecificationCategory, SpecificationField, FeatureCategory, Feature, UserProfile, DealerProfile, Admin } = require('./models');
 const { comparePassword } = require('./helpers/bcrypt');
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
@@ -174,7 +174,8 @@ app.delete('/brands/:id' , async(req,res)=>{
 
 app.get('/categories', async(req,res)=>{
   try {
-    const category = Category.findAll()
+    const category = await Category.findAll();
+    
     res.status(200).json(category)
   } catch (error) {
     console.log(error)
@@ -206,7 +207,7 @@ app.put('/categories/:id', async(req , res)=>{
 app.delete('/categories/:id', async(req,res)=>{
   try {
       const {id} = req.params
-      const category = Category.findByPk(id)
+      const category = await Category.findByPk(id)
       if(!category){
         return {message : 'NotFound'}
       }
@@ -229,7 +230,7 @@ app.post('/categories', async(req,res)=>{
 
 app.get('/cars', async(req,res)=>{
   try {
-    const cars = Car.findAll();
+    const cars = await Car.findAll();
     res.status(200).json(cars)
   } catch (error) {
     console.log(error)
@@ -240,7 +241,7 @@ app.get('/cars', async(req,res)=>{
 app.get('/cars/:id', async(req,res)=>{
   try {
     const id = req.params.id
-    const cars = Car.findOne({
+    const cars = await Car.findOne({
       include: [Brand , Category],
       where : {id}
     });
@@ -254,7 +255,7 @@ app.get('/cars/:id', async(req,res)=>{
 app.post('/cars', async(req,res)=>{
   try {
     const {model , brand_id , thumbnail , category_id , price , dealer_id} = req.body;
-    const cars = Car.create({model , brand_id , thumbnail , category_id , price, dealer_id})
+    const cars = await Car.create({model , brand_id , thumbnail , category_id , price, dealer_id})
     res.status(201).json(`Created New Car ${model}`)
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
@@ -299,7 +300,7 @@ app.delete('/cars/:id' , async(req,res)=>{
 
 app.get('/specifications' , async(req,res)=>{
   try {
-    const specification = Specification.findAll()
+    const specification = await Specification.findAll()
     res.status(200).json(specification)
   } catch (error) {
     res.status(500).json({message: "Internal Server Error"})
@@ -309,7 +310,7 @@ app.get('/specifications' , async(req,res)=>{
 app.post('/specifications' , async(req,res)=>{
   try {
     const {specificationCategory_id , car_id } = req.body
-    const specification = Specification.create({specificationCategory_id , car_id })
+    const specification = await Specification.create({specificationCategory_id , car_id })
     res.status(201).json(`Created New Specification for Car id: ${car_id}`)
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
@@ -319,7 +320,7 @@ app.post('/specifications' , async(req,res)=>{
 app.get('/specifications/:id', async(req,res)=>{
   try {
     const id = req.params.id
-    const specifications = Specification.findOne({
+    const specifications = await Specification.findOne({
       include: [Car],
       where : {id}
     });
@@ -334,7 +335,7 @@ app.put('/specifications/:id', async(req,res)=>{
   try {
     const {id} = req.params
     const {specificationCategory_id , car_id} = req.body
-    const specification = Specification.update(
+    const specification = await Specification.update(
       {specificationCategory_id , car_id},
       {where :{id :id}}
     )
@@ -354,7 +355,7 @@ app.put('/specifications/:id', async(req,res)=>{
 app.delete('/specifications/:id' , async(req , res)=>{
   try {
     const {id} = req.params
-    const specification = Specification.findByPk(id)
+    const specification = await Specification.findByPk(id)
     if(!specification){
       return {message : 'NotFound'}
     }
@@ -367,7 +368,7 @@ app.delete('/specifications/:id' , async(req , res)=>{
 
 app.get('/specificationcategories', async(req,res)=>{
   try {
-    const specificationcategories = SpecificationCategory.findALl()
+    const specificationcategories = await SpecificationCategory.findALl()
     res.status(200).json(specificationcategories)
   } catch (error) {
     res.status(500).json({message: "Internal Server Error"})
@@ -387,7 +388,7 @@ app.post('/specificationcategories', async(req,res)=>{
 app.get('/specificationcategories/:id', async(req,res)=>{
   try {
     const id = req.params.id
-    const specificationcategories = SpecificationCategory.findOne({
+    const specificationcategories = await SpecificationCategory.findOne({
       include: [Specification],
       where : {id}
     });
@@ -402,7 +403,7 @@ app.put('/specificationcategories/:id', async(req,res)=>{
   try {
     const {id} = req.params
     const { name } = req.body
-    const specificationcategories = SpecificationCategory.update(
+    const specificationcategories = await SpecificationCategory.update(
       { name },
       {where :{id :id}}
     )
@@ -422,7 +423,7 @@ app.put('/specificationcategories/:id', async(req,res)=>{
 app.delete('/specificationcategories/:id' , async(req , res)=>{
   try {
     const {id} = req.params
-    const specificationcategories = SpecificationCategory.findByPk(id)
+    const specificationcategories = await SpecificationCategory.findByPk(id)
     if(!specificationcategories){
       return {message : 'NotFound'}
     }
@@ -435,7 +436,7 @@ app.delete('/specificationcategories/:id' , async(req , res)=>{
 
 app.get('/specificationfields', async(req,res)=>{
   try {
-    const specificationfields = SpecificationField.findALl()
+    const specificationfields = await SpecificationField.findALl()
     res.status(200).json(specificationfields)
   } catch (error) {
     res.status(500).json({message: "Internal Server Error"})
@@ -455,7 +456,7 @@ app.post('/specificationfields', async(req,res)=>{
 app.get('/specificationfields/:id', async(req,res)=>{
   try {
     const id = req.params.id
-    const specificationfields = SpecificationField.findOne({
+    const specificationfields = await SpecificationField.findOne({
       include: [Specification],
       where : {id}
     });
@@ -470,7 +471,7 @@ app.put('/specificationfields/:id', async(req,res)=>{
   try {
     const {id} = req.params
     const { specification_id , key , value , unit} = req.body
-    const specificationfields = SpecificationField.update(
+    const specificationfields = await SpecificationField.update(
       { specification_id , key , value , unit},
       {where :{id :id}}
     )
@@ -490,7 +491,7 @@ app.put('/specificationfields/:id', async(req,res)=>{
 app.delete('/specificationfields/:id' , async(req , res)=>{
   try {
     const {id} = req.params
-    const specificationfields = SpecificationField.findByPk(id)
+    const specificationfields = await SpecificationField.findByPk(id)
     if(!specificationfields){
       return {message : 'NotFound'}
     }
@@ -503,7 +504,7 @@ app.delete('/specificationfields/:id' , async(req , res)=>{
 
 app.get('/featurecategories', async(req,res)=>{
   try {
-    const featurecategories = FeatureCategory.findALl()
+    const featurecategories = await FeatureCategory.findAll()
     res.status(200).json(featurecategories)
   } catch (error) {
     res.status(500).json({message: "Internal Server Error"})
@@ -512,8 +513,8 @@ app.get('/featurecategories', async(req,res)=>{
 
 app.post('/featurecategories', async(req,res)=>{
   try {
-    const{name , thumbnail} = req.body
-    const featurecategories= await FeatureCategory.create({name , thumbnail})
+    const{name ,description, thumbnail} = req.body
+    const featurecategories= await FeatureCategory.create({name,description , thumbnail})
     res.status(201).json(`Created New Feature Category ${name}`)
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
@@ -523,7 +524,7 @@ app.post('/featurecategories', async(req,res)=>{
 app.get('/featurecategories/:id', async(req,res)=>{
   try {
     const id = req.params.id
-    const featurecategories = FeatureCategory.findOne({
+    const featurecategories = await FeatureCategory.findOne({
       where : {id}
     });
     res.status(200).json(featurecategories)
@@ -536,9 +537,9 @@ app.get('/featurecategories/:id', async(req,res)=>{
 app.put('/featurecategories/:id', async(req,res)=>{
   try {
     const {id} = req.params
-    const {name , thumbnail} = req.body
-    const featurecategories = FeatureCategory.update(
-      {name , thumbnail},
+    const {name,description , thumbnail} = req.body
+    const featurecategories = await FeatureCategory.update(
+      {name,description , thumbnail},
       {where :{id :id}}
     )
     if(!featurecategories){
@@ -557,7 +558,7 @@ app.put('/featurecategories/:id', async(req,res)=>{
 app.delete('/featurecategories/:id' , async(req , res)=>{
   try {
     const {id} = req.params
-    const featurecategories = FeatureCategory.findByPk(id)
+    const featurecategories = await FeatureCategory.findByPk(id)
     if(!featurecategories){
       return {message : 'NotFound'}
     }
@@ -570,7 +571,7 @@ app.delete('/featurecategories/:id' , async(req , res)=>{
 
 app.get('/features', async(req,res)=>{
   try {
-    const features = Feature.findALl()
+    const features = await Feature.findALl()
     res.status(200).json(features)
   } catch (error) {
     res.status(500).json({message: "Internal Server Error"})
@@ -590,7 +591,7 @@ app.post('/features', async(req,res)=>{
 app.get('/features/:id', async(req,res)=>{
   try {
     const id = req.params.id
-    const features = Feature.findOne({
+    const features = await Feature.findOne({
       include: [Specification],
       where : {id}
     });
@@ -605,7 +606,7 @@ app.put('/features/:id', async(req,res)=>{
   try {
     const {id} = req.params
     const { specification_id , featureCategory_id, name, description , thumbnail} = req.body
-    const features = Feature.update(
+    const features = await Feature.update(
       { specification_id , featureCategory_id, name, description , thumbnail},
       {where :{id :id}}
     )
@@ -625,7 +626,7 @@ app.put('/features/:id', async(req,res)=>{
 app.delete('/features/:id' , async(req , res)=>{
   try {
     const {id} = req.params
-    const features = Feature.findByPk(id)
+    const features = await Feature.findByPk(id)
     if(!features){
       return {message : 'NotFound'}
     }
@@ -638,7 +639,7 @@ app.delete('/features/:id' , async(req , res)=>{
 
 app.get('/dealerprofiles', async(req,res)=>{
   try {
-    const dealerprofiles = DealerProfile.findALl()
+    const dealerprofiles = await DealerProfile.findALl()
     res.status(200).json(dealerprofiles)
   } catch (error) {
     res.status(500).json({message: "Internal Server Error"})
@@ -658,7 +659,7 @@ app.post('/dealerprofiles', async(req,res)=>{
 app.get('/dealerprofiles/:id', async(req,res)=>{
   try {
     const id = req.params.id
-    const dealerprofiles = DealerProfile.findOne({
+    const dealerprofiles = await DealerProfile.findOne({
       include: [
         {
           model: UserProfile,
@@ -678,7 +679,7 @@ app.put('/dealerprofiles/:id', async(req,res)=>{
   try {
     const {id} = req.params
     const { shopName , car_id, type, address , instagramLink , whatsAppLink , brand_id , user_id} = req.body
-    const dealerprofiles = DealerProfile.update(
+    const dealerprofiles = await DealerProfile.update(
       { shopName , car_id, type, address , instagramLink , whatsAppLink , brand_id , user_id},
       {where :{id :id}}
     )
@@ -698,7 +699,7 @@ app.put('/dealerprofiles/:id', async(req,res)=>{
 app.delete('/dealerprofiles/:id' , async(req , res)=>{
   try {
     const {id} = req.params
-    const dealerprofiles = DealerProfile.findByPk(id)
+    const dealerprofiles = await DealerProfile.findByPk(id)
     if(!dealerprofiles){
       return {message : 'NotFound'}
     }

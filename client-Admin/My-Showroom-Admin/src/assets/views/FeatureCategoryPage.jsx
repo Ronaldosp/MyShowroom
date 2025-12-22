@@ -4,20 +4,20 @@ import Button from "react-bootstrap/Button";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import AddCategory from "./AddCategory";
-import { createCategory, fetchCategory } from "../store/action/actionCreator.js";
-import CategoryTable from "../components/CategoryTable";
+import AddFeatureCategory from "./AddFeatureCategory";
+import { createFeatureCategory, fetchFeatureCategory } from "../store/action/actionCreator.js";
+import FeatureCategoryTable from "../components/FeatureCategoryTable";
 
-function CategoryPage(){
+function FeatureCategoryPage(){
     const data = useSelector((state)=>{
-        return state.categoryReducer.categories
+        return state.featureCategoryReducer.featureCategories
     })
 
     console.log(data , "data");
     const dispatch = useDispatch()
     
     useEffect(()=>{
-       dispatch(fetchCategory())
+       dispatch(fetchFeatureCategory())
     },[])
 
     const [modalShow, setModalShow] = useState(false);
@@ -41,13 +41,13 @@ function CategoryPage(){
             padding: '25px 30px',
             borderRadius: '5px',
             boxShadow: '0 5px 10px rgba(0, 0, 0, 0.15)'}}>
-          <h1 className="d-flex justify-content-center text-align-center" style={{fontFamily:'Times New Roman' , fontStyle:'italic'}}>Category List</h1>
+          <h1 className="d-flex justify-content-center text-align-center" style={{fontFamily:'Times New Roman' , fontStyle:'italic'}}>Feature Category List</h1>
           <div className="d-flex justify-content-center text-align-center">
             <Button variant="outline-primary" onClick={() => setModalShow(true)}>
               Add New Category
             </Button>
           </div>
-          <AddCategory show={modalShow} onHide={() => setModalShow(false)} />
+          <AddFeatureCategory show={modalShow} onHide={() => setModalShow(false)} />
           <div className="container">
             {/* BaseCard */}
             <div className=" row container d-flex grid gap-3 mt-4 row mx-auto ">
@@ -56,11 +56,12 @@ function CategoryPage(){
                   <tr>
                     <th>#</th>
                     <th>Name</th>
+                    <th>Description</th>
                   </tr>
                 </thead>
                 {(
                   data.map((el , index) => {
-                    return <CategoryTable el={el} index={++index} key={el.id} />;
+                    return <FeatureCategoryTable el={el} index={++index} key={el.id} />;
                   })
                 )}
               </Table>
@@ -72,4 +73,4 @@ function CategoryPage(){
       );
 }
 
-export default CategoryPage;
+export default FeatureCategoryPage;

@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import AddBrand from "./AddBrand"
 import { createBrands, fetchBrands } from "../store/action/actionCreator.js";
+import BrandTable from "../components/BrandTable";
 
 
 function HomePage() {
@@ -58,11 +59,11 @@ function HomePage() {
                 <th>Country</th>
               </tr>
             </thead>
-            {/* {(
+            {(
               data.map((el , index) => {
-                return <FoodTable el={el} index={++index} key={el.id} />;
+                return <BrandTable el={el} index={++index} key={el.id} />;
               })
-            )} */}
+            )}
           </Table>
         </div>
       </div>

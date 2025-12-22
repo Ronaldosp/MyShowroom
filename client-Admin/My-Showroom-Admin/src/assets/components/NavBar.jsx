@@ -22,6 +22,7 @@ function NavBar(){
                 {/* <NavLink to='/brand' className="nav-link" >Brands</NavLink> */}
                 <NavLink to='/categories' className="nav-link" >Categories</NavLink>
                 <NavLink to='/cars' className="nav-link" >Add Cars</NavLink>
+                <NavLink to='/featurecategories' className="nav-link" >Feature Categories</NavLink>
             </Nav>
             <Nav className="ms-auto">
             <NavLink to='/register' className="nav-link d-flex-end" >Register Admin</NavLink>

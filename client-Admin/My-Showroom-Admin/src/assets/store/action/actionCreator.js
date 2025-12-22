@@ -21,6 +21,13 @@ export function carsFetchSuccess(payload){
     }
 }
 
+export function featureCategoriesFetchSuccess(payload){
+    return{
+        type:"featurecategories/get",
+        payload
+    }
+}
+
 export const register = (body) =>{
     return async (dispatch)=>{
         try {
@@ -92,7 +99,7 @@ export const fetchBrands = () =>{
 export const createBrands = (body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body);
+            console.log(body , "data");
             const response = await fetch(BASE_URL+`/brands`,{
                 method:"POST",
                 body: JSON.stringify(body),
@@ -172,7 +179,10 @@ export const fetchCategory = () =>{
                 }
             })
             if(!response.ok) throw new Error("Something wrong!")
+            console.log(response , "category response");
             const data = await response.json()
+            console.log(data , "category data");
+            
             const categories = Array.isArray(data) ? data : data.categories || []
             dispatch(categoriesFetchSuccess(categories))
        
@@ -347,6 +357,103 @@ export const deleteCar= (id) =>{
                 throw new Error('Something went wrong!');
             }
             dispatch(fetchCar())
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+// Feature Category Logic Section
+export const fetchFeatureCategory = () =>{
+    return async(dispatch)=>{
+        try {
+            const response = await fetch(BASE_URL+`/featurecategories`,{
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            })
+            if(!response.ok) throw new Error("Something wrong!")
+            console.log(response,"response feature category");
+            const data = await response.json()
+       
+            console.log(data,"data feature category");
+            
+            const action = featureCategoriesFetchSuccess(data)
+            dispatch(action)
+       
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+}
+
+export const createFeatureCategory = (body) =>{
+    return async(dispatch)=>{
+        try {
+            console.log(body , "feature category body");
+            const response = await fetch(BASE_URL+`/featurecategories`,{
+                method:"POST",
+                body: JSON.stringify(body),
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            }) 
+            console.log(response , "feature category response create");
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+            dispatch(fetchFeatureCategory())
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+export const editFeatureCategory = (id , body) =>{
+    return async(dispatch)=>{
+        try {
+            console.log(body);
+            const response = await fetch(BASE_URL+`/featurecategories/${id}`,{
+                method:"PUT",
+                body: JSON.stringify(body),
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            }) 
+            console.log(response);
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+            dispatch(fetchFeatureCategory())
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+export const deleteFeatureCategory= (id) =>{
+    return async(dispatch)=>{
+        try {
+            const response = await fetch(BASE_URL+`/featurecategories/${id}`,{
+                method:"DELETE",
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+
+                }
+            }) 
+            console.log(response);
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+            dispatch(fetchFeatureCategory())
             
         } catch (error) {
             console.log(error);
