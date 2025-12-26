@@ -4,6 +4,8 @@ const port = 3000
 const cors = require("cors");
 const {  Brand, Category, Car, Specification, SpecificationCategory, SpecificationField, FeatureCategory, Feature, UserProfile, DealerProfile, Admin } = require('./models');
 const { comparePassword } = require('./helpers/bcrypt');
+const { signToken } = require("./helpers/jwt");
+
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -55,15 +57,18 @@ app.post('/registerAdmin',async(req , res)=>{
 app.post('/login', async(req , res)=>{
   try {
     const {email , password} = req.body;
-    const user = UserProfile.findOne({Where : email});
+    console.log(req.body);
+    
+    const user = await UserProfile.findOne({where : {email}});
     if(!user){
       throw { message : "UserNotFound" };
     }
+
     const passValid = comparePassword(password , user.password);
     if(!passValid){
       throw { message : "UserNotFound"};
     }
-    const token = signToken({ id: user.id , email: user.email})
+    const token = signToken({ id: user.id , email: user.email , role: user.role})
     res.status(200).json({ access_token: token });
   } catch (error) {
     console.log(error);
@@ -102,7 +107,7 @@ app.post('/loginAdmin', async(req , res)=>{
   }
 });
 
-app.get('/users', async(req , res)=>{
+app.get('/userprofiles', async(req , res)=>{
   try {
     const data = await UserProfile.findByPk(req.user.id);
     res.status(200).json(data);
@@ -255,7 +260,20 @@ app.get('/cars/:id', async(req,res)=>{
 app.post('/cars', async(req,res)=>{
   try {
     const {model , brand_id , thumbnail , category_id , price , dealer_id} = req.body;
-    const cars = await Car.create({model , brand_id , thumbnail , category_id , price, dealer_id})
+
+    const userId = req.user.id;
+
+    const dealerProfile = await DealerProfile.findOne({
+      where: { user_id: userId }
+    });
+
+    if (!dealerProfile) {
+      return res.status(403).json({
+        message: "You must have a DealerProfile to create a car"
+      });
+    }
+
+    const cars = await Car.create({model , brand_id , thumbnail , category_id , price, dealer_id:dealerProfile.id})
     res.status(201).json(`Created New Car ${model}`)
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
@@ -639,7 +657,11 @@ app.delete('/features/:id' , async(req , res)=>{
 
 app.get('/dealerprofiles', async(req,res)=>{
   try {
-    const dealerprofiles = await DealerProfile.findALl()
+    const dealerprofiles = await DealerProfile.findALl({include: {
+        model: Brand,
+        through: { attributes: [] }
+      }
+    })
     res.status(200).json(dealerprofiles)
   } catch (error) {
     res.status(500).json({message: "Internal Server Error"})
@@ -648,8 +670,11 @@ app.get('/dealerprofiles', async(req,res)=>{
 
 app.post('/dealerprofiles', async(req,res)=>{
   try {
-    const{ shopName , car_id, type, address , instagramLink , whatsAppLink , brand_id , user_id} = req.body
-    const dealerprofiles= await DealerProfile.Create({ shopName , car_id, type, address , instagramLink , whatsAppLink , brand_id , user_id})
+    const{ shopName ,  type, address , instagramLink , whatsAppLink , brand_id , user_id} = req.body
+    const dealerprofiles= await DealerProfile.create({ shopName ,  type, address , instagramLink , whatsAppLink , user_id})
+    if (Array.isArray(brand_id) && brand_id.length > 0) {
+      await dealerprofiles.setBrands(brand_id);
+    }
     res.status(201).json(`Created New Dealer Profile ${shopName}`)
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
@@ -675,26 +700,95 @@ app.get('/dealerprofiles/:id', async(req,res)=>{
   }
 });
 
-app.put('/dealerprofiles/:id', async(req,res)=>{
+app.get("/dealerprofilesbrand", async (req, res) => {
   try {
-    const {id} = req.params
-    const { shopName , car_id, type, address , instagramLink , whatsAppLink , brand_id , user_id} = req.body
-    const dealerprofiles = await DealerProfile.update(
-      { shopName , car_id, type, address , instagramLink , whatsAppLink , brand_id , user_id},
-      {where :{id :id}}
-    )
-    if(!dealerprofiles){
-      throw {message : 'NotFound'}
+    const userId = req.user.id;
+
+    const dealerProfile = await DealerProfile.findOne({
+      where: { user_id: userId },
+      include: {
+        model: Brand,
+        through: { attributes: [] } 
+      }
+    });
+
+    if (!dealerProfile) {
+      return res.status(404).json(null);
     }
-    res.status(200).json({ message: "Dealer Profile has been updated" });
+
+    res.status(200).json(dealerProfile);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+app.get("/dealerprofilesuser", async (req, res) => {
+  try {
+    const dealerProfile = await DealerProfile.findOne({
+      where: { user_id: req.user.id }
+    });
+
+    // return profile OR null
+    res.json(dealerProfile);
+
+  } catch (err) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+app.put('/dealerprofiles/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      shopName,
+      type,
+      address,
+      instagramLink,
+      whatsAppLink,
+      brand_id
+    } = req.body;
+
+    const dealerProfile = await DealerProfile.findByPk(id);
+
+    if (!dealerProfile) {
+      throw { name: 'NotFound' };
+    }
+
+    await dealerProfile.update({
+      shopName,
+      type,
+      address,
+      instagramLink,
+      whatsAppLink
+    });
+
+    if (Array.isArray(brand_id)) {
+      await dealerProfile.setBrands(brand_id);
+    }
+
+    res.status(200).json({ message: "Dealer Profile updated" });
   } catch (error) {
     if (error.name === "NotFound") {
       res.status(404).json({ message: "Dealer Profile Not Found" });
     } else {
+      console.log(error);
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
-})
+});
+
+app.get('/dealerprofiles/:id', async (req, res) => {
+  const dealerProfile = await DealerProfile.findByPk(req.params.id, {
+    include: {
+      model: Brand,
+      through: { attributes: [] }
+    }
+  });
+
+  res.json(dealerProfile);
+});
+
 
 app.delete('/dealerprofiles/:id' , async(req , res)=>{
   try {

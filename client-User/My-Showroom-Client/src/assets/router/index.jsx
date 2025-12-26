@@ -6,6 +6,7 @@ import Layout from '../components/Layout'
 import ListingPage from '../views/ListingPage'
 import ComparePage from '../views/ComparePage'
 import CarsDetailPage from '../views/CarsDetailPage'
+import DealerPage from "../views/DealerPage"
 
 export default createBrowserRouter([
     {
@@ -37,6 +38,10 @@ export default createBrowserRouter([
             {
                 path:"/detail",
                 element  :<CarsDetailPage/>
+            },
+            {
+                path:"/dealer",
+                element  :<DealerPage/>
             }
         ]
     },

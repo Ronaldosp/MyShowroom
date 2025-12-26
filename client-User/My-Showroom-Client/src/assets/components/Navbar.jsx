@@ -1,15 +1,50 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useState , useEffect } from "react";
+import { useSelector,useDispatch } from "react-redux";
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from "react-bootstrap/Button";
+import { jwtDecode } from "jwt-decode";
+import { fetchDealerUserProfile } from "../store/action/actionCreator";
 
 function NavBar(){
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const dealerProfile = useSelector(
+        (state) => state.dealerReducer.dealerProfiles
+    );
+    
+    const token = localStorage.getItem("access_token");
+    let isDealer = false;
+
+    
+    if (token) {
+        try {
+            const decoded = jwtDecode(token);
+            console.log(decoded , "localStorage decoded");
+            isDealer = decoded.role === "dealer";
+            dispatch(fetchDealerUserProfile(decoded.id))
+        } catch (err) {
+            console.error("Invalid token");
+        }
+    }
+    console.log(dealerProfile,"dealerProfile");
+    let hasDealerProfile = false;
+
+    if (Array.isArray(dealerProfile) && dealerProfile.length > 0) {
+    hasDealerProfile = true;
+    }
+    
     const handleLogout = ()=>{
         localStorage.clear()
         navigate('/login')
     }
+
+    useEffect(()=>{
+        
+    },[])
 
     return <div>
         <Navbar expand="lg" className="bg-body-tertiary">
@@ -19,9 +54,25 @@ function NavBar(){
             <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
                 <NavLink to='/' className="nav-link">Home</NavLink>
-                {/* <NavLink to='/brand' className="nav-link" >Brands</NavLink> */}
                 <NavLink to='/listing' className="nav-link" >List Page</NavLink>
-                <NavLink to='/cars' className="nav-link" >Add Cars</NavLink>
+                
+                {isDealer && !hasDealerProfile && (
+                    <NavLink to="/dealer" className="nav-link">
+                        Create Dealer Profile
+                    </NavLink>
+                )}
+
+                {isDealer && hasDealerProfile && (
+                    <NavLink to="/dealer" className="nav-link">
+                        Update Dealer Profile
+                    </NavLink>
+                )}
+                
+                {isDealer && (
+                    <NavLink to="/cars" className="nav-link">
+                        Add Cars
+                    </NavLink>
+                )}
             </Nav>
             <Nav className="ms-auto">
             <NavLink to='/register' className="nav-link d-flex-end" >Register</NavLink>

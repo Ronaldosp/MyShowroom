@@ -2,7 +2,7 @@ import {useState} from "react"
 import {useNavigate} from "react-router-dom"
 import {useDispatch} from "react-redux"
 import Button from 'react-bootstrap/Button';
-import { register } from "../store/action/actionCreator";
+import { register , registerDealer } from "../store/action/actionCreator";
 function RegisterPage(){
     const [username , setUsername] = useState("")
     const [email, setEmail] = useState("")
@@ -35,10 +35,30 @@ function RegisterPage(){
           const registerData={
             email , password , username , role
           };
-          dispatch(register(registerData))
+          if (role === "dealer") {
+            dispatch(registerDealer(registerData));
+          } else if (role === "admin") {
+            const registerDataAdmin={
+              email , password , username
+            }
+            dispatch(register(registerDataAdmin));
+          }
           navigate('/')
 
         }}>
+          <div className="mb-3">
+            <label className="form-label">Role</label>
+            <select
+              className="form-select"
+              value={role}
+              onChange={(event) => setRole(event.target.value)}
+              required
+            >
+              <option value="">-- Select Role --</option>
+              <option value="admin">Admin</option>
+              <option value="dealer">Dealer</option>
+            </select>
+          </div>
           <div className="mb-3">
             <label className="form-label">Username</label>
             <input 

@@ -49,6 +49,27 @@ export const register = (body) =>{
     }
 }
 
+export const registerDealer = (body) =>{
+    return async (dispatch)=>{
+        try {
+            console.log(body);
+            const response = await fetch(BASE_URL+`/register`,{
+                method:"POST",
+                body: JSON.stringify(body),
+                headers:{
+                    'Content-Type':'application/json'
+                }
+            }) 
+            console.log(response);
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
 export const login = (body) =>{
     return async(dispatch)=>{
         try {

@@ -21,6 +21,13 @@ export function carsFetchSuccess(payload){
     }
 }
 
+export function dealerProfilesFetchSuccess(payload){
+    return{
+        type:"dealerProfiles/get",
+        payload
+    }
+}
+
 export const register = (body) =>{
     return async (dispatch)=>{
         try {
@@ -56,7 +63,8 @@ export const login = (body) =>{
                 throw new Error('Something went wrong!');
             }
             const data = await response.json()
-            localStorage.setItem("access_token", data.access_token)
+            localStorage.setItem("access_token", data.access_token);
+
 
         } catch (error) {
             console.log(error);
@@ -347,6 +355,179 @@ export const deleteCar= (id) =>{
                 throw new Error('Something went wrong!');
             }
             dispatch(fetchCar())
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+//dealer profile
+export const fetchDealer = () =>{
+    return async(dispatch)=>{
+        try {
+            const response = await fetch(BASE_URL+`/dealerprofiles`,{
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            })
+            if(!response.ok) throw new Error("Something wrong!")
+            const data = await response.json()
+            const dealerprofiles = Array.isArray(data) ? data : data.dealerprofiles || []
+            dispatch(dealerProfilesFetchSuccess(dealerprofiles))
+       
+            
+            //const action = dealerProfilesFetchSuccess(data)
+            //dispatch(action)
+       
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+}
+
+export const fetchDealerId = (id) =>{
+    return async(dispatch)=>{
+        try {
+            const response = await fetch(BASE_URL+`/dealerprofiles/${id}`,{
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            })
+            if(!response.ok) throw new Error("Something wrong!")
+            const data = await response.json()
+            const dealerprofiles = Array.isArray(data) ? data : data.dealerprofiles || []
+            dispatch(dealerProfilesFetchSuccess(dealerprofiles))
+       
+            
+            //const action = dealerProfilesFetchSuccess(data)
+            //dispatch(action)
+       
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+}
+
+
+export const fetchDealerUserProfile = (id) =>{
+    return async(dispatch)=>{
+        try {
+            const response = await fetch(BASE_URL+`/dealerprofilesuser`,{
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            })
+            if(!response.ok) throw new Error("Something wrong!")
+            const data = await response.json()
+            const dealerprofiles = Array.isArray(data) ? data : data.dealerprofiles || []
+            dispatch(dealerProfilesFetchSuccess(dealerprofiles))
+       
+            
+            //const action = dealerProfilesFetchSuccess(data)
+            //dispatch(action)
+       
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+}
+
+export const fetchDealerBrand = () =>{
+    return async(dispatch)=>{
+        try {
+            const response = await fetch(BASE_URL+`/dealerprofilesbrand`,{
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            })
+            if(!response.ok) throw new Error("Something wrong!")
+            const data = await response.json()
+            const dealerprofiles = Array.isArray(data) ? data : data.dealerprofiles || []
+            dispatch(dealerProfilesFetchSuccess(dealerprofiles))
+       
+            
+            //const action = dealerProfilesFetchSuccess(data)
+            //dispatch(action)
+       
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+}
+
+export const createDealer = (body) =>{
+    return async(dispatch)=>{
+        try {
+            console.log(body);
+            const response = await fetch(BASE_URL+`/dealerprofiles`,{
+                method:"POST",
+                body: JSON.stringify(body),
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            }) 
+            console.log(response);
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+            dispatch(fetchDealer())
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+export const editDealer = (id , body) =>{
+    return async(dispatch)=>{
+        try {
+            console.log(body);
+            const response = await fetch(BASE_URL+`/dealerprofiles/${id}`,{
+                method:"PUT",
+                body: JSON.stringify(body),
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            }) 
+            console.log(response);
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+            dispatch(fetchDealer())
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+export const deleteDealer= (id) =>{
+    return async(dispatch)=>{
+        try {
+            const response = await fetch(BASE_URL+`/dealerprofiles/${id}`,{
+                method:"DELETE",
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+
+                }
+            }) 
+            console.log(response);
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+            dispatch(fetchDealer())
             
         } catch (error) {
             console.log(error);

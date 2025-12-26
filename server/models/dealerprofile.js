@@ -13,16 +13,18 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       DealerProfile.belongsTo(models.UserProfile, { foreignKey: "user_id" });
       DealerProfile.hasMany(models.Car, { foreignKey: "dealer_id" });
+      DealerProfile.belongsToMany(models.Brand, {
+        through: models.DealerBrand,
+        foreignKey: "dealerProfileId"
+      });
     }
   }
   DealerProfile.init({
     shopName: DataTypes.STRING,
-    car_id: DataTypes.INTEGER,
     type: DataTypes.STRING,
     address: DataTypes.STRING,
     instagramLink: DataTypes.STRING,
     whatsAppLink: DataTypes.STRING,
-    brand_id: DataTypes.INTEGER,
     user_id: DataTypes.INTEGER
   }, {
     sequelize,

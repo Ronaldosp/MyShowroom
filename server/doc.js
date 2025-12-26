@@ -8,7 +8,7 @@
  * 
  * 
  * 
- * npx sequelize-cli model:generate --name UserProfile --attributes username:string,email:string,password:string,role:string,dealerProfile_id:integer
+ * npx sequelize-cli model:generate --name UserProfile --attributes username:string,email:string,password:string,role:string
  * 
  * npx sequelize-cli model:generate --name Admin --attributes username:string,email:string,password:string
  * 
