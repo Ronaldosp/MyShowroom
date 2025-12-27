@@ -3,7 +3,7 @@ import { useState } from "react"
 
 import { useDispatch, useSelector } from "react-redux";
 import Form from 'react-bootstrap/Form';
-import { createDealer, editDealer, fetchBrands } from "../store/action/actionCreator";
+import { fetchDealerUserProfileDetail, editDealer, fetchBrands } from "../store/action/actionCreator";
 import { useEffect } from "react";
 
 function EditModal(props){
@@ -12,24 +12,35 @@ function EditModal(props){
     const data = useSelector((state)=>{
         return state.dealerReducer.dealerProfiles
     })
-   
-    console.log(dataDetail);
 
-    const [name , setName] = useState(dataDetail.name)
-    const [description , setDescription] = useState(dataDetail.description)
-    const [price , setPrice] = useState(dataDetail.price)
-    const [imgUrl , setImgUrl] = useState(dataDetail.imgUrl)
-    const [categoryId , setCategoryId] = useState(dataDetail.categoryId)
+    const dataBrands = useSelector((state)=>{
+      return state.brandReducer.brands
+    })
+    const dataProfile = data[0];
+    console.log(dataProfile , "EDIT MODAL");
+    console.log(dataProfile?.shopName , "EDIT MODAL");
+
+    const [shopName, setShopName] = useState("");
+    const [type, setType] = useState("");
+    const [address, setAddress] = useState("");
+    const [instagramLink, setInstagramLink] = useState("");
+    const [whatsAppLink, setWhatsAppLink] = useState("");
+    const [brand_id, setBrandId] = useState([]);
+    const [user_id, setUserId] = useState(null);
 
     useEffect(() => {
-        if (dataDetail) {
-          setName(dataDetail.name || '');
-          setDescription(dataDetail.description || '');
-          setPrice(dataDetail.price || '');
-          setImgUrl(dataDetail.imgUrl || '');
-          setCategoryId(dataDetail.categoryId || 0);
+        if (dataProfile) {
+          setShopName(dataProfile.shopName || '');
+          setType(dataProfile.type || '');
+          setAddress(dataProfile.address || '');
+          setInstagramLink(dataProfile.instagramLink || '');
+          setWhatsAppLink(dataProfile.whatsAppLink || '');
+          setUserId(dataProfile.user_id);
+          setBrandId(
+            dataProfile.Brands?.map((b) => b.id) || []
+          );
         }
-      }, [dataDetail])
+      }, [dataProfile])
 
     return  <Modal
     {...props}
@@ -47,79 +58,96 @@ function EditModal(props){
       <div className="container" >
    <form onSubmit={(event)=>{
     event.preventDefault()
-    const foodData = {
-      name,
-      description,
-      price,
-      imgUrl,
-      categoryId,
+    const dealerData = {
+      shopName,
+      type,
+      address,
+      instagramLink,
+      whatsAppLink,
+      brand_id,
+      user_id 
     }
-    dispatch(editItem(dataDetail.id , foodData))
+    dispatch(editDealer(dataProfile.id , dealerData))
     props.onHide()
   }}>
-    <div className="mb-3">
-      <label className="form-label">Name</label>
-      <input 
-      className="form-control" 
-      type="text"
-      value={name}
-      onChange={(event)=>{
-        const value = event.target.value
-        setName(value)
-      }}
-       />
-    </div>
-    <div className="mb-3">
-      <label className="form-label">Description</label>
-      <input 
-      className="form-control" 
-      type="text"
-      value={description}
-      onChange={(event)=>{
-        const value = event.target.value
-        setDescription(value)
-      }}
-       />
-    </div>
-    <label className="form-label">Category</label>
-    <Form.Select aria-label="Default select example" 
-    value={categoryId}
-    onChange={(event) => {
-      const value = event.target.value;
-      setCategoryId(value);
-    }}
-    >
-      <option value='' >---choose a category---</option>
-      {
-        data.map((el)=>{
-          return <option key={el.id} value={el.id}>{el.name}</option>
-        })
-      }
-  </Form.Select>
-    <div className="mb-3">
-      <label className="form-label">Price</label>
-      <input 
-      className="form-control" 
-      type="number"
-      value={price}
-      onChange={(event)=>{
-        const value = event.target.value
-        setPrice(value)
-      }}
-       />
-    </div>
-    <div className="mb-3">
-      <label className="form-label">Image Url</label>
-      <input 
-      className="form-control" 
-      type="text"
-      value={imgUrl}
-      onChange={(event)=>{
-        const value = event.target.value
-        setImgUrl(value)
-      }}
-       />
-    </div>
+      <div className="mb-3">
+        <label className="form-label">Name</label>
+        <input 
+        className="form-control" 
+        type="text"
+        value={shopName}
+        onChange={(event)=>{
+          const value = event.target.value
+          setShopName(value)
+        }}
+         />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Shop Logo</label>
+        <input 
+        className="form-control" 
+        type="text"
+        value={type}
+        onChange={(event)=>{
+          const value = event.target.value
+          setType(value)
+        }}
+         />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Address</label>
+        <input 
+        className="form-control" 
+        type="text"
+        value={address}
+        onChange={(event)=>{
+          const value = event.target.value
+          setAddress(value)
+        }}
+         />
+      </div>
+      <label className="form-label">Brands</label>
+        <Form.Select
+        multiple
+        value={brand_id}
+        onChange={(event) => {
+            const values = Array.from(
+            event.target.selectedOptions,
+            (option) => Number(option.value)
+            );
+            setBrandId(values);
+        }}
+        >
+        {dataBrands.map((el) => (
+            <option key={el.id} value={el.id}>
+            {el.name}
+            </option>
+        ))}
+        </Form.Select>
+      <div className="mb-3">
+        <label className="form-label">Instagram Link</label>
+        <input 
+        className="form-control" 
+        type="text"
+        value={instagramLink}
+        onChange={(event)=>{
+          const value = event.target.value
+          setInstagramLink(value)
+        }}
+         />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">WhatsApp Link</label>
+        <input 
+        className="form-control" 
+        type="text"
+        value={whatsAppLink}
+        onChange={(event)=>{
+          const value = event.target.value
+          setWhatsAppLink(value)
+        }}
+         />
+      </div>
       <div className="d-flex justify-content-center text-align-center">
       <button type="submit" className="btn btn-dark">
         Edit

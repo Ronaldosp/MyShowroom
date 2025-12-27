@@ -28,6 +28,19 @@ export function dealerProfilesFetchSuccess(payload){
     }
 }
 
+export function dealerProfilesDetailSuccess(payload){
+    return{
+        type:"dealerProfiles/detail/get",
+        payload
+    }
+}
+export function dealerProfilesCarsSuccess(payload){
+    return{
+        type:"dealerProfiles/cars/get",
+        payload
+    }
+}
+
 export const register = (body) =>{
     return async (dispatch)=>{
         try {
@@ -413,11 +426,10 @@ export const fetchDealerId = (id) =>{
     }
 }
 
-
-export const fetchDealerUserProfile = (id) =>{
+export const fetchDealerIdCars = (id) =>{
     return async(dispatch)=>{
         try {
-            const response = await fetch(BASE_URL+`/dealerprofilesuser`,{
+            const response = await fetch(BASE_URL+`/dealerprofiles/${id}`,{
                 headers:{
                     'Content-Type':'application/json',
                     //access_token:localStorage.access_token
@@ -426,7 +438,58 @@ export const fetchDealerUserProfile = (id) =>{
             if(!response.ok) throw new Error("Something wrong!")
             const data = await response.json()
             const dealerprofiles = Array.isArray(data) ? data : data.dealerprofiles || []
+            dispatch(dealerProfilesCarsSuccess(dealerprofiles))
+       
+            
+            //const action = dealerProfilesFetchSuccess(data)
+            //dispatch(action)
+       
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+}
+
+
+export const fetchDealerUserProfile = (id) =>{
+    return async(dispatch)=>{
+        try {
+            const response = await fetch(BASE_URL+`/dealerprofilesuser/${id}`,{
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            })
+            if(!response.ok) throw new Error("Something wrong!")
+            const data = await response.json()
+            const dealerprofiles = Array.isArray(data) ? data : [data];
             dispatch(dealerProfilesFetchSuccess(dealerprofiles))
+       
+            
+            //const action = dealerProfilesFetchSuccess(data)
+            //dispatch(action)
+       
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+}
+
+export const fetchDealerUserProfileDetail = (id) =>{
+    return async(dispatch)=>{
+        try {
+            const response = await fetch(BASE_URL+`/dealerprofilesuser/${id}`,{
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            })
+            if(!response.ok) throw new Error("Something wrong!")
+            const data = await response.json()
+            const dealerprofiles = Array.isArray(data) ? data : [data];
+            dispatch(dealerProfilesDetailSuccess(dealerprofiles))
        
             
             //const action = dealerProfilesFetchSuccess(data)
@@ -534,3 +597,4 @@ export const deleteDealer= (id) =>{
         }
     }
 }
+

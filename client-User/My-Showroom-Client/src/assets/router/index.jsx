@@ -7,6 +7,7 @@ import ListingPage from '../views/ListingPage'
 import ComparePage from '../views/ComparePage'
 import CarsDetailPage from '../views/CarsDetailPage'
 import DealerPage from "../views/DealerPage"
+import AddCar from "../views/AddCar"
 
 export default createBrowserRouter([
     {
@@ -42,6 +43,10 @@ export default createBrowserRouter([
             {
                 path:"/dealer",
                 element  :<DealerPage/>
+            },
+            {
+                path:"/addcar",
+                element  :<AddCar/>
             }
         ]
     },

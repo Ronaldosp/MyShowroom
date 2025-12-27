@@ -657,7 +657,7 @@ app.delete('/features/:id' , async(req , res)=>{
 
 app.get('/dealerprofiles', async(req,res)=>{
   try {
-    const dealerprofiles = await DealerProfile.findALl({include: {
+    const dealerprofiles = await DealerProfile.findAll({include: {
         model: Brand,
         through: { attributes: [] }
       }
@@ -670,6 +670,7 @@ app.get('/dealerprofiles', async(req,res)=>{
 
 app.post('/dealerprofiles', async(req,res)=>{
   try {
+    console.log(req.body);
     const{ shopName ,  type, address , instagramLink , whatsAppLink , brand_id , user_id} = req.body
     const dealerprofiles= await DealerProfile.create({ shopName ,  type, address , instagramLink , whatsAppLink , user_id})
     if (Array.isArray(brand_id) && brand_id.length > 0) {
@@ -723,10 +724,17 @@ app.get("/dealerprofilesbrand", async (req, res) => {
   }
 });
 
-app.get("/dealerprofilesuser", async (req, res) => {
+app.get("/dealerprofilesuser/:id", async (req, res) => {
   try {
+    const { id } = req.params;
+    console.log(id);
+    
     const dealerProfile = await DealerProfile.findOne({
-      where: { user_id: req.user.id }
+      where: { user_id: id },
+      include: {
+        model: Brand,
+        through: { attributes: [] }
+      }
     });
 
     // return profile OR null
@@ -778,7 +786,7 @@ app.put('/dealerprofiles/:id', async (req, res) => {
   }
 });
 
-app.get('/dealerprofiles/:id', async (req, res) => {
+app.get('/dealerprofilesbrand/:id', async (req, res) => {
   const dealerProfile = await DealerProfile.findByPk(req.params.id, {
     include: {
       model: Brand,

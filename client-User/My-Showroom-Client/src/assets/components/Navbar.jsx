@@ -15,36 +15,36 @@ function NavBar(){
     const dealerProfile = useSelector(
         (state) => state.dealerReducer.dealerProfiles
     );
-    
-    const token = localStorage.getItem("access_token");
-    let isDealer = false;
 
-    
-    if (token) {
+    const token = localStorage.getItem("access_token");
+    const [decodedUser, setDecodedUser] = useState(null);
+
+    useEffect(() => {
+        if (token) {
         try {
             const decoded = jwtDecode(token);
-            console.log(decoded , "localStorage decoded");
-            isDealer = decoded.role === "dealer";
-            dispatch(fetchDealerUserProfile(decoded.id))
+            setDecodedUser(decoded);
         } catch (err) {
             console.error("Invalid token");
         }
-    }
-    console.log(dealerProfile,"dealerProfile");
-    let hasDealerProfile = false;
+        }
+    }, [token]);
 
-    if (Array.isArray(dealerProfile) && dealerProfile.length > 0) {
-    hasDealerProfile = true;
-    }
-    
-    const handleLogout = ()=>{
-        localStorage.clear()
-        navigate('/login')
-    }
+    useEffect(() => {
+        if (decodedUser?.role === "dealer") {
+        dispatch(fetchDealerUserProfile(decodedUser.id));
+        }
+    }, [dispatch, decodedUser?.id]); 
 
-    useEffect(()=>{
-        
-    },[])
+    const isDealer = decodedUser?.role === "dealer";
+
+    const hasDealerProfile = !!dealerProfile;
+
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate("/login");
+    };
+
 
     return <div>
         <Navbar expand="lg" className="bg-body-tertiary">
@@ -69,7 +69,7 @@ function NavBar(){
                 )}
                 
                 {isDealer && (
-                    <NavLink to="/cars" className="nav-link">
+                    <NavLink to="/addcar" className="nav-link">
                         Add Cars
                     </NavLink>
                 )}
