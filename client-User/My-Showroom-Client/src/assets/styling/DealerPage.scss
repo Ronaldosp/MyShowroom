@@ -1,46 +1,106 @@
 
 .dealerprofile-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
 
     .dealerprofile-modal-button{
-        width: 100%;
-        display: flex;
-        justify-content: center;
+        padding: 15px;
     }
 
     .dealerprofile-detail-container{
-
-        .dealerprofile-detail-name{
-
+        padding-bottom: 40px;
+        .dealerprofile-detail-image{
+            img{
+                width: 100%;
+                height: 400px;
+                object-fit: contain;
+            }
         }
 
-        .dealerprofile-detail-image{
-
-            img{
-
+        .dealerprofile-detail-name{
+            text-align: center;
+            h2{
+                font-family: system-ui;
+                font-size: 70px;
+                font-weight: 400;
+                font-style: italic;
             }
         }
 
         .dealerprofile-detail-credentials{
-
-            .dealerprofile-detail-address{
-
-            }
-
-            .dealerprofile-detail-instagram-link{
-
-            }
-
-            .dealerprofile-detail-whatsapp-link{
-
-            }
-
-            .dealerprofile-detail-whatsapp-brand{
-
+            td{
+                padding-right: 15px;
+                ul{
+                    margin-bottom: 0;
+                }
             }
         }
     }
 
     .dealerprofile-detail-cars-container{
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); /* 4 columns */
+        gap: 10px;
+        width: 100%;
+        padding: 20px 80px;
+        justify-items: center;
 
+        .dealerprofile-detail-add-car-card{
+            width: 400px;
+            height: 400px;
+            border: 2px solid #ccc; 
+            border-radius: 1.25rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 5rem; 
+            color: #555;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            .dealerprofile-detail-add-car-card-icon{
+                align-items: center;
+                text-align: center;
+            }
+        }
+        .dealerprofile-detail-add-car-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .dealerprofile-detail-add-car-card-icon {
+            pointer-events: none;
+        }
+
+        .dealerprofile-detail-cars-card{
+            max-width: 400px;
+            height: auto;
+            transition: transform 0.3s, box-shadow 0.3s;
+            img{
+                width: 400px;
+                height: 250px;
+                object-fit: cover;
+                border-radius: 1.25rem;
+            }
+            p{
+                margin-bottom: 0;
+            }
+            &__bottom-container{
+                padding: 20px;
+                &__brand{
+                    padding-top: 10px;
+                }
+                &__model{
+                    padding-top: 10px;
+                }
+            }
+            
+        }
+        .dealerprofile-detail-cars-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
     }
 }

@@ -1,12 +1,12 @@
 const initialState={
-    brands :[],
+    cars :[],
 }
 
 export default function brandReducer(state=initialState , action){
-    if(action.type === "brands/get"){
+    if(action.type === "cars/get"){
         return {
             ...state,
-            brands : action.payload
+            cars : action.payload
         }
     }
     return state;

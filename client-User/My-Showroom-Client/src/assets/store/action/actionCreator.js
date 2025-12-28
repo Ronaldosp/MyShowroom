@@ -307,7 +307,7 @@ export const fetchCar = () =>{
 export const createCar = (body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body);
+            console.log(body , "create car");
             const response = await fetch(BASE_URL+`/cars`,{
                 method:"POST",
                 body: JSON.stringify(body),
@@ -316,7 +316,7 @@ export const createCar = (body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response);
+            console.log(response,"create car");
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -429,6 +429,7 @@ export const fetchDealerId = (id) =>{
 export const fetchDealerIdCars = (id) =>{
     return async(dispatch)=>{
         try {
+            console.log("id response:", id);
             const response = await fetch(BASE_URL+`/dealerprofiles/${id}`,{
                 headers:{
                     'Content-Type':'application/json',
@@ -436,9 +437,12 @@ export const fetchDealerIdCars = (id) =>{
                 }
             })
             if(!response.ok) throw new Error("Something wrong!")
-            const data = await response.json()
-            const dealerprofiles = Array.isArray(data) ? data : data.dealerprofiles || []
-            dispatch(dealerProfilesCarsSuccess(dealerprofiles))
+            const data = await response.json();
+            console.log("API response:", data);
+
+            // Ambil cars
+            const dealerCars = data.Cars || [];
+            dispatch(dealerProfilesCarsSuccess(dealerCars));
        
             
             //const action = dealerProfilesFetchSuccess(data)

@@ -235,7 +235,9 @@ app.post('/categories', async(req,res)=>{
 
 app.get('/cars', async(req,res)=>{
   try {
-    const cars = await Car.findAll();
+    const cars = await Car.findAll({
+      include: [Brand , Category , DealerProfile]
+    });
     res.status(200).json(cars)
   } catch (error) {
     console.log(error)
@@ -261,19 +263,7 @@ app.post('/cars', async(req,res)=>{
   try {
     const {model , brand_id , thumbnail , category_id , price , dealer_id} = req.body;
 
-    const userId = req.user.id;
-
-    const dealerProfile = await DealerProfile.findOne({
-      where: { user_id: userId }
-    });
-
-    if (!dealerProfile) {
-      return res.status(403).json({
-        message: "You must have a DealerProfile to create a car"
-      });
-    }
-
-    const cars = await Car.create({model , brand_id , thumbnail , category_id , price, dealer_id:dealerProfile.id})
+    const cars = await Car.create({model , brand_id , thumbnail , category_id , price, dealer_id})
     res.status(201).json(`Created New Car ${model}`)
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
