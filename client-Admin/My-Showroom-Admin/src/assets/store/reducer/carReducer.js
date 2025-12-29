@@ -1,5 +1,5 @@
 const initialState={
-    cars :[],
+    cars :[]
 }
 
 export default function carReducer(state=initialState , action){

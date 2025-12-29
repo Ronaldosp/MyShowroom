@@ -263,11 +263,27 @@ app.get('/cars', async(req,res)=>{
 app.get('/cars/:id', async(req,res)=>{
   try {
     const id = req.params.id
-    const cars = await Car.findOne({
-      include: [Brand , Category],
-      where : {id}
+    const car = await Car.findByPk(id, {
+      include: [
+        Brand,
+        Category,
+        DealerProfile,
+        {
+          model: Specification,
+          include: [
+            SpecificationCategory,
+            SpecificationField
+          ]
+        },
+        {
+          model: Feature,
+          include: [
+            FeatureCategory
+          ]
+        }
+      ]
     });
-    res.status(200).json(cars)
+    res.status(200).json(car)
   } catch (error) {
     console.log(error)
     res.status(500).json({message: "Internal Server Error"})

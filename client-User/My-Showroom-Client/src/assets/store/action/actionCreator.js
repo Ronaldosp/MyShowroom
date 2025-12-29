@@ -41,6 +41,13 @@ export function dealerProfilesCarsSuccess(payload){
     }
 }
 
+export function carsDetailFetchSuccess(payload){
+    return{
+        type:"cars/detail/get",
+        payload
+    }
+}
+
 export const register = (body) =>{
     return async (dispatch)=>{
         try {
@@ -454,6 +461,34 @@ export const fetchDealerIdCars = (id) =>{
         }
     }
 }
+export const fetchDetailCars = (id) =>{
+    return async(dispatch)=>{
+        try {
+            console.log("id response:", id);
+            const response = await fetch(BASE_URL+`/cars/${id}`,{
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            })
+            if(!response.ok) throw new Error("Something wrong!")
+            const data = await response.json();
+            console.log("API response:", data);
+
+            // Ambil cars
+            const dealerCars = data.Cars || [];
+            dispatch(carsDetailFetchSuccess(dealerCars));
+       
+            
+            //const action = dealerProfilesFetchSuccess(data)
+            //dispatch(action)
+       
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+}
 
 
 export const fetchDealerUserProfile = (id) =>{
@@ -505,6 +540,8 @@ export const fetchDealerUserProfileDetail = (id) =>{
         }
     }
 }
+
+
 
 export const fetchDealerBrand = () =>{
     return async(dispatch)=>{
