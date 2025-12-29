@@ -6,6 +6,7 @@ import Layout from '../components/Layout'
 import CategoryPage from '../views/CategoryPage'
 import CarPage from '../views/CarPage'
 import FeatureCategoryPage from '../views/FeatureCategoryPage'
+import SpecificationCategoryPage from '../views/SpecificationCategoryPage'
 
 export default createBrowserRouter([
     {
@@ -36,6 +37,11 @@ export default createBrowserRouter([
             {
                 path:"/featurecategories",
                 element  :<FeatureCategoryPage/>
+            }
+            ,
+            {
+                path:"/specificationcategories",
+                element  :<SpecificationCategoryPage/>
             }
         ]
     },

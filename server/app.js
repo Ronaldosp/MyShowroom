@@ -236,7 +236,22 @@ app.post('/categories', async(req,res)=>{
 app.get('/cars', async(req,res)=>{
   try {
     const cars = await Car.findAll({
-      include: [Brand , Category , DealerProfile]
+      include: [
+        Brand,
+        Category,
+        DealerProfile,
+        {
+          model: Specification,
+          include: [
+            SpecificationCategory,
+            SpecificationField,
+            {
+              model: Feature,
+              include: [FeatureCategory]
+            }
+          ]
+        }
+      ]
     });
     res.status(200).json(cars)
   } catch (error) {
@@ -376,7 +391,7 @@ app.delete('/specifications/:id' , async(req , res)=>{
 
 app.get('/specificationcategories', async(req,res)=>{
   try {
-    const specificationcategories = await SpecificationCategory.findALl()
+    const specificationcategories = await SpecificationCategory.findAll()
     res.status(200).json(specificationcategories)
   } catch (error) {
     res.status(500).json({message: "Internal Server Error"})
@@ -386,7 +401,7 @@ app.get('/specificationcategories', async(req,res)=>{
 app.post('/specificationcategories', async(req,res)=>{
   try {
     const{ name } = req.body
-    const specificationcategories= await SpecificationCategory.Create({ name })
+    const specificationcategories= await SpecificationCategory.create({ name })
     res.status(201).json(`Created New Specification Category ${name}`)
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });

@@ -1,22 +1,32 @@
 import "../styling/ComparePage.scss";
 import testCar8 from "../images/test-car-8.jpg";
+import { fetchCar , fetchCategory , fetchBrands  } from "../store/action/actionCreator";
+import { useNavigate } from "react-router-dom";
+import { useState , useEffect } from "react";
+import { useSelector,useDispatch } from "react-redux";
 
 function ComparePage(){
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const priceData = [
-        { title: "Porsche Taycan 2021 Electric", price: "Rp.1.500.000.000" },
-        { title: "Porsche Taycan 2021 Electric", price: "Rp.2.100.000.000" },
-        { title: "Porsche Taycan 2021 Electric", price: "Rp.3.300.000.000" },
-    ];
+    const carData = useSelector(
+        (state) => state.carReducer.cars
+    );
+    console.log(carData,"carData");
+    
+    const compareIds = JSON.parse(localStorage.getItem("compareCars")) || [];
+    console.log(compareIds,"compareIds");
+    const comparedCars = carData.filter((car) =>
+        compareIds.includes(car.id)
+    );
+    console.log(comparedCars,"comparedCars");
 
-    const parsedPrices = priceData.map((item) => ({
-        ...item,
-        numericPrice: Number(item.price.replace(/[^0-9]/g, "")), // remove Rp and dots
-    }));
-
-    const minPrice = Math.min(...parsedPrices.map(i => i.numericPrice));
-    const maxPrice = Math.max(...parsedPrices.map(i => i.numericPrice));
-
+    const prices = comparedCars.map((car) => car.price);
+    const minPrice = Math.min(...prices);
+    const maxPrice = Math.max(...prices);
+    useEffect(() => {
+        dispatch(fetchCar())
+    }, [dispatch]);
     
     return(
         <div className="compare-page-component">
@@ -25,61 +35,63 @@ function ComparePage(){
                     <div className="compare-page-component-items-container">
                         {/* Top Part */}
                         <div className="compare-page-component-items-top-container">
-                            <div className="compare-page-component-items-top">
-                                <div className="compare-page-component-items-title">
-                                    <h4>Porsche Taycan 2021 Hybrid </h4>
-                                </div>
-                                <div className="compare-page-component-items-thumbnail">
-                                    <img src={testCar8} alt=""/>
-                                </div>
-                            </div>
-                            <div className="compare-page-component-items-top">
+                            {comparedCars.map((car) => (
+                                <div className="compare-page-component-items-top">
                                     <div className="compare-page-component-items-title">
-                                        <h4>Porsche Taycan 2021 Hybrid </h4>
+                                        <h4>{car.model}</h4>
                                     </div>
                                     <div className="compare-page-component-items-thumbnail">
-                                        <img src={testCar8} alt=""/>
+                                        <img src={car.thumbnail} alt=""/>
                                     </div>
-                            </div>
-
-                            <div className="compare-page-component-items-top">
-                                    <div className="compare-page-component-items-title">
-                                        <h4>Porsche Taycan 2021 Hybrid </h4>
-                                    </div>
-                                    <div className="compare-page-component-items-thumbnail">
-                                        <img src={testCar8} alt=""/>
-                                    </div>
-                            </div>
+                                </div>
+                            ))}
                         </div>
 
                         {/* Price Comparison Part */}
                         <div className="compare-page-component-items-price">
                             <h2>Price Comparison</h2>
+                                {comparedCars.map((car, index) => {
+                                    const numericPrice = car.price;
+                                    const isCheapest = numericPrice === minPrice;
+                                    const isExpensive = numericPrice === maxPrice;
 
-                            {parsedPrices.map((item, index) => {
-                                const isCheapest = item.numericPrice === minPrice;
-                                const isExpensive = item.numericPrice === maxPrice;
+                                    return (
+                                        <div
+                                        className="compare-page-component-items-price-container"
+                                        key={car.id}
+                                        >
+                                        <div className="compare-page-component-items-price-title">
+                                            <h4>{car.model}</h4>
+                                        </div>
 
-                                return (
-                                <div className="compare-page-component-items-price-container" key={index}>
-                                    <div className="compare-page-component-items-price-title">
-                                    <h4>{item.title}</h4>
-                                    </div>
+                                        <div className="compare-page-component-items-price-nominal">
+                                            <h4>{car.price}</h4>
 
-                                    <div className="compare-page-component-items-price-nominal">
-                                    <h4>{item.price}</h4>{isCheapest && (
-                                        <span className="price-tag cheapest"><svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-                                        <path d="M20 6L9 17l-5-5" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                                        </svg> Cheapest</span>
-                                    )}
-                                    {isExpensive && (
-                                        <span className="price-tag expensive">Most Expensive</span>
-                                    )}
-                                    </div>
-                                </div>
-                                );
-                            })}
-                        </div>
+                                            {isCheapest && (
+                                            <span className="price-tag cheapest">
+                                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                                                <path
+                                                    d="M20 6L9 17l-5-5"
+                                                    stroke="white"
+                                                    strokeWidth="3"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                />
+                                                </svg>
+                                                Cheapest
+                                            </span>
+                                            )}
+
+                                            {isExpensive && (
+                                            <span className="price-tag expensive">
+                                                Most Expensive
+                                            </span>
+                                            )}
+                                        </div>
+                                        </div>
+                                    );
+                                })}
+                        </div>      
 
                         {/* Performance Comparison Part */}
                         <div className="compare-page-component-items-performance">

@@ -28,6 +28,13 @@ export function featureCategoriesFetchSuccess(payload){
     }
 }
 
+export function specificationCategoriesFetchSuccess(payload){
+    return{
+        type:"specificationcategories/get",
+        payload
+    }
+}
+
 export const register = (body) =>{
     return async (dispatch)=>{
         try {
@@ -475,6 +482,103 @@ export const deleteFeatureCategory= (id) =>{
                 throw new Error('Something went wrong!');
             }
             dispatch(fetchFeatureCategory())
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+// Specification Category Logic Section
+export const fetchScpecificationCategory = () =>{
+    return async(dispatch)=>{
+        try {
+            const response = await fetch(BASE_URL+`/specificationcategories`,{
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            })
+            if(!response.ok) throw new Error("Something wrong!")
+            console.log(response,"response feature category");
+            const data = await response.json()
+       
+            console.log(data,"data feature category");
+            
+            const action = specificationCategoriesFetchSuccess(data)
+            dispatch(action)
+       
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+}
+
+export const createScpecificationCategory = (body) =>{
+    return async(dispatch)=>{
+        try {
+            console.log(body , "feature category body");
+            const response = await fetch(BASE_URL+`/specificationcategories`,{
+                method:"POST",
+                body: JSON.stringify(body),
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            }) 
+            console.log(response , "feature category response create");
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+            dispatch(fetchScpecificationCategory())
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+export const editScpecificationCategory = (id , body) =>{
+    return async(dispatch)=>{
+        try {
+            console.log(body);
+            const response = await fetch(BASE_URL+`/specificationcategories/${id}`,{
+                method:"PUT",
+                body: JSON.stringify(body),
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            }) 
+            console.log(response);
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+            dispatch(fetchScpecificationCategory())
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+export const deleteScpecificationCategory= (id) =>{
+    return async(dispatch)=>{
+        try {
+            const response = await fetch(BASE_URL+`/specificationcategories/${id}`,{
+                method:"DELETE",
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+
+                }
+            }) 
+            console.log(response);
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+            dispatch(fetchScpecificationCategory())
             
         } catch (error) {
             console.log(error);
