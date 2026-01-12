@@ -8,6 +8,8 @@ import ComparePage from '../views/ComparePage'
 import CarsDetailPage from '../views/CarsDetailPage'
 import DealerPage from "../views/DealerPage"
 import AddCar from "../views/AddCar"
+import DealerCarSpecification from "../views/DealerCarSpecification"
+
 
 export default createBrowserRouter([
     {
@@ -47,7 +49,11 @@ export default createBrowserRouter([
             {
                 path:"/addcar",
                 element  :<AddCar/>
-            }
+            },
+            {
+                path:"/dealer/cars/:id",
+                element:<DealerCarSpecification/>,
+            },
         ]
     },
     {

@@ -11,12 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Feature.belongsTo(models.Specification , {foreignKey:"specification_id"})
+      Feature.belongsTo(models.Car , {foreignKey:"car_id"})
       Feature.belongsTo(models.FeatureCategory , {foreignKey:"featureCategory_id"})
     }
   }
   Feature.init({
-    specification_id: DataTypes.INTEGER,
+    car_id: DataTypes.INTEGER,
     featureCategory_id: DataTypes.INTEGER,
     name: {
       type:DataTypes.STRING,

@@ -21,6 +21,13 @@ export function carsFetchSuccess(payload){
     }
 }
 
+export function carsFetchIdSuccess(payload){
+    return{
+        type:"cars/getById",
+        payload
+    }
+}
+
 export function dealerProfilesFetchSuccess(payload){
     return{
         type:"dealerProfiles/get",
@@ -44,6 +51,41 @@ export function dealerProfilesCarsSuccess(payload){
 export function carsDetailFetchSuccess(payload){
     return{
         type:"cars/detail/get",
+        payload
+    }
+}
+
+export function featureCategoriesFetchSuccess(payload){
+    return{
+        type:"featurecategories/get",
+        payload
+    }
+}
+
+export function specificationCategoriesFetchSuccess(payload){
+    return{
+        type:"specificationcategories/get",
+        payload
+    }
+}
+
+export function featureFetchSuccess(payload){
+    return{
+        type:"features/get",
+        payload
+    }
+}
+
+export function specificationFieldsFetchSuccess(payload){
+    return{
+        type:"specificationfields/get",
+        payload
+    }
+}
+
+export function specificationFetchSuccess(payload){
+    return{
+        type:"specifications/get",
         payload
     }
 }
@@ -302,6 +344,29 @@ export const fetchCar = () =>{
        
             
             const action = carsFetchSuccess(data)
+            dispatch(action)
+       
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+}
+
+export const fetchCarId = (id) =>{
+    return async(dispatch)=>{
+        try {
+            const response = await fetch(BASE_URL+`/cars/${id}`,{
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            })
+            if(!response.ok) throw new Error("Something wrong!")
+            const data = await response.json()
+       
+            
+            const action = carsFetchIdSuccess(data)
             dispatch(action)
        
         } catch (error) {
@@ -639,3 +704,487 @@ export const deleteDealer= (id) =>{
     }
 }
 
+//feature Category
+export const fetchFeatureCategory = () =>{
+    return async(dispatch)=>{
+        try {
+            const response = await fetch(BASE_URL+`/featurecategories`,{
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            })
+            if(!response.ok) throw new Error("Something wrong!")
+            console.log(response,"response feature category");
+            const data = await response.json()
+       
+            console.log(data,"data feature category");
+            
+            const action = featureCategoriesFetchSuccess(data)
+            dispatch(action)
+       
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+}
+
+export const createFeatureCategory = (body) =>{
+    return async(dispatch)=>{
+        try {
+            console.log(body , "feature category body");
+            const response = await fetch(BASE_URL+`/featurecategories`,{
+                method:"POST",
+                body: JSON.stringify(body),
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            }) 
+            console.log(response , "feature category response create");
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+            dispatch(fetchFeatureCategory())
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+export const editFeatureCategory = (id , body) =>{
+    return async(dispatch)=>{
+        try {
+            console.log(body);
+            const response = await fetch(BASE_URL+`/featurecategories/${id}`,{
+                method:"PUT",
+                body: JSON.stringify(body),
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            }) 
+            console.log(response);
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+            dispatch(fetchFeatureCategory())
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+export const deleteFeatureCategory= (id) =>{
+    return async(dispatch)=>{
+        try {
+            const response = await fetch(BASE_URL+`/featurecategories/${id}`,{
+                method:"DELETE",
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+
+                }
+            }) 
+            console.log(response);
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+            dispatch(fetchFeatureCategory())
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+//feature 
+export const fetchFeature = () =>{
+    return async(dispatch)=>{
+        try {
+            const response = await fetch(BASE_URL+`/features`,{
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            })
+            if(!response.ok) throw new Error("Something wrong!")
+            console.log(response,"response features");
+            const data = await response.json()
+       
+            console.log(data,"data features");
+            
+            const action = featureFetchSuccess(data)
+            dispatch(action)
+       
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+}
+
+export const createFeature = (body) =>{
+    return async(dispatch)=>{
+        try {
+            console.log(body , "feature body");
+            const response = await fetch(BASE_URL+`/features`,{
+                method:"POST",
+                body: JSON.stringify(body),
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            }) 
+            console.log(response , "feature response create");
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+            dispatch(fetchFeature())
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+export const editFeature = (id , body) =>{
+    return async(dispatch)=>{
+        try {
+            console.log(body);
+            const response = await fetch(BASE_URL+`/features/${id}`,{
+                method:"PUT",
+                body: JSON.stringify(body),
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            }) 
+            console.log(response);
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+            dispatch(fetchFeature())
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+export const deleteFeature = (id) =>{
+    return async(dispatch)=>{
+        try {
+            const response = await fetch(BASE_URL+`/features/${id}`,{
+                method:"DELETE",
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+
+                }
+            }) 
+            console.log(response);
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+            dispatch(fetchFeature())
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+//specification Category
+export const fetchSpecificationCategory = () =>{
+    return async(dispatch)=>{
+        try {
+            const response = await fetch(BASE_URL+`/specificationcategories`,{
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            })
+            if(!response.ok) throw new Error("Something wrong!")
+            console.log(response,"response feature category");
+            const data = await response.json()
+       
+            console.log(data,"data feature category");
+            
+            const action = specificationCategoriesFetchSuccess(data)
+            dispatch(action)
+       
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+}
+
+export const createSpecificationCategory = (body) =>{
+    return async(dispatch)=>{
+        try {
+            console.log(body , "feature category body");
+            const response = await fetch(BASE_URL+`/specificationcategories`,{
+                method:"POST",
+                body: JSON.stringify(body),
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            }) 
+            console.log(response , "feature category response create");
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+            dispatch(fetchSpecificationCategory())
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+export const editSpecificationCategory = (id , body) =>{
+    return async(dispatch)=>{
+        try {
+            console.log(body);
+            const response = await fetch(BASE_URL+`/specificationcategories/${id}`,{
+                method:"PUT",
+                body: JSON.stringify(body),
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            }) 
+            console.log(response);
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+            dispatch(fetchSpecificationCategory())
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+export const deleteSpecificationCategory= (id) =>{
+    return async(dispatch)=>{
+        try {
+            const response = await fetch(BASE_URL+`/specificationcategories/${id}`,{
+                method:"DELETE",
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+
+                }
+            }) 
+            console.log(response);
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+            dispatch(fetchSpecificationCategory())
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+//specification fields
+export const fetchSpecificationFields = () =>{
+    return async(dispatch)=>{
+        try {
+            const response = await fetch(BASE_URL+`/specificationfields`,{
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            })
+            if(!response.ok) throw new Error("Something wrong!")
+            console.log(response,"response specification fields");
+            const data = await response.json()
+       
+            console.log(data,"data specification fields");
+            
+            const action = specificationFieldsFetchSuccess(data)
+            dispatch(action)
+       
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+}
+
+export const createSpecificationFields = (body) =>{
+    return async(dispatch)=>{
+        try {
+            console.log(body , "feature specification fields");
+            const response = await fetch(BASE_URL+`/specificationfields`,{
+                method:"POST",
+                body: JSON.stringify(body),
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            }) 
+            console.log(response , "specification fields response create");
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+            dispatch(fetchSpecificationFields())
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+export const editSpecificationFields = (id , body) =>{
+    return async(dispatch)=>{
+        try {
+            console.log(body);
+            const response = await fetch(BASE_URL+`/specificationfields/${id}`,{
+                method:"PUT",
+                body: JSON.stringify(body),
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            }) 
+            console.log(response);
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+            dispatch(fetchSpecificationFields())
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+export const deleteSpecificationFields = (id) =>{
+    return async(dispatch)=>{
+        try {
+            const response = await fetch(BASE_URL+`/specificationfields/${id}`,{
+                method:"DELETE",
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+
+                }
+            }) 
+            console.log(response);
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+            dispatch(fetchSpecificationFields())
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+//specification
+export const fetchSpecifications = () =>{
+    return async(dispatch)=>{
+        try {
+            const response = await fetch(BASE_URL+`/specifications`,{
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            })
+            if(!response.ok) throw new Error("Something wrong!")
+            console.log(response,"response specification ");
+            const data = await response.json()
+       
+            console.log(data,"data specification ");
+            
+            const action = specificationFetchSuccess(data)
+            dispatch(action)
+       
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+}
+
+export const createSpecifications = (body) =>{
+    return async(dispatch)=>{
+        try {
+            console.log(body , "feature specification ");
+            const response = await fetch(BASE_URL+`/specifications`,{
+                method:"POST",
+                body: JSON.stringify(body),
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            }) 
+            console.log(response , "specification  response create");
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+            dispatch(fetchSpecifications())
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+export const editSpecifications = (id , body) =>{
+    return async(dispatch)=>{
+        try {
+            console.log(body);
+            const response = await fetch(BASE_URL+`/specifications/${id}`,{
+                method:"PUT",
+                body: JSON.stringify(body),
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            }) 
+            console.log(response);
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+            dispatch(fetchSpecifications())
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+export const deleteSpecifications = (id) =>{
+    return async(dispatch)=>{
+        try {
+            const response = await fetch(BASE_URL+`/specifications/${id}`,{
+                method:"DELETE",
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+
+                }
+            }) 
+            console.log(response);
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+            dispatch(fetchSpecifications())
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}

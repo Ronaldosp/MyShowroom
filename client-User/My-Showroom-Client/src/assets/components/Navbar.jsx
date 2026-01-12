@@ -15,7 +15,7 @@ function NavBar(){
     const dealerProfile = useSelector(
         (state) => state.dealerReducer.dealerProfiles
     );
-
+    const isLoggedIn = !!localStorage.getItem("access_token");
     const token = localStorage.getItem("access_token");
     const [decodedUser, setDecodedUser] = useState(null);
 
@@ -52,7 +52,7 @@ function NavBar(){
             <Navbar.Brand>My Showroom</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
+            <Nav className="position-absolute start-50 translate-middle-x">
                 <NavLink to='/' className="nav-link">Home</NavLink>
                 <NavLink to='/listing' className="nav-link" >List Page</NavLink>
                 
@@ -75,8 +75,12 @@ function NavBar(){
                 )}
             </Nav>
             <Nav className="ms-auto">
-            <NavLink to='/register' className="nav-link d-flex-end" >Register</NavLink>
-            <Button onClick={handleLogout} variant="outline-danger" >Logout</Button>
+                {!isLoggedIn && (
+                    <>
+                        <NavLink to="/register" className="nav-link">Register</NavLink>
+                    </>
+                )}
+                <Button onClick={handleLogout} variant="danger" >Logout</Button>
             </Nav>
             </Navbar.Collapse>
         </Container>

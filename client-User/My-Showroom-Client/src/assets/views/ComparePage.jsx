@@ -1,6 +1,6 @@
 import "../styling/ComparePage.scss";
 import testCar8 from "../images/test-car-8.jpg";
-import { fetchCar , fetchCategory , fetchBrands  } from "../store/action/actionCreator";
+import { fetchCar , fetchCategory , fetchBrands, fetchFeatureCategory ,fetchCarId  } from "../store/action/actionCreator";
 import { useNavigate } from "react-router-dom";
 import { useState , useEffect } from "react";
 import { useSelector,useDispatch } from "react-redux";
@@ -8,10 +8,15 @@ import { useSelector,useDispatch } from "react-redux";
 function ComparePage(){
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    
     const carData = useSelector(
         (state) => state.carReducer.cars
     );
+
+    const featureCategoryData = useSelector(
+        (state) => state.featureCategoryReducer.featureCategories
+    );
+    console.log(featureCategoryData,"featureCategoryData");
     console.log(carData,"carData");
     
     const compareIds = JSON.parse(localStorage.getItem("compareCars")) || [];
@@ -26,6 +31,7 @@ function ComparePage(){
     const maxPrice = Math.max(...prices);
     useEffect(() => {
         dispatch(fetchCar())
+        dispatch(fetchFeatureCategory())
     }, [dispatch]);
     
     return(
@@ -93,46 +99,20 @@ function ComparePage(){
                                 })}
                         </div>      
 
-                        {/* Performance Comparison Part */}
-                        <div className="compare-page-component-items-performance">
-                            <h2>Performance</h2>
-                            <div className="compare-page-component-items-performance-container">
-                                <div className="compare-page-component-items-performance-title">
-                                    <h4></h4>
-                                </div>
-                                <div className="compare-page-component-items-performance-description">
-                                    <h3></h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Feature Comparison Part  */}
-                        <div className="compare-page-component-items-features">
-                            <h2>Features</h2>
-                            <div className="compare-page-component-items-features-container">
-                                <div className="compare-page-component-items-features-title">
-                                    <h4></h4>
-                                </div>
-                                <div className="compare-page-component-items-features-description">
-                                    <h3></h3>
+                        {featureCategoryData.map((featureCategories) => (
+                            <div className="compare-page-component-items-performance">
+                                <h2>{featureCategories.name}</h2>
+                                <div className="compare-page-component-items-performance-container">
+                                    <div className="compare-page-component-items-performance-title">
+                                        <h4></h4>
+                                    </div>
+                                    <div className="compare-page-component-items-performance-description">
+                                        <h3></h3>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        ))}
 
-                        {/* Technology Comparison Part */}
-                        <div className="compare-page-component-items-technology">
-                            <h2>Technologies</h2>
-                            <div className="compare-page-component-items-technology-container">
-                                <div className="compare-page-component-items-technology-title">
-                                    <h4></h4>
-                                </div>
-                                <div className="compare-page-component-items-technology-description">
-                                    <h3></h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/*  */}
                     </div>
                 </div>
             </div>

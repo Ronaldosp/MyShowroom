@@ -95,10 +95,19 @@
                 &__model{
                     padding-top: 10px;
                 }
+                .dealerprofile-detail-cars-card__button{
+                    padding-top: 10px;
+
+                    &:hover{
+                        cursor: pointer;
+                        transform: scale(1.05);
+                    }
+                }
             }
             
         }
         .dealerprofile-detail-cars-card:hover {
+            border-radius: 1.25rem;
             transform: scale(1.05);
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }

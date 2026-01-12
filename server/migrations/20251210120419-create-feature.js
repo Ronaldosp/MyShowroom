@@ -9,10 +9,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      specification_id: {
+      car_id: {
         type: Sequelize.INTEGER,
         references:{
-          model:'Specifications',
+          model:'Cars',
         },
       },
       featureCategory_id: {

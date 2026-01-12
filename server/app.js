@@ -244,12 +244,12 @@ app.get('/cars', async(req,res)=>{
           model: Specification,
           include: [
             SpecificationCategory,
-            SpecificationField,
-            {
-              model: Feature,
-              include: [FeatureCategory]
-            }
+            SpecificationField
           ]
+        },
+        {
+          model: Feature,
+          include: [FeatureCategory]
         }
       ]
     });
@@ -262,6 +262,8 @@ app.get('/cars', async(req,res)=>{
 
 app.get('/cars/:id', async(req,res)=>{
   try {
+    console.log("GET ID");
+    
     const id = req.params.id
     const car = await Car.findByPk(id, {
       include: [
@@ -349,6 +351,8 @@ app.get('/specifications' , async(req,res)=>{
 app.post('/specifications' , async(req,res)=>{
   try {
     const {specificationCategory_id , car_id } = req.body
+    console.log(req.body , "BODY");
+    
     const specification = await Specification.create({specificationCategory_id , car_id })
     res.status(201).json(`Created New Specification for Car id: ${car_id}`)
   } catch (error) {
@@ -484,6 +488,8 @@ app.get('/specificationfields', async(req,res)=>{
 
 app.post('/specificationfields', async(req,res)=>{
   try {
+    console.log( req.body , "SPEC FIELDS BODy");
+    
     const{ specification_id , key , value , unit } = req.body
     const specificationfields= await SpecificationField.create({ specification_id , key , value , unit })
     res.status(201).json(`Created New Specification Field ${key}`)
@@ -619,8 +625,8 @@ app.get('/features', async(req,res)=>{
 
 app.post('/features', async(req,res)=>{
   try {
-    const{ specification_id , featureCategory_id, name, description , thumbnail} = req.body
-    const features= await Feature.Create({ specification_id , featureCategory_id, name, description , thumbnail})
+    const{ car_id , featureCategory_id, name, description , thumbnail} = req.body
+    const features= await Feature.Create({ car_id , featureCategory_id, name, description , thumbnail})
     res.status(201).json(`Created New Feature ${name}`)
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
@@ -631,7 +637,7 @@ app.get('/features/:id', async(req,res)=>{
   try {
     const id = req.params.id
     const features = await Feature.findOne({
-      include: [Specification],
+      include: [Car],
       where : {id}
     });
     res.status(200).json(features)
@@ -644,9 +650,9 @@ app.get('/features/:id', async(req,res)=>{
 app.put('/features/:id', async(req,res)=>{
   try {
     const {id} = req.params
-    const { specification_id , featureCategory_id, name, description , thumbnail} = req.body
+    const { car_id , featureCategory_id, name, description , thumbnail} = req.body
     const features = await Feature.update(
-      { specification_id , featureCategory_id, name, description , thumbnail},
+      { car_id , featureCategory_id, name, description , thumbnail},
       {where :{id :id}}
     )
     if(!features){

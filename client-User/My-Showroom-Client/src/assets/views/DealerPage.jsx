@@ -125,6 +125,9 @@ export default function DealerPage(){
                             <h4 className="dealerprofile-detail-cars-card__model">{car.model}</h4>
                             <p className="dealerprofile-detail-cars-card__category">{car.Category.name}</p>
                             <p className="dealerprofile-detail-cars-card__price">Rp. {car.price.toLocaleString("id-ID")} IDR</p>
+                            <div className="dealerprofile-detail-cars-card__button">
+                                <Button variant="danger" onClick={() => navigate(`/dealer/cars/${car.id}`)}>Add Specification</Button>
+                            </div>
                         </div>
                     </div>
                 ))}

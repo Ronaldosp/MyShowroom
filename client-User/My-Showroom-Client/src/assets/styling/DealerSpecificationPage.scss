@@ -1,0 +1,35 @@
+.dealerprofilespecification-container {
+  padding: 24px;
+}
+
+/* TWO COLUMN LAYOUT */
+.spec-feature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding: 80px 120px;
+}
+
+/* LEFT */
+.spec-column,
+.feature-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* CARD STYLE */
+.spec-card,
+.feature-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* TITLES */
+.spec-title,
+.feature-title {
+  font-weight: 600;
+  margin-bottom: 12px;
+}
