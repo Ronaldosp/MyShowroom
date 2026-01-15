@@ -18,7 +18,6 @@ export default function DealerPage(){
     const dealerProfileCars = useSelector(
         (state) => state.dealerReducer.dealerCars
     );
-    console.log(dealerProfileCars, "dealerProfileCars");
     
     let hasDealerProfile = false;
 
@@ -50,6 +49,8 @@ export default function DealerPage(){
         }
     }, [dealerProfile, dispatch]);
     const profile = dealerProfile?.[0];
+    console.log(profile , "profile");
+    
 
     return(
         <div className="dealerprofile-container">
@@ -126,7 +127,7 @@ export default function DealerPage(){
                             <p className="dealerprofile-detail-cars-card__category">{car.Category.name}</p>
                             <p className="dealerprofile-detail-cars-card__price">Rp. {car.price.toLocaleString("id-ID")} IDR</p>
                             <div className="dealerprofile-detail-cars-card__button">
-                                <Button variant="danger" onClick={() => navigate(`/dealer/cars/${car.id}`)}>Add Specification</Button>
+                                <Button variant="secondary" onClick={() => navigate(`/dealer/cars/${car.id}`)}>Specification</Button>
                             </div>
                         </div>
                     </div>

@@ -354,7 +354,7 @@ app.post('/specifications' , async(req,res)=>{
     console.log(req.body , "BODY");
     
     const specification = await Specification.create({specificationCategory_id , car_id })
-    res.status(201).json(`Created New Specification for Car id: ${car_id}`)
+    res.status(201).json(specification)
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }
@@ -479,7 +479,7 @@ app.delete('/specificationcategories/:id' , async(req , res)=>{
 
 app.get('/specificationfields', async(req,res)=>{
   try {
-    const specificationfields = await SpecificationField.findALl()
+    const specificationfields = await SpecificationField.findAll()
     res.status(200).json(specificationfields)
   } catch (error) {
     res.status(500).json({message: "Internal Server Error"})
@@ -492,8 +492,12 @@ app.post('/specificationfields', async(req,res)=>{
     
     const{ specification_id , key , value , unit } = req.body
     const specificationfields= await SpecificationField.create({ specification_id , key , value , unit })
+    console.log(specificationfields , "specificationfields");
+    
     res.status(201).json(`Created New Specification Field ${key}`)
+    
   } catch (error) {
+    console.log(error , "error");
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
@@ -616,7 +620,7 @@ app.delete('/featurecategories/:id' , async(req , res)=>{
 
 app.get('/features', async(req,res)=>{
   try {
-    const features = await Feature.findALl()
+    const features = await Feature.findAll()
     res.status(200).json(features)
   } catch (error) {
     res.status(500).json({message: "Internal Server Error"})
@@ -625,8 +629,10 @@ app.get('/features', async(req,res)=>{
 
 app.post('/features', async(req,res)=>{
   try {
+    console.log("BODY" ,req.body);
+    
     const{ car_id , featureCategory_id, name, description , thumbnail} = req.body
-    const features= await Feature.Create({ car_id , featureCategory_id, name, description , thumbnail})
+    const features= await Feature.create({ car_id , featureCategory_id, name, description , thumbnail})
     res.status(201).json(`Created New Feature ${name}`)
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });

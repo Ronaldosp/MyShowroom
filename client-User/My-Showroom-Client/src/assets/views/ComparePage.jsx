@@ -1,6 +1,6 @@
 import "../styling/ComparePage.scss";
 import testCar8 from "../images/test-car-8.jpg";
-import { fetchCar , fetchCategory , fetchBrands, fetchFeatureCategory ,fetchCarId  } from "../store/action/actionCreator";
+import { fetchCar , fetchCategory , fetchBrands, fetchFeatureCategory ,fetchCarId , fetchSpecificationCategory  } from "../store/action/actionCreator";
 import { useNavigate } from "react-router-dom";
 import { useState , useEffect } from "react";
 import { useSelector,useDispatch } from "react-redux";
@@ -16,11 +16,17 @@ function ComparePage(){
     const featureCategoryData = useSelector(
         (state) => state.featureCategoryReducer.featureCategories
     );
-    console.log(featureCategoryData,"featureCategoryData");
-    console.log(carData,"carData");
-    
+
+    const [activeSpecCategory, setActiveSpecCategory] = useState(
+        featureCategoryData?.[0]?.id || null
+    );
+
+    const specificationCategoryData = useSelector(
+        (state) => state.specificationCategoryReducer.specificationCategories
+    );
+
     const compareIds = JSON.parse(localStorage.getItem("compareCars")) || [];
-    console.log(compareIds,"compareIds");
+
     const comparedCars = carData.filter((car) =>
         compareIds.includes(car.id)
     );
@@ -32,6 +38,7 @@ function ComparePage(){
     useEffect(() => {
         dispatch(fetchCar())
         dispatch(fetchFeatureCategory())
+        dispatch(fetchSpecificationCategory())
     }, [dispatch]);
     
     return(
@@ -97,18 +104,94 @@ function ComparePage(){
                                         </div>
                                     );
                                 })}
-                        </div>      
+                        </div>
 
-                        {featureCategoryData.map((featureCategories) => (
-                            <div className="compare-page-component-items-performance">
-                                <h2>{featureCategories.name}</h2>
-                                <div className="compare-page-component-items-performance-container">
-                                    <div className="compare-page-component-items-performance-title">
-                                        <h4></h4>
+                        <div className="compare-specification-container">
+                            {/* LEFT — categories */}
+                            <div className="spec-categories">
+                                {specificationCategoryData.map(category => (
+                                    <div
+                                        key={category.id}
+                                        className={`spec-category-item ${
+                                            activeSpecCategory === category.id ? "active" : ""
+                                        }`}
+                                        onClick={() => setActiveSpecCategory(category.id)}
+                                    >
+                                        {category.name}
                                     </div>
-                                    <div className="compare-page-component-items-performance-description">
-                                        <h3></h3>
-                                    </div>
+                                ))}
+                            </div>
+
+                            {/* RIGHT — data of selected category */}
+                            <div className="spec-details">
+                                {comparedCars.map(car => {
+                                    const specs = car.Specifications?.filter(
+                                        s => s.SpecificationCategory?.id === activeSpecCategory
+                                    );
+
+                                    return (
+                                        <div key={car.id} className="spec-car-column">
+                                            <h4>{car.model}</h4>
+
+                                            {specs?.length ? (
+                                                specs.map(spec =>
+                                                    spec.SpecificationFields?.map(field => (
+                                                        <div key={field.id} className="spec-field">
+                                                            <span className="spec-key">{field.key}:</span>
+                                                            <span className="spec-value">{field.value} {field.unit}</span>
+                                                        </div>
+                                                    ))
+                                                )
+                                            ) : (
+                                                <p className="text-muted">No data</p>
+                                            )}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
+                        {featureCategoryData.map(category => (
+                            <div key={category.id} className="compare-page-component-items">
+                                <div className="compare-page-component-items-title">
+                                    <h2>{category.name}</h2>
+                                </div>
+                                
+                                <div className="compare-page-component-items-container">
+                                    {comparedCars.map(car => {
+                                        const features = car.Features?.filter(
+                                            s => s.FeatureCategory?.id === category.id
+                                        );
+                                        
+                                        return (
+                                            <div
+                                                key={car.id}
+                                                className={`compare-page-component-items-column-${comparedCars.length}`}
+                                            >
+                                                <div className="compare-page-component-items-column-title">
+                                                    <p>{car.model}</p>
+                                                </div>
+                                                {features?.length ? (
+                                                    features.map(feature =>
+                                                        <div key={feature.id} className="compare-page-component-items-content">
+                                                            <div className="compare-page-component-items-content-image">
+                                                                <img src={feature.thumbnail}/>
+                                                            </div>
+                                                            <div className="compare-page-component-items-content-name">
+                                                                <h4>{feature.name}</h4>
+                                                            </div>
+                                                            <div className="compare-page-component-items-content-image-description">
+                                                                <p>{feature.description}</p>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    )
+                                                ) : (
+                                                    <p className="text-muted">—</p>
+                                                )}
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         ))}

@@ -54,8 +54,25 @@ function NavBar(){
             <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="position-absolute start-50 translate-middle-x">
                 <NavLink to='/' className="nav-link">Home</NavLink>
-                <NavLink to='/listing' className="nav-link" >List Page</NavLink>
                 
+                
+                {!isDealer && (
+                    <>
+                        <NavLink to="/#collaborator" className="nav-link">
+                            Collaborators
+                        </NavLink>
+
+                        <NavLink to="/#about" className="nav-link">
+                            About Us
+                        </NavLink>
+
+                        <NavLink to="/#category" className="nav-link">
+                            Categories
+                        </NavLink>
+                    </>
+                )}
+
+                <NavLink to='/listing' className="nav-link" >List Page</NavLink>
                 {isDealer && !hasDealerProfile && (
                     <NavLink to="/dealer" className="nav-link">
                         Create Dealer Profile

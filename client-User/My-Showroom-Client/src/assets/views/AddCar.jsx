@@ -51,7 +51,7 @@ export default function AddCar(){
 
     return (
         <div style={{
-        backgroundImage: 'url("https://applescoop.org/image/wallpapers/mac/lamborghini-green-luxury-cars-8k-ultra-hd-ultra-hd-computer-desktop-image-screensavers-wallpapers-backgrounds-backdrops-display-image-theme-4k-mac-and-pc-15-03-2025-1742078814-hd-wallpaper.jpg")',
+        backgroundImage: 'url("https://wallpapers.com/images/hd/black-and-white-car-2880-x-1920-wallpaper-2ckfd8w9nmcx7uk3.jpg")',
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         minHeight: "100vh",

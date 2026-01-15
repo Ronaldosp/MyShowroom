@@ -47,7 +47,7 @@ function AddFeatureModal(props){
      <form onSubmit={(event)=>{
       event.preventDefault()
       const featureData = {
-        car_id:id,
+        car_id:Number(id),
         featureCategory_id,
         name,
         description,
@@ -92,6 +92,20 @@ function AddFeatureModal(props){
           setThumbnail(value)
         }}
          />
+         {thumbnail && (
+                <img
+                src={thumbnail}
+                alt="Preview"
+                onError={(e) => (e.target.style.display = "none")}
+                style={{
+                    marginTop: "10px",
+                    width: "100%",
+                    maxHeight: "250px",
+                    objectFit: "cover",
+                    borderRadius: "8px"
+                }}
+                />
+        )}
       </div>
       <label className="form-label">Category</label>
         <Form.Select

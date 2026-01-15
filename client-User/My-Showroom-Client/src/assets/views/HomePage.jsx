@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { createBrands, fetchBrands } from "../store/action/actionCreator.js";
+import { useLocation } from "react-router-dom";
 import Carousel from "../components/Carousel.jsx";
 import Welcome from "../components/Welcome.jsx";
 import Collaborator from "../components/Collaborators.jsx";
@@ -16,7 +17,16 @@ import CategoryCards from "../components/CategoryCard.jsx";
 import testCar8 from "../images/test-car-8.jpg";
 
 function HomePage(){
+    const location = useLocation();
 
+    useEffect(() => {
+        if (location.hash) {
+            const element = document.querySelector(location.hash);
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+    }, [location]);
     return (
         <div style={{
           backgroundImage: 'url("")',
@@ -29,11 +39,19 @@ function HomePage(){
           alignItems: "center"
         }}>
         <Carousel/>
-        <Welcome/>
-        <Collaborator/>
-        <AboutUs/>
+        <section id="welcome">
+          <Welcome/>
+        </section>
+        <section id="collaborator">
+          <Collaborator/>
+        </section>
+        <section id="about">
+          <AboutUs/>
+        </section>
         <Image src={testCar8}/>
-        <CategoryCards/>
+        <section id="category">
+          <CategoryCards/>
+        </section>
         <Footer/>
         </div>
       );

@@ -1131,11 +1131,14 @@ export const createSpecifications = (body) =>{
                 }
             }) 
             console.log(response , "specification  response create");
+            const data = await response.json(); 
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
             dispatch(fetchSpecifications())
+            console.log(data , "SPEC FIELDS DATA");
             
+            return data; 
         } catch (error) {
             console.log(error);
         }

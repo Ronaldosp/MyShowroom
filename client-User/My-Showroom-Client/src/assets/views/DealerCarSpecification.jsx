@@ -4,7 +4,7 @@ import AddSpecificationFieldsModal from "../components/AddSpecificationFieldsMod
 import { useState , useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import { useSelector,useDispatch } from "react-redux";
-import { fetchCar , fetchCategory , fetchBrands, fetchFeatureCategory , fetchSpecificationCategory , fetchCarId  , createSpecifications } from "../store/action/actionCreator";
+import { fetchCar , fetchCategory , fetchBrands, fetchFeatureCategory , fetchSpecificationCategory , fetchCarId  , createSpecifications , deleteSpecifications , deleteSpecificationFields , deleteFeature} from "../store/action/actionCreator";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
@@ -17,7 +17,6 @@ export default function DealerCarSpecification(){
     const [showSpecModal, setShowSpecModal] = useState(false);
     const [activeSpecificationId, setActiveSpecificationId] = useState(null);
 
-    console.log(id , "ttest id");
     const carData = useSelector(
         (state) => state.carReducer.carsId
     );
@@ -29,20 +28,52 @@ export default function DealerCarSpecification(){
     const specificationCategoryData = useSelector(
         (state) => state.specificationCategoryReducer.specificationCategories
     );
-    console.log(carData , "carData");
-    console.log(featureCategoryData , "featureCategoryData");
-    console.log(specificationCategoryData , "specificationCategoryData");
 
-    function handleSpecCreation(specId){
-      const specData={
-        car_id: Number(id),
-        specificationCategory_id:specId
-      }
-      setActiveSpecificationId(specId)
-      console.log(specData , "specData");
-      
-      dispatch(createSpecifications(specData))
+    async function handleSpecCreation(specId) {
+        const specData = {
+            car_id: Number(id),
+            specificationCategory_id: specId
+        };
+
+        try {
+            const createdSpec = await dispatch(createSpecifications(specData));
+
+            setActiveSpecificationId(createdSpec.id);
+            setShowSpecModal(true);
+
+        } catch (err) {
+            console.error(err);
+        }
     }
+
+    const handleDeleteSpec = async(event, fieldId , specificationId) => {
+        event.preventDefault();
+
+        try {
+            await dispatch(deleteSpecificationFields(fieldId));
+            await dispatch(deleteSpecifications(specificationId));
+
+            dispatch(fetchCarId(id));
+        } catch (err) {
+            console.error(err);
+        }
+        //Swal.fire("Specification field successfully deleted");
+    };
+
+    const handleDeleteFeature = async (event, fieldId ) => {
+        event.preventDefault();
+
+        try {
+            await dispatch(deleteFeature(fieldId));
+
+            dispatch(fetchCarId(id));
+        } catch (err) {
+            console.error(err);
+        }
+        
+        //Swal.fire("Feature successfully deleted");
+    };
+
 
     useEffect(() => {
         dispatch(fetchCarId(id))
@@ -53,6 +84,17 @@ export default function DealerCarSpecification(){
     
     return (
         <div className="dealerprofilespecification-container">
+            <div className="dealerprofilespecification-car-container">
+                <div className="dealerprofilespecification-car-brand">
+                    <h3>{carData.Brand?.name}</h3>
+                </div>
+                <div className="dealerprofilespecification-car-image">
+                    <img src={carData.thumbnail}/>
+                </div>
+                <div className="dealerprofilespecification-car-title">
+                    <h2>{carData.model}</h2>
+                </div>
+            </div>
 
             <div className="spec-feature-grid">
             
@@ -60,39 +102,61 @@ export default function DealerCarSpecification(){
             <div className="spec-column">
                 <h4 className="mb-3">Specifications</h4>
                 
-                {specificationCategoryData.map((spec) => (
-                
-                <div key={spec.id} className="spec-card">
+                {specificationCategoryData.map((spec) => {
+                    const specifications = carData?.Specifications?.filter(
+                        s => s.SpecificationCategory?.id === spec.id
+                    );
 
-                    <h6 className="spec-title">{spec.name}</h6>
-                    <Button size="sm" variant="outline-primary"
-                        onClick={() => {
-                            handleSpecCreation(spec.id)
-                            setShowSpecModal(true);
-                        }}
-                    >
-                        + Add Specification
-                    </Button>
-                    <table className="table table-sm">
-                    <thead>
-                        <tr>
-                        <th>Field</th>
-                        <th>Value</th>
-                        <th width="120">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                        <td colSpan="3" className="text-muted text-center">
-                            No specification added
-                        </td>
-                        </tr>
-                    </tbody>
-                    </table>
-
+                    console.log(specifications , "specification");
                     
-                </div>
-                ))}
+
+                    return (
+                        <div key={spec.id} className="spec-card">
+                        <h6 className="spec-title">{spec.name}</h6>
+                        <Button size="sm" variant="outline-primary"
+                            onClick={() => {
+                                handleSpecCreation(spec.id)
+                                setShowSpecModal(true);
+                            }}
+                        >
+                            + Add Specification
+                        </Button>
+
+                        <table className="table table-sm">
+                            <thead>
+                                <tr>
+                                <th>Key</th>
+                                <th>Value</th>
+                                <th>Unit</th>
+                                <th width="120">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {specifications?.length ? (
+                                specifications.map(specItem =>
+                                    specItem.SpecificationFields?.map(field => (
+                                    <tr key={field.id}>
+                                        <td>{field.key}</td>
+                                        <td>{field.value}</td>
+                                        <td>{field.unit}</td>
+                                        <td>
+                                            <Button onClick={(event) => handleDeleteSpec(event, field.id , field.specification_id )} variant="danger">Delete</Button>
+                                        </td>
+                                    </tr>
+                                    ))
+                                )
+                            ) : (
+                            <tr>
+                                <td colSpan="4" className="text-muted text-center">
+                                No specification added
+                                </td>
+                            </tr>
+                            )}
+                            </tbody>
+                        </table>
+                        </div>
+                    );
+                })}
             </div>
 
             {showSpecModal && (
@@ -119,31 +183,57 @@ export default function DealerCarSpecification(){
                         + Add Feature
                 </Button>
 
-                {featureCategoryData.map((category) => (
-                <div key={category.id} className="feature-card">
+                {featureCategoryData.map(category => {
+                    const features = carData?.Features?.filter(
+                        f => f.featureCategory_id === category.id
+                    );
 
-                    <h6 className="feature-title">{category.name}</h6>
-                    
+                    return (
+                        <div key={category.id} className="feature-card">
+                        <h6 className="feature-title">{category.name}</h6>
 
-                    <table className="table table-sm">
-                    <thead>
-                        <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Image</th>
-                        <th width="120">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                        <td colSpan="4" className="text-muted text-center">
-                            No features added
-                        </td>
-                        </tr>
-                    </tbody>
-                    </table>
-                </div>
-                ))}
+                        <table className="table table-sm">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Image</th>
+                                <th width="120">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {features?.length ? (
+                                features.map(feature => (
+                                <tr key={feature.id}>
+                                    <td>{feature.name}</td>
+                                    <td>{feature.description}</td>
+                                    <td>
+                                    {feature.thumbnail && (
+                                        <img
+                                        src={feature.thumbnail}
+                                        alt={feature.name}
+                                        style={{ width: 60, borderRadius: 4 }}
+                                        />
+                                    )}
+                                    </td>
+                                    <td>
+                                        <Button onClick={(event) => handleDeleteFeature(event, feature.id)} variant="danger">Delete</Button>
+                                    </td>
+                                    <td />
+                                </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                <td colSpan="4" className="text-muted text-center">
+                                    No features added
+                                </td>
+                                </tr>
+                            )}
+                            </tbody>
+                        </table>
+                        </div>
+                    );
+                })}
             </div>
 
             {showFeatureModal && (
