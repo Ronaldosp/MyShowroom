@@ -18,7 +18,7 @@ function CategoryPage(){
     
     useEffect(()=>{
        dispatch(fetchCategory())
-    },[])
+    },[dispatch])
 
     const [modalShow, setModalShow] = useState(false);
 

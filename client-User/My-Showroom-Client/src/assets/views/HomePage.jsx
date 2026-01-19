@@ -33,7 +33,6 @@ function HomePage(){
           backgroundSize: "cover",
           // backgroundColor: '#20B2AA',
           backgroundRepeat: "no-repeat",
-          minHeight: "100vh",
           display: "flex",
           flexDirection: "column",
           alignItems: "center"

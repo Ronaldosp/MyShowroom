@@ -7,6 +7,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Button from "react-bootstrap/Button";
 import { jwtDecode } from "jwt-decode";
 import { fetchDealerUserProfile } from "../store/action/actionCreator";
+import "../styling/Navbar.scss"
 
 function NavBar(){
     const navigate = useNavigate();
@@ -52,7 +53,7 @@ function NavBar(){
             
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="position-absolute start-50 translate-middle-x">
+            <Nav className="mx-auto navbar-center">
                 <NavLink to='/' className="nav-link">Home</NavLink>
                 
                 

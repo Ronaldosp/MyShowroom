@@ -28,3 +28,13 @@
         }
     }
 }
+
+@media (max-width:767px){
+    .aboutus-container{
+        width: 100%;
+        .aboutus-container-content{
+            width: 80%;
+            margin: 40px 0;
+        }
+    }
+}

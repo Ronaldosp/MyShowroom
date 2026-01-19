@@ -1,4 +1,4 @@
-.carousel {
+  .carousel {
     position: relative;
     width: 100%;
     max-width: 100%;
@@ -67,4 +67,14 @@
       background: white;
     }
   }
+  
+@media (max-width:767px){
+   .carousel {
+     height: 550px;
+   }
+
+   .carousel-slide{
+    height: 550px;
+   }
+}
   

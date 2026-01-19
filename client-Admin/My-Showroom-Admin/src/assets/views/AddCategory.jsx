@@ -33,6 +33,7 @@ function AddCategory(props){
       }
       console.log(categoryData);
       dispatch(createCategory(categoryData))
+      dispatch(fetchCategory())
       props.onHide()
     }}>
       <div className="mb-3">

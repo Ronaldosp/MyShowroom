@@ -16,23 +16,25 @@ export default function CategoryCards(){
 
     return(
         <div className="category-cards-container">
-            <div className="category-cards-top-content">
-                <div className="category-cards-title">
-                    <h5>Vehicle Options</h5>
+                <div className="category-cards-top-content">
+                    <div className="category-cards-title">
+                        <h5>Vehicle Options</h5>
+                    </div>
+                    <div className="category-cards-description">
+                        <h3>Browse by Category</h3>
+                    </div>
                 </div>
-                <div className="category-cards-description">
-                    <h3>Browse by Category</h3>
+                <div className="category-cards-bottom-content">
+                    <div className="category-cards-card">
+                        {(
+                            data
+                            .slice(0, 7)
+                            .map((el , index) => {
+                                return <CardName el={el} index={++index} key={el.id} />;
+                            })
+                        )}
+                    </div>
                 </div>
-            </div>
-            <div className="category-cards-bottom-content">
-                <div className="category-cards-card">
-                    {(
-                        data.map((el , index) => {
-                            return <CardName el={el} index={++index} key={el.id} />;
-                        })
-                    )}
-                </div>
-            </div>
         </div>
     )
 }

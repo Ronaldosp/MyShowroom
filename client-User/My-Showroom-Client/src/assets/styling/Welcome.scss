@@ -32,3 +32,18 @@
         }
     }
 }
+
+@media (max-width:767px){
+    .welcome-container{
+
+        .welcome-description{
+            width: 80%;
+        }
+        .welcome-icon{
+            
+            img{
+                width: 150px;
+            }
+        }
+    }
+}

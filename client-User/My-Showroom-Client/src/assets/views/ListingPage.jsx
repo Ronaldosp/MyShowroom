@@ -8,6 +8,7 @@ import { fetchCar , fetchCategory , fetchBrands  } from "../store/action/actionC
 export default function ListingPage(){
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [showFilter, setShowFilter] = useState(false);
 
     const dataCategories = useSelector((state)=>{
       return state.categoryReducer.categories
@@ -110,7 +111,13 @@ export default function ListingPage(){
                         Compare ({compareCount})
                     </div>
                 )}
-                <div className="listing-page-left-side">
+                <div className={`listing-page-left-side ${showFilter ? "open" : ""}`}>
+                    <button
+                        className="close-filter"
+                        onClick={() => setShowFilter(false)}
+                        >
+                        ✕ Close
+                    </button>
                     <div className="listing-page-filter-container">
                         <h4>Search</h4>
                         <div className="listing-page-filter-search">
@@ -149,6 +156,9 @@ export default function ListingPage(){
                         </div>
                     </div>
                 </div>
+                <div className="mobile-filter-btn">
+                    <button onClick={() => setShowFilter(true)}>Filter</button>
+                </div>
                 <div className="listing-page-right-side">
                     <div className="listing-page-card-container">
                         {filteredCars.map((car) => (
@@ -161,10 +171,34 @@ export default function ListingPage(){
                                             : addToCompare(car.id)
                                         }
                                         aria-label="Compare car">
-                                        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024"  height="20" width="20" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8Z"></path>
-                                            <path d="M192 474h672q8 0 8 8v60q0 8-8 8H160q-8 0-8-8v-60q0-8 8-8Z"></path>
-                                        </svg>
+                                        {isCompared(car.id) ? (
+                                            <svg
+                                                stroke="currentColor"
+                                                fill="currentColor"
+                                                strokeWidth="0"
+                                                viewBox="0 0 1024 1024"
+                                                height="20"
+                                                width="20"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                            {/* Minus icon */}
+                                                <path d="M192 474h672q8 0 8 8v60q0 8-8 8H192q-8 0-8-8v-60q0-8 8-8Z"></path>
+                                            </svg>
+                                        ) : (
+                                            <svg
+                                                stroke="currentColor"
+                                                fill="currentColor"
+                                                strokeWidth="0"
+                                                viewBox="0 0 1024 1024"
+                                                height="20"
+                                                width="20"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                            {/* Plus icon */}
+                                                <path d="M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8Z"></path>
+                                                <path d="M192 474h672q8 0 8 8v60q0 8-8 8H160q-8 0-8-8v-60q0-8 8-8Z"></path>
+                                            </svg>
+                                        )}
                                         <span className="btn-text">{isCompared(car.id) ? "Added" : "Compare"}</span>
                                     </a >
                                 </div>

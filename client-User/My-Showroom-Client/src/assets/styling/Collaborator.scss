@@ -56,3 +56,26 @@
         }
     }
 }
+
+@media (max-width:767px){
+    .collaborator-container{
+        width: 100%;
+        .collaborator-content-container{
+            width: 100%;
+            margin: 0;
+            .collaborator-content-description{
+                padding: 0 40px;
+            }
+            .collaborator-content-image-container{
+                
+                .collaborator-content-image{
+
+                    img{
+                        width: 100px;
+                        height: 100px;
+                    }
+                }
+            }
+        }
+    }
+}
