@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 
 function NavBar(){
     const navigate = useNavigate();
+    const isLoggedIn = !!localStorage.getItem("access_token");
     const handleLogout = ()=>{
         localStorage.clear()
         navigate('/login')
@@ -14,11 +15,11 @@ function NavBar(){
     return <div>
         <Navbar expand="lg" className="bg-body-tertiary">
         <Container>
-            <Navbar.Brand >My Showroom Admin</Navbar.Brand>
+            <Navbar.Brand as={Link} to="/">My Showroom Admin</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-                <NavLink to='/' className="nav-link">Home</NavLink>
+            <Nav className="position-absolute start-50 translate-middle-x">
+                <NavLink to='/brands' className="nav-link">Brands</NavLink>
                 {/* <NavLink to='/brand' className="nav-link" >Brands</NavLink> */}
                 <NavLink to='/categories' className="nav-link" >Categories</NavLink>
                 <NavLink to='/cars' className="nav-link" >Add Cars</NavLink>
@@ -26,8 +27,17 @@ function NavBar(){
                 <NavLink to='/specificationcategories' className="nav-link" >Specification Categories</NavLink>
             </Nav>
             <Nav className="ms-auto">
-            <NavLink to='/register' className="nav-link d-flex-end" >Register</NavLink>
-            <Button onClick={handleLogout} variant="outline-danger" >Logout</Button>
+                {!isLoggedIn ? (
+                    <>
+                    <NavLink to="/register" className="nav-link">
+                        Register
+                    </NavLink>
+                    </>
+                ) : (
+                    <Button onClick={handleLogout} variant="danger">
+                    Logout
+                    </Button>
+                )}
             </Nav>
             </Navbar.Collapse>
         </Container>

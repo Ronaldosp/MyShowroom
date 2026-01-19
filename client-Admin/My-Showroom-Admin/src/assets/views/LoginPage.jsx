@@ -18,6 +18,7 @@ function LoginPage() {
     }
     dispatch(login(loginData))
     .then(()=>{
+      Swal.fire("Admin Login Successfull");
       navigate('/')
     })
     
@@ -27,7 +28,7 @@ function LoginPage() {
   return (
     <>
     <div className="LoginPage-Component" style={{
-        backgroundImage: 'url("https://static.vecteezy.com/system/resources/previews/020/115/455/large_2x/food-background-breakfast-with-yogurt-granola-or-muesli-strawberries-banner-image-for-website-photo.jpg")',
+        backgroundImage: 'url("https://www.topgear.com/sites/default/files/images/news-article/2015/07/a30031998bbb016474519ca452ccce84/a_rp_-_opener.jpg")',
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         minHeight: "100vh",

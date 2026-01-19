@@ -9,19 +9,36 @@ import { useParams } from "react-router-dom";
 
 
 
-function AddSpecificationFieldsModal({ show, onHide, specificationId }){
+function AddSpecificationFieldsModal({ show, onHide, specificationId , specificationName}){
 
     const [key , setKey] = useState("")
     const [value , setValue] = useState("")
     const [unit , setUnit] = useState("")
+    const [overviewType, setOverviewType] = useState("");
+    const overviewOptions = [
+      "Engine Name",
+      "Acceleration",
+      "Power Output",
+      "Drive System"
+    ];
     console.log(specificationId ,"specificationId MODAL");
-    
+    console.log(specificationName ,"specificationName MODAL");
+
+    const overviewWithoutUnit = ["Engine Name", "Drive System"];
+    const isOverviewWithoutUnit =
+    specificationName === "Overview" &&
+    overviewWithoutUnit.includes(overviewType);
 
     const dispatch = useDispatch()
 
-    useEffect(()=>{
-
-    },[dispatch])
+    useEffect(() => {
+      if (
+        specificationName === "Overview" &&
+        overviewWithoutUnit.includes(overviewType)
+      ) {
+        setUnit("");
+      }
+    }, [overviewType, specificationName]);
     
     return <Modal
     show={show}
@@ -43,32 +60,48 @@ function AddSpecificationFieldsModal({ show, onHide, specificationId }){
       event.preventDefault()
       const fieldData = {
         specification_id :specificationId,
-        key,
+        key: specificationName === "Overview" ? overviewType : key,
         value,
-        unit,
+        unit: isOverviewWithoutUnit ? "N/A" : unit,
       }
       console.log(fieldData, "FIELDS DATA");
-      dispatch(createSpecificationFields(fieldData))
+      dispatch(createSpecificationFields(fieldData)).then(() => {
+        onHide();
+      });
       setKey("");
       setValue("");
       setUnit("");
-
-      onHide();
+      setOverviewType("");
     }}>
+      {specificationName === "Overview" ? (
+        <div className="mb-3">
+          <label className="form-label">Overview Type</label>
+          <select
+            className="form-select"
+            value={overviewType}
+            onChange={(e) => setOverviewType(e.target.value)}
+          >
+            <option value="">Select overview type</option>
+            {overviewOptions.map((opt, idx) => (
+              <option key={idx} value={opt}>
+                {opt}
+              </option>
+            ))}
+          </select>
+        </div>
+      ) : (
+        <div className="mb-3">
+          <label className="form-label">Field Name</label>
+          <input
+            className="form-control"
+            type="text"
+            value={key}
+            onChange={(e) => setKey(e.target.value)}
+          />
+        </div>
+      )}
       <div className="mb-3">
-        <label className="form-label">Field Name</label>
-        <input 
-        className="form-control" 
-        type="text"
-        value={key}
-        onChange={(event)=>{
-          const value = event.target.value
-          setKey(value)
-        }}
-         />
-      </div>
-      <div className="mb-3">
-        <label className="form-label">Value (Amount)</label>
+        <label className="form-label">{isOverviewWithoutUnit ? "Name" : "Value (Amount)"}</label>
         <input 
         className="form-control" 
         type="text"
@@ -79,18 +112,20 @@ function AddSpecificationFieldsModal({ show, onHide, specificationId }){
         }}
          />
       </div>
-      <div className="mb-3">
-        <label className="form-label">Unit ( HP , CM , MM)</label>
-        <input 
-        className="form-control" 
-        type="text"
-        value={unit}
-        onChange={(event)=>{
-          const value = event.target.value
-          setUnit(value)
-        }}
-         />
-      </div>
+      {!(
+        specificationName === "Overview" &&
+        overviewWithoutUnit.includes(overviewType)
+      ) && (
+        <div className="mb-3">
+          <label className="form-label">Unit ( HP , CM , MM)</label>
+          <input 
+            className="form-control" 
+            type="text"
+            value={unit}
+            onChange={(e) => setUnit(e.target.value)}
+          />
+        </div>
+      )}
         <div className="d-flex justify-content-center text-align-center mt-4">
         <button type="submit" className="btn btn-success">
           Create

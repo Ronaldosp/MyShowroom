@@ -78,7 +78,7 @@ function ComparePage(){
                                         </div>
 
                                         <div className="compare-page-component-items-price-nominal">
-                                            <h4>{car.price}</h4>
+                                            <h4>RP {car.price.toLocaleString('ID')} ,00</h4>
 
                                             {isCheapest && (
                                             <span className="price-tag cheapest">

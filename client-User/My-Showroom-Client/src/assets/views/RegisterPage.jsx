@@ -12,7 +12,7 @@ function RegisterPage(){
     const dispatch = useDispatch()
     return <>
         <div style={{
-        backgroundImage: 'url("https://i.etsystatic.com/23444619/r/il/c95fc2/3826885344/il_fullxfull.3826885344_p6rt.jpg")',
+        backgroundImage: 'url("https://image-0.uhdpaper.com/wallpaper/sports-car-mountains-retrowave-synthwave-hd-wallpaper-uhdpaper.com-233@0@k.jpg")',
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         minHeight: "100vh",

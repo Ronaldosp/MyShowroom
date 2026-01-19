@@ -49,7 +49,7 @@ function NavBar(){
     return <div>
         <Navbar expand="lg" className="bg-body-tertiary">
         <Container>
-            <Navbar.Brand>My Showroom</Navbar.Brand>
+            
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="position-absolute start-50 translate-middle-x">
@@ -72,7 +72,7 @@ function NavBar(){
                     </>
                 )}
 
-                <NavLink to='/listing' className="nav-link" >List Page</NavLink>
+                <NavLink to='/listing' className="nav-link" >Car List</NavLink>
                 {isDealer && !hasDealerProfile && (
                     <NavLink to="/dealer" className="nav-link">
                         Create Dealer Profile
@@ -92,12 +92,20 @@ function NavBar(){
                 )}
             </Nav>
             <Nav className="ms-auto">
-                {!isLoggedIn && (
+                {!isLoggedIn ? (
                     <>
-                        <NavLink to="/register" className="nav-link">Register</NavLink>
+                    <NavLink to="/login" className="nav-link">
+                        Login
+                    </NavLink>
+                    <NavLink to="/register" className="nav-link">
+                        Register
+                    </NavLink>
                     </>
+                ) : (
+                    <Button onClick={handleLogout} variant="danger">
+                    Logout
+                    </Button>
                 )}
-                <Button onClick={handleLogout} variant="danger" >Logout</Button>
             </Nav>
             </Navbar.Collapse>
         </Container>

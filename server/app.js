@@ -494,7 +494,7 @@ app.post('/specificationfields', async(req,res)=>{
     const specificationfields= await SpecificationField.create({ specification_id , key , value , unit })
     console.log(specificationfields , "specificationfields");
     
-    res.status(201).json(`Created New Specification Field ${key}`)
+    res.status(201).json({key})
     
   } catch (error) {
     console.log(error , "error");

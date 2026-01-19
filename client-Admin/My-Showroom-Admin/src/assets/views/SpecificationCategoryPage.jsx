@@ -41,7 +41,7 @@ function SpecificationCategoryPage(){
             padding: '25px 30px',
             borderRadius: '5px',
             boxShadow: '0 5px 10px rgba(0, 0, 0, 0.15)'}}>
-          <h1 className="d-flex justify-content-center text-align-center" style={{fontFamily:'Times New Roman' , fontStyle:'italic'}}>Feature Category List</h1>
+          <h1 className="d-flex justify-content-center text-align-center" >Specification Category List</h1>
           <div className="d-flex justify-content-center text-align-center">
             <Button variant="outline-primary" onClick={() => setModalShow(true)}>
               Add New Specification Category

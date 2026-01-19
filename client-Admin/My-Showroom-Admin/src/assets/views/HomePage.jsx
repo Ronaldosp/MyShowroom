@@ -1,76 +1,76 @@
-import { NavLink, Outlet } from "react-router-dom";
-import Table from "react-bootstrap/Table";
-import Button from "react-bootstrap/Button";
+import "../styling/HomePage.scss";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import AddBrand from "./AddBrand"
-import { createBrands, fetchBrands } from "../store/action/actionCreator.js";
-import BrandTable from "../components/BrandTable";
-
+import { fetchBrands, fetchCategory, fetchFeatureCategory , fetchScpecificationCategory , fetchCar} from "../store/action/actionCreator.js";
+import CarsPerBrandChart from "../components/CarsPerBrandChart.jsx";
+import RecentlyAddedCars from "../components/RecentlyAddedCars.jsx";
 
 function HomePage() {
-    const data = useSelector((state)=>{
+    const categoryData = useSelector((state)=>{
+        return state.categoryReducer.categories
+    })
+
+     const specificationCategoryData = useSelector((state)=>{
+        return state.specificationCategoryReducer.specificationCategories
+    })
+
+    const featureCategoriesData = useSelector((state)=>{
+        return state.featureCategoryReducer.featureCategories
+    })
+
+    const brandData = useSelector((state)=>{
      return state.brandReducer.brands
     })
-    console.log(data , "data");
-    const dispatch = useDispatch()
-    
-    useEffect(()=>{
-       dispatch(fetchBrands())
-    },[])
-  const [modalShow, setModalShow] = useState(false);
 
-  return (
-    <div style={{
-      backgroundImage: 'url("")',
-      backgroundSize: "cover",
-      // backgroundColor: '#20B2AA',
-      backgroundRepeat: "no-repeat",
-      minHeight: "100vh",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center"
-    }}>
-      <div className="container " style={{
-        maxWidth: '1000px',
-        width: '100%',
-        backgroundColor: 'white',
-        padding: '25px 30px',
-        borderRadius: '5px',
-        boxShadow: '0 5px 10px rgba(0, 0, 0, 0.15)'}}>
-      <h1 className="d-flex justify-content-center text-align-center" style={{fontFamily:'Times New Roman' , fontStyle:'italic'}}>Brand List</h1>
-      <div className="d-flex justify-content-center text-align-center">
-        <Button variant="outline-primary" onClick={() => setModalShow(true)}>
-          Add New Brands
-        </Button>
-      </div>
-      <AddBrand show={modalShow} onHide={() => setModalShow(false)} />
-      <div className="container">
-        {/* BaseCard */}
-        <div className=" row container d-flex grid gap-3 mt-4 row mx-auto ">
-          <Table striped bordered hover>
-            <thead >
-              <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Logo</th>
-                <th>Country</th>
-              </tr>
-            </thead>
-            {(
-              data.map((el , index) => {
-                return <BrandTable el={el} index={++index} key={el.id} />;
-              })
-            )}
-          </Table>
+    const carData = useSelector(
+        (state) => state.carReducer.cars
+    );
+    
+    const dispatch = useDispatch();
+
+    useEffect(()=>{
+        dispatch(fetchCategory())
+        dispatch(fetchBrands())
+        dispatch(fetchFeatureCategory())
+        dispatch(fetchScpecificationCategory())
+        dispatch(fetchCar())
+    },[dispatch])
+
+    return(
+        <div className="homepage-container">
+            <div className="homepage-cards-container">
+                <h2 className="homepage-title">Dashboard</h2>
+
+                <div className="homepage-cards">
+                    <div className="stat-card stat-brand">
+                    <p className="stat-card-title">Brands</p>
+                    <h1 className="stat-card-value">{brandData.length}</h1>
+                    </div>
+
+                    <div className="stat-card stat-category">
+                    <p className="stat-card-title">Categories</p>
+                    <h1 className="stat-card-value">{categoryData.length}</h1>
+                    </div>
+
+                    <div className="stat-card stat-feature">
+                    <p className="stat-card-title">Feature Categories</p>
+                    <h1 className="stat-card-value">{featureCategoriesData.length}</h1>
+                    </div>
+
+                    <div className="stat-card stat-spec">
+                    <p className="stat-card-title">Specification Categories</p>
+                    <h1 className="stat-card-value">{specificationCategoryData.length}</h1>
+                    </div>
+                </div>
+            </div>
+
+            <div className="dashboard-grid">
+                <CarsPerBrandChart cars={carData} brands={brandData} />
+                <RecentlyAddedCars cars={carData} />
+            </div>
         </div>
-      </div>
-      <Outlet />
-      </div>
-    </div>
-  );
+    )
 }
 
-export default HomePage;
+export default HomePage

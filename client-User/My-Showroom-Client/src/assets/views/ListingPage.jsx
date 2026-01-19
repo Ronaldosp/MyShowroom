@@ -183,7 +183,7 @@ export default function ListingPage(){
                                             <p>Rp. {car.price.toLocaleString("id-ID")} IDR</p>
                                         </div>
                                         <div className="listing-page-card-button">
-                                                <a href="#" >Learn More</a>
+                                                <a onClick={() => navigate(`/detail/${car.id}`)} >Learn More</a>
                                         </div>
                                     </div>
                                 </div>

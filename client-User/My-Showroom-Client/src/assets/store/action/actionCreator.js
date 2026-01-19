@@ -107,6 +107,7 @@ export const register = (body) =>{
             }
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -126,10 +127,13 @@ export const login = (body) =>{
             }
             const data = await response.json()
             localStorage.setItem("access_token", data.access_token);
-
+            console.log(data , "LOGINDATA");
+            
+            return data;
 
         } catch (error) {
             console.log(error);
+            throw error;
             
         }
     }
@@ -154,6 +158,7 @@ export const fetchBrands = () =>{
        
         } catch (error) {
             console.log(error);
+            throw error;
             
         }
     }
@@ -179,6 +184,7 @@ export const createBrands = (body) =>{
             
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -203,6 +209,7 @@ export const editBrand = (id , body) =>{
             
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -226,6 +233,7 @@ export const deleteBrand= (id) =>{
             
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -252,6 +260,7 @@ export const fetchCategory = () =>{
        
         } catch (error) {
             console.log(error);
+            throw error;
             
         }
     }
@@ -277,6 +286,7 @@ export const createCategory = (body) =>{
             
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -301,6 +311,7 @@ export const editCategory = (id , body) =>{
             
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -324,6 +335,7 @@ export const deleteCategory= (id) =>{
             
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -348,6 +360,7 @@ export const fetchCar = () =>{
        
         } catch (error) {
             console.log(error);
+            throw error;
             
         }
     }
@@ -371,6 +384,7 @@ export const fetchCarId = (id) =>{
        
         } catch (error) {
             console.log(error);
+            throw error;
             
         }
     }
@@ -396,6 +410,7 @@ export const createCar = (body) =>{
             
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -420,6 +435,7 @@ export const editCar = (id , body) =>{
             
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -443,6 +459,7 @@ export const deleteCar= (id) =>{
             
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -468,6 +485,7 @@ export const fetchDealer = () =>{
        
         } catch (error) {
             console.log(error);
+            throw error;
             
         }
     }
@@ -493,6 +511,7 @@ export const fetchDealerId = (id) =>{
        
         } catch (error) {
             console.log(error);
+            throw error;
             
         }
     }
@@ -522,6 +541,7 @@ export const fetchDealerIdCars = (id) =>{
        
         } catch (error) {
             console.log(error);
+            throw error;
             
         }
     }
@@ -550,6 +570,7 @@ export const fetchDetailCars = (id) =>{
        
         } catch (error) {
             console.log(error);
+            throw error;
             
         }
     }
@@ -576,6 +597,7 @@ export const fetchDealerUserProfile = (id) =>{
        
         } catch (error) {
             console.log(error);
+            throw error;
             
         }
     }
@@ -601,6 +623,7 @@ export const fetchDealerUserProfileDetail = (id) =>{
        
         } catch (error) {
             console.log(error);
+            throw error;
             
         }
     }
@@ -628,6 +651,7 @@ export const fetchDealerBrand = () =>{
        
         } catch (error) {
             console.log(error);
+            throw error;
             
         }
     }
@@ -653,6 +677,7 @@ export const createDealer = (body) =>{
             
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -677,6 +702,7 @@ export const editDealer = (id , body) =>{
             
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -700,6 +726,7 @@ export const deleteDealer= (id) =>{
             
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -725,6 +752,7 @@ export const fetchFeatureCategory = () =>{
        
         } catch (error) {
             console.log(error);
+            throw error;
             
         }
     }
@@ -750,6 +778,7 @@ export const createFeatureCategory = (body) =>{
             
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -774,6 +803,7 @@ export const editFeatureCategory = (id , body) =>{
             
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -797,6 +827,7 @@ export const deleteFeatureCategory= (id) =>{
             
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -822,6 +853,7 @@ export const fetchFeature = () =>{
        
         } catch (error) {
             console.log(error);
+            throw error;
             
         }
     }
@@ -847,6 +879,7 @@ export const createFeature = (body) =>{
             
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -871,6 +904,7 @@ export const editFeature = (id , body) =>{
             
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -894,6 +928,7 @@ export const deleteFeature = (id) =>{
             
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -919,6 +954,7 @@ export const fetchSpecificationCategory = () =>{
        
         } catch (error) {
             console.log(error);
+            throw error;
             
         }
     }
@@ -941,9 +977,9 @@ export const createSpecificationCategory = (body) =>{
                 throw new Error('Something went wrong!');
             }
             dispatch(fetchSpecificationCategory())
-            
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -968,6 +1004,7 @@ export const editSpecificationCategory = (id , body) =>{
             
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -991,6 +1028,7 @@ export const deleteSpecificationCategory= (id) =>{
             
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -1016,6 +1054,7 @@ export const fetchSpecificationFields = () =>{
        
         } catch (error) {
             console.log(error);
+            throw error;
             
         }
     }
@@ -1037,10 +1076,16 @@ export const createSpecificationFields = (body) =>{
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
+
+            const data = await response.json();
+            console.log(data , "SPEC FIELDS DATA");
+            
             dispatch(fetchSpecificationFields())
+            return data;
             
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -1065,6 +1110,7 @@ export const editSpecificationFields = (id , body) =>{
             
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -1088,6 +1134,7 @@ export const deleteSpecificationFields = (id) =>{
             
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -1113,6 +1160,7 @@ export const fetchSpecifications = () =>{
        
         } catch (error) {
             console.log(error);
+            throw error;
             
         }
     }
@@ -1141,6 +1189,7 @@ export const createSpecifications = (body) =>{
             return data; 
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -1165,6 +1214,7 @@ export const editSpecifications = (id , body) =>{
             
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }
@@ -1188,6 +1238,7 @@ export const deleteSpecifications = (id) =>{
             
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 }

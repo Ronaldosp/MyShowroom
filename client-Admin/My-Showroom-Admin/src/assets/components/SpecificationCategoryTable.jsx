@@ -11,7 +11,7 @@ function SpecificationCategoryTable({el , index}) {
     event.preventDefault()
     const id = el.id
     dispatch(deleteScpecificationCategory(id))
-    Swal.fire("Feature Category Successfully Deleted");
+    Swal.fire("Specification Category Successfully Deleted");
   }
 
   return (

@@ -1,0 +1,245 @@
+.car-detail-component{
+
+    .car-detail-component_container{
+
+        .car-detail-component_content{
+
+            .car-detail-component_content-image{
+
+                img{
+
+                }
+            }
+
+            .car-detail-component_content-navbar{
+                display: flex;
+                text-align: center;
+                gap: 30px;
+                padding-left: 11rem;
+                padding-top: 5px;
+                .car-detail-component_content-navbar-title{
+
+                }
+                button{
+                    background: none;
+                    
+                }
+            }
+            .car-detail-component_content-overview-wrapper{
+                .car-detail-component_content-overview-title{
+                    padding-left: 11rem;
+                    padding-top: 30px;
+                }
+                .car-detail-component_content-overview{
+                    display: flex;
+                    justify-content: space-around;
+                    .car-detail-component_content-overview-spec{
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                    }
+                }
+            }
+
+            .car-detail-component_content-feature{
+                padding: 0 11rem;
+                .car-detail-component_content-feature-wrapper{
+                    padding: 4rem 0 0 0;
+                    .car-detail-component_content-feature-title-main{
+                        padding-bottom: 4rem;
+                        text-align: center;
+                    }
+                    .car-detail-component_content-feature-grid{
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 20px;
+                        .car-detail-component_content-feature-container{
+                            display: flex;
+                            flex-direction: column;
+                            
+                        }
+
+                        .feature-main {
+                            grid-column: span 2;
+                            img {
+                                width: 100%;
+                                height: 360px;
+                                object-fit: cover;
+                            }
+                        }
+
+                        .feature-secondary {
+                            img {
+                                width: 100%;
+                                height: 180px;
+                                object-fit: cover;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .car-detail-component_content-specs{
+                padding: 4rem 11rem 4rem 11rem;
+                .car-detail-component_specs-item {
+                    border-bottom: 1px solid #ddd;
+                    .car-detail-component_specs-header {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        cursor: pointer;
+                        padding: 16px 0;
+
+                        h4 {
+                            margin: 0;
+                            font-weight: 600;
+                        }
+
+                        .spec-toggle-icon {
+                            font-size: 24px;
+                            font-weight: 300;
+                        }
+                    }
+
+                    .car-detail-component_specs-content {
+                        padding: 10px 0 20px;
+                        .car-detail-component_specs-row {
+                            display: flex;
+                            justify-content: space-between;
+                            padding: 6px 0;
+
+                            .spec-label {
+                                color: #555;
+                            }
+
+                            .spec-value {
+                                font-weight: 500;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            .car-detail-component-contact-us {
+                position: relative;
+                min-height: 90vh;
+                display: flex;
+                align-items: center;
+                padding: 80px 120px;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url("https://images.unsplash.com/photo-1625690180114-5530b1304127?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y2FyJTIwaW50ZXJpb3J8ZW58MHx8MHx8fDA%3D");
+                &::before {
+                    content: "";
+                    position: absolute;
+                    inset: 0;
+                    background: rgba(0, 0, 0, 0.45);
+                }
+            }
+
+            .car-detail-component-contact-us-container {
+                position: relative;
+                z-index: 2;
+                max-width: 520px;
+                background: #fff;
+                padding: 40px 36px;
+                border-radius: 4px;
+            }
+
+            .car-detail-component-contact-us-title {
+                text-align: center;
+                margin-bottom: 30px;
+
+                h2 {
+                    font-size: 20px;
+                    font-weight: 600;
+                    line-height: 1.4;
+                }
+            }
+
+            /* FORM */
+            .car-detail-component-contact-us-form {
+                display: flex;
+                flex-direction: column;
+                gap: 18px;
+
+                input,
+                select {
+                    width: 100%;
+                    height: 44px;
+                    padding: 0 14px;
+                    border: 1px solid #ccc;
+                    border-radius: 3px;
+                    font-size: 14px;
+
+                    &:focus {
+                    outline: none;
+                    border-color: #0072ce;
+                    }
+                }
+            }
+
+            /* ROWS */
+            .car-detail-component-contact-us-form-row {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+
+                &.full {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            /* TERMS */
+            .car-detail-component-contact-us-form-terms {
+                font-size: 12px;
+                color: #555;
+                line-height: 1.5;
+                
+                a {
+                    color: #0072ce;
+                    text-decoration: none;
+                }
+
+                input {
+                    margin-right: 8px;
+                    width: unset;
+                }
+
+                label{
+                    display: flex;
+                    align-items: center;
+                }
+            }
+
+            /* BUTTON */
+            .car-detail-component-contact-us-form-action {
+                display: flex;
+                justify-content: flex-end;
+                margin-top: 10px;
+
+                button {
+                    background: #0072ce;
+                    color: #fff;
+                    border: none;
+                    padding: 10px 26px;
+                    font-size: 14px;
+                    cursor: pointer;
+                    border-radius: 2px;
+                    transition: background 0.2s ease;
+
+                    &:hover {
+                    background: #005fa8;
+                    }
+                }
+            }
+
+            
+
+            
+
+
+        }
+    }
+}

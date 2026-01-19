@@ -11,23 +11,20 @@ function LoginPage() {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const handleLogin=()=>{
-    const loginData = {
-      email,
-      password
+  const handleLogin = async () => {
+    try {
+      await dispatch(login({ email, password }));
+      Swal.fire("Success", "Login successful", "success");
+      navigate("/");
+    } catch (error) {
+      Swal.fire("Error", error.message || "Login failed", "error");
     }
-    dispatch(login(loginData))
-    .then(()=>{
-      navigate('/')
-    })
-    
-    
-  }
+  };
 
   return (
     <>
     <div className="LoginPage-Component" style={{
-        backgroundImage: 'url("https://static.vecteezy.com/system/resources/previews/020/115/455/large_2x/food-background-breakfast-with-yogurt-granola-or-muesli-strawberries-banner-image-for-website-photo.jpg")',
+        backgroundImage: 'url("https://motionbgs.com/media/6000/retro-ferrari-f40.jpg")',
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         minHeight: "100vh",
@@ -49,7 +46,7 @@ function LoginPage() {
       <form 
         onSubmit={(event) => {
           event.preventDefault();
-          dispatch(handleLogin())
+          handleLogin();
         }}
         
       >
@@ -77,10 +74,22 @@ function LoginPage() {
             }}
           />
         </div>
-        <div className="button-group">
-            <Button type="submit" variant="outline-success">
+        <div className="button-group d-flex justify-content-center mt-3 mb-3">
+            <Button type="submit" variant="success">
             Login
             </Button>
+        </div>
+        <div className="text-center mt-2">
+          <span className="text-muted">Don’t have an account? </span>
+          <NavLink to="/register" className="text-primary fw-semibold">
+            Register
+          </NavLink>
+        </div>
+
+        <div className="text-center mt-2">
+          <NavLink to="/" className="text-muted text-decoration-none">
+            ← Back to Home
+          </NavLink>
         </div>
       </form>
       </div>

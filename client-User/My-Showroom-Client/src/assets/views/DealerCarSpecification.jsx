@@ -16,6 +16,7 @@ export default function DealerCarSpecification(){
     const [activeFeatureCategory, setActiveFeatureCategory] = useState(null);
     const [showSpecModal, setShowSpecModal] = useState(false);
     const [activeSpecificationId, setActiveSpecificationId] = useState(null);
+    const [activeSpecificationName, setActiveSpecificationName] = useState(null);
 
     const carData = useSelector(
         (state) => state.carReducer.carsId
@@ -117,6 +118,7 @@ export default function DealerCarSpecification(){
                             onClick={() => {
                                 handleSpecCreation(spec.id)
                                 setShowSpecModal(true);
+                                setActiveSpecificationName(spec.name)
                             }}
                         >
                             + Add Specification
@@ -163,9 +165,10 @@ export default function DealerCarSpecification(){
                 <AddSpecificationFieldsModal
                     show={showSpecModal}
                     specificationId={activeSpecificationId}
+                    specificationName={activeSpecificationName}
                     onHide={() => {
-                    setShowSpecModal(false);
-                    dispatch(fetchCarId(id)); // refresh features
+                        setShowSpecModal(false);
+                        dispatch(fetchCarId(id)); // refresh features
                     }}
                 />
             )}

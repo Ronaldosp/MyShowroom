@@ -39,7 +39,7 @@ export default createBrowserRouter([
                 element  :<ComparePage/>
             },
             {
-                path:"/detail",
+                path:"/detail/:id",
                 element  :<CarsDetailPage/>
             },
             {
