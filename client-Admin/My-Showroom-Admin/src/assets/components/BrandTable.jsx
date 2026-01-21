@@ -15,19 +15,17 @@ function FoodTable({el , index}) {
   }
 
   return (
-      <tbody>
         <tr>
-          <td>{index}</td>
-          <td>{el.name}</td>
-          <td>{el.country}</td>
-          <td ><img src={el.logo} style={{width: 150 }} /></td>
+          <td data-label="#">{index}</td>
+          <td data-label="Name">{el.name}</td>
+          <td data-label="Logo"><img src={el.logo} style={{width: 150 }} /></td>
+          <td data-label="Country">{el.country}</td>
           <td >
             <div style={{ display: "flex" , gap: 2 }} >
            <Button onClick={handleDelete} variant="danger">Delete</Button>
             </div>
           </td>
         </tr>
-      </tbody>
   );
 }
 

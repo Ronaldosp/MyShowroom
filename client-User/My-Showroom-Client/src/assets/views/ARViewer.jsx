@@ -1,42 +1,20 @@
-import { Canvas } from "@react-three/fiber";
-import { ARButton, XR, useHitTest } from "@react-three/xr";
-import { useState, useRef } from "react";
-import CarModel from "./CarModel";
+import "@google/model-viewer";
 
-function ARContent() {
-  const ref = useRef();
-  const [placed, setPlaced] = useState(false);
-
-  useHitTest((hitMatrix) => {
-    if (!placed) {
-      hitMatrix.decompose(
-        ref.current.position,
-        ref.current.quaternion,
-        ref.current.scale
-      );
-    }
-  });
-
+export default function ARViewer() {
   return (
-    <group ref={ref} onClick={() => setPlaced(true)}>
-      <CarModel />
-    </group>
+    <div style={{ width: "100vw", height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+      <model-viewer
+        src="/models/brz.glb"               // your 3D model
+        alt="3D Car"
+        ar                          // enable AR
+        ar-modes="scene-viewer quick-look"  // Android + iOS
+        ios-src="/models/brz.usdz"         // iOS Quick Look requires USDZ
+        auto-rotate
+        camera-controls
+        environment-image="neutral"         // optional lighting
+        style={{ width: "100%", height: "70vh" }}
+      >
+      </model-viewer>
+    </div>
   );
 }
-
-function ARViewer() {
-  return (
-    <>
-      <ARButton sessionInit={{ requiredFeatures: ["hit-test"] }} />
-      <Canvas>
-        <XR>
-          <ambientLight intensity={1} />
-          <directionalLight position={[10, 10, 10]} />
-          <ARContent />
-        </XR>
-      </Canvas>
-    </>
-  );
-}
-
-export default ARViewer;

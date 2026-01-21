@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import AddBrand from "./AddBrand.jsx"
 import { createBrands, fetchBrands } from "../store/action/actionCreator.js";
 import BrandTable from "../components/BrandTable.jsx";
-
+import "../styling/BrandsPage.scss";
 
 function BrandsPage() {
     const data = useSelector((state)=>{
@@ -59,11 +59,13 @@ function BrandsPage() {
                 <th>Country</th>
               </tr>
             </thead>
+            <tbody>
             {(
               data.map((el , index) => {
                 return <BrandTable el={el} index={++index} key={el.id} />;
               })
             )}
+            </tbody>
           </Table>
         </div>
       </div>

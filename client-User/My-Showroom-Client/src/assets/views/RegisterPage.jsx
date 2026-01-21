@@ -12,7 +12,7 @@ function RegisterPage(){
     const dispatch = useDispatch()
     return <>
         <div style={{
-        backgroundImage: 'url("https://image-0.uhdpaper.com/wallpaper/sports-car-mountains-retrowave-synthwave-hd-wallpaper-uhdpaper.com-233@0@k.jpg")',
+        backgroundImage: 'url("https://www.pierarchitects.co.uk/wp-content/uploads/2024/07/modern-car-showroom-architects.jpg")',
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         minHeight: "100vh",

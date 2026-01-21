@@ -232,3 +232,106 @@
         }
     }
 }
+
+@media (max-width: 768px) {
+
+  .compare-page-component-container {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-top: 16px !important;
+    margin-bottom: 16px !important;
+  }
+
+  /* ===============================
+     TOP CAR THUMBNAILS (SWIPE)
+     =============================== */
+  .compare-page-component-items-top-container {
+    justify-content: flex-start !important;
+    gap: 16px !important;
+    padding: 0 16px !important;
+  }
+
+  .compare-page-component-items-top {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+  }
+
+  /* ===============================
+     PRICE COMPARISON
+     =============================== */
+  .compare-page-component-items-price-container {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+    padding: 16px !important;
+  }
+
+  .compare-page-component-items-price-nominal {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+  }
+
+  .price-tag {
+    padding: 6px 20px !important;
+    font-size: 14px !important;
+  }
+
+  /* ===============================
+     FEATURE COMPARISON (1 COLUMN)
+     =============================== */
+  .compare-page-component-items-container {
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    gap: 16px !important;
+    padding: 0 16px !important;
+  }
+
+  .compare-page-component-items-column-2,
+  .compare-page-component-items-column-3 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+    scroll-snap-align: start !important;
+  }
+
+  /* ===============================
+     SPECIFICATION SECTION
+     =============================== */
+  .compare-specification-container {
+    flex-direction: column !important;
+  }
+
+  .spec-categories {
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    flex: 0 0 auto !important;
+    border-bottom: 1px solid #eee !important;
+  }
+
+  .spec-category-item {
+    flex: 0 0 auto !important;
+    border: none !important;
+    border-bottom: 2px solid transparent !important;
+  }
+
+  .spec-category-item.active {
+    border-bottom: 2px solid #007bff !important;
+    background: none !important;
+    color: #007bff !important;
+  }
+
+  .spec-details {
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+  }
+
+  .spec-car-column {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    scroll-snap-align: start !important;
+  }
+}

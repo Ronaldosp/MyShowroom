@@ -121,3 +121,109 @@
     color: #888;
   }
 }
+
+@media (max-width: 768px) {
+
+  /* =========================
+     PAGE PADDING
+     ========================= */
+  .homepage-cards-container {
+    padding: 24px !important;
+  }
+
+  /* =========================
+     TITLE
+     ========================= */
+  .homepage-title {
+    font-size: 18px !important;
+    margin-bottom: 20px !important;
+  }
+
+  /* =========================
+     STATS GRID
+     ========================= */
+  .homepage-cards {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  /* =========================
+     STAT CARD
+     ========================= */
+  .stat-card {
+    height: auto !important;
+    padding: 16px !important;
+  }
+
+  .stat-card-title {
+    font-size: 13px !important;
+  }
+
+  .stat-card-value {
+    font-size: 32px !important;
+  }
+
+  /* Disable hover animation on mobile */
+  .stat-card:hover {
+    transform: none !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06) !important;
+  }
+
+  /* =========================
+     DASHBOARD GRID
+     ========================= */
+  .dashboard-grid {
+    grid-template-columns: 1fr !important;
+    padding: 0 !important;
+    gap: 16px !important;
+  }
+
+  /* =========================
+     DASHBOARD CARD
+     ========================= */
+  .dashboard-card {
+    padding: 16px !important;
+  }
+
+  .dashboard-card h4 {
+    font-size: 16px !important;
+    margin-bottom: 12px !important;
+  }
+
+  /* =========================
+     RECENT CARS
+     ========================= */
+  .recent-cars-list {
+    gap: 12px !important;
+  }
+
+  .recent-car-item {
+    gap: 10px !important;
+  }
+
+  .recent-car-item img {
+    width: 50px !important;
+    height: 34px !important;
+  }
+
+  .recent-car-item .car-name {
+    font-size: 14px !important;
+  }
+
+  .recent-car-item .car-date {
+    font-size: 11px !important;
+  }
+}
+
+.chart-scroll-wrapper {
+  width: 100%;
+}
+
+/* MOBILE ONLY */
+@media (max-width: 768px) {
+  .chart-scroll-wrapper {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+}

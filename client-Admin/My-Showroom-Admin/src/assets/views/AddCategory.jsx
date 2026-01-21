@@ -23,7 +23,7 @@ function AddCategory(props){
       </Modal.Title>
     </Modal.Header>
     <Modal.Body>
-    <div className="container " style={{width:400 , padding: 25, border:5 }}>
+    <div className="container " style={{ padding: 25, border:5 }}>
       
         <div className="container" >
      <form onSubmit={(event)=>{

@@ -15,7 +15,7 @@ function CameraController({ size, controlsRef }) {
     // 1️⃣ hard-set camera
     camera.position.set(0, maxAxis * 1.5, distance);
     camera.near = 0.01;
-    camera.far = distance * 50;
+    camera.far = distance * 70;
     camera.updateProjectionMatrix();
 
     // 2️⃣ reset controls COMPLETELY
@@ -42,7 +42,7 @@ function Car3DViewer() {
   }, []);
 
   return (
-    <Canvas style={{ height: 400 }} camera={{ fov: 45 }}>
+    <Canvas style={{ height: 1000 }} camera={{ fov: 45 }}>
       <ambientLight intensity={0.6} />
       <directionalLight position={[10, 10, 10]} intensity={2} />
 
@@ -55,7 +55,9 @@ function Car3DViewer() {
         ref={controlsRef}
         enableDamping
         dampingFactor={0.08}
-        minDistance={1}
+        minDistance={1
+          
+        }
         maxDistance={1000}
         makeDefault
       />

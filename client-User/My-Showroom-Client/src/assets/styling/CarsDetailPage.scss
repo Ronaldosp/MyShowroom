@@ -245,3 +245,95 @@
         }
     }
 }
+
+@media (max-width: 768px) {
+  .car-detail-component {
+
+    /* IMAGE */
+    .car-detail-component_content-image img {
+      max-height: 240px !important;
+      object-fit: cover !important;
+    }
+
+    /* NAVBAR */
+    .car-detail-component_content-navbar {
+      padding-left: 0 !important;
+      gap: 10px !important;
+      overflow-x: auto !important;
+      white-space: nowrap !important;
+
+      button {
+        font-size: 14px !important;
+        padding: 6px 10px !important;
+      }
+    }
+
+    /* OVERVIEW */
+    .car-detail-component_content-overview-title {
+      padding-left: 0 !important;
+      text-align: center !important;
+    }
+
+    .car-detail-component_content-overview {
+      flex-direction: column !important;
+      gap: 16px !important;
+      align-items: center !important;
+    }
+
+    /* FEATURE */
+    .car-detail-component_content-feature {
+      padding: 0 16px !important;
+    }
+
+    .car-detail-component_content-feature-grid {
+      grid-template-columns: 1fr !important;
+    }
+
+    .feature-main img,
+    .feature-secondary img {
+      height: 200px !important;
+    }
+
+    /* SPECIFICATIONS */
+    .car-detail-component_content-specs {
+      padding: 24px 16px !important;
+    }
+
+    .car-detail-component_specs-row {
+      flex-direction: column !important;
+      gap: 6px !important;
+      align-items: flex-start !important;
+    }
+
+    /* CONTACT SECTION */
+    .car-detail-component-contact-us {
+      padding: 40px 16px !important;
+      min-height: auto !important;
+    }
+
+    .car-detail-component-contact-us-container {
+      padding: 24px !important;
+      width: 100% !important;
+    }
+
+    .car-detail-component-contact-us-form-row {
+      grid-template-columns: 1fr !important;
+    }
+
+    .car-detail-component-contact-us-form-action {
+      justify-content: center !important;
+    }
+
+    /* 3D BUTTON */
+    .car-detail-component_3d-button {
+      width: 100% !important;
+      margin: 24px 0 !important;
+    }
+
+    /* 3D MODAL */
+    .car-3d-modal__content {
+      width: 100% !important;
+      height: 70vh !important;
+    }
+  }
+}

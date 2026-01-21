@@ -17,8 +17,6 @@ function EditModal(props){
       return state.brandReducer.brands
     })
     const dataProfile = data[0];
-    console.log(dataProfile , "EDIT MODAL");
-    console.log(dataProfile?.shopName , "EDIT MODAL");
 
     const [shopName, setShopName] = useState("");
     const [type, setType] = useState("");
@@ -47,14 +45,15 @@ function EditModal(props){
     size="lg"
     aria-labelledby="contained-modal-title-vcenter"
     centered
+    fullscreen="sm-down" 
   >
     <Modal.Header closeButton>
       <Modal.Title id="contained-modal-title-vcenter">
-      Edit Food
+      Edit Dealer Profile
       </Modal.Title>
     </Modal.Header>
     <Modal.Body>
-    <div className="container " style={{width:400 , padding: 25, border:5 }}>
+    <div className="container-fluid px-3 " style={{padding: 25, border:5 }}>
       <div className="container" >
    <form onSubmit={(event)=>{
     event.preventDefault()
@@ -98,7 +97,7 @@ function EditModal(props){
         <label className="form-label">Address</label>
         <input 
         className="form-control" 
-        type="text"
+        type="textarea"
         value={address}
         onChange={(event)=>{
           const value = event.target.value
@@ -109,6 +108,8 @@ function EditModal(props){
       <label className="form-label">Brands</label>
         <Form.Select
         multiple
+        className="mb-3"
+        style={{ minHeight: 120 }}
         value={brand_id}
         onChange={(event) => {
             const values = Array.from(
@@ -128,7 +129,7 @@ function EditModal(props){
         <label className="form-label">Instagram Link</label>
         <input 
         className="form-control" 
-        type="text"
+        type="url"
         value={instagramLink}
         onChange={(event)=>{
           const value = event.target.value
@@ -140,7 +141,7 @@ function EditModal(props){
         <label className="form-label">WhatsApp Link</label>
         <input 
         className="form-control" 
-        type="text"
+        type="url"
         value={whatsAppLink}
         onChange={(event)=>{
           const value = event.target.value

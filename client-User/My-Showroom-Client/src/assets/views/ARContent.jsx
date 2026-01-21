@@ -21,3 +21,5 @@ function ARContent() {
     </group>
   );
 }
+
+export default ARContent;

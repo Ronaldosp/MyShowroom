@@ -123,39 +123,40 @@ export default function DealerCarSpecification(){
                         >
                             + Add Specification
                         </Button>
-
-                        <table className="table table-sm">
-                            <thead>
-                                <tr>
-                                <th>Key</th>
-                                <th>Value</th>
-                                <th>Unit</th>
-                                <th width="120">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            {specifications?.length ? (
-                                specifications.map(specItem =>
-                                    specItem.SpecificationFields?.map(field => (
-                                    <tr key={field.id}>
-                                        <td>{field.key}</td>
-                                        <td>{field.value}</td>
-                                        <td>{field.unit}</td>
-                                        <td>
-                                            <Button onClick={(event) => handleDeleteSpec(event, field.id , field.specification_id )} variant="danger">Delete</Button>
+                            <div className="table-responsive">
+                                <table className="table table-sm">
+                                    <thead>
+                                        <tr>
+                                        <th>Key</th>
+                                        <th>Value</th>
+                                        <th>Unit</th>
+                                        <th width="120">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {specifications?.length ? (
+                                        specifications.map(specItem =>
+                                            specItem.SpecificationFields?.map(field => (
+                                            <tr key={field.id}>
+                                                <td>{field.key}</td>
+                                                <td>{field.value}</td>
+                                                <td>{field.unit}</td>
+                                                <td>
+                                                    <Button onClick={(event) => handleDeleteSpec(event, field.id , field.specification_id )} variant="danger">Delete</Button>
+                                                </td>
+                                            </tr>
+                                            ))
+                                        )
+                                    ) : (
+                                    <tr>
+                                        <td colSpan="4" className="text-muted text-center">
+                                        No specification added
                                         </td>
                                     </tr>
-                                    ))
-                                )
-                            ) : (
-                            <tr>
-                                <td colSpan="4" className="text-muted text-center">
-                                No specification added
-                                </td>
-                            </tr>
-                            )}
-                            </tbody>
-                        </table>
+                                    )}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     );
                 })}
@@ -195,45 +196,48 @@ export default function DealerCarSpecification(){
                         <div key={category.id} className="feature-card">
                         <h6 className="feature-title">{category.name}</h6>
 
-                        <table className="table table-sm">
-                            <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Image</th>
-                                <th width="120">Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {features?.length ? (
-                                features.map(feature => (
-                                <tr key={feature.id}>
-                                    <td>{feature.name}</td>
-                                    <td>{feature.description}</td>
-                                    <td>
-                                    {feature.thumbnail && (
-                                        <img
-                                        src={feature.thumbnail}
-                                        alt={feature.name}
-                                        style={{ width: 60, borderRadius: 4 }}
-                                        />
-                                    )}
-                                    </td>
-                                    <td>
-                                        <Button onClick={(event) => handleDeleteFeature(event, feature.id)} variant="danger">Delete</Button>
-                                    </td>
-                                    <td />
-                                </tr>
-                                ))
-                            ) : (
+                        <div className="table-responsive">
+                            <table className="table table-sm">
+                                <thead>
                                 <tr>
-                                <td colSpan="4" className="text-muted text-center">
-                                    No features added
-                                </td>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Image</th>
+                                    <th className="action-table">Action</th>
                                 </tr>
-                            )}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                {features?.length ? (
+                                    features.map(feature => (
+                                    <tr key={feature.id}>
+                                        <td>{feature.name}</td>
+                                        <td>{feature.description}</td>
+                                        <td>
+                                        {feature.thumbnail && (
+                                            <img
+                                            src={feature.thumbnail}
+                                            alt={feature.name}
+                                            style={{ width: 60, borderRadius: 4 }}
+                                            />
+                                        )}
+                                        </td>
+                                        <td>
+                                            <Button onClick={(event) => handleDeleteFeature(event, feature.id)} variant="danger">Delete</Button>
+                                        </td>
+                                        
+                                    </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                    <td colSpan="4" className="text-muted text-center">
+                                        No features added
+                                    </td>
+                                    </tr>
+                                )}
+                                </tbody>
+                            </table>
+                        </div>
+
                         </div>
                     );
                 })}

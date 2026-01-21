@@ -9,6 +9,9 @@ import drivetrainLogo from "../images/logo-drivetrain.png";
 import engineLogo from "../images/logo-engine.png";
 import powerLogo from "../images/logo-power-output.png";
 import priceLogo from "../images/logo-price.png";
+import Car3DViewer from "../views/Car3DViewer";
+import ARViewer from "../views/ARViewer";
+import IOSARViewer  from "../views/IOSARViewer";
 
 function CarsDetailPage() {
   const dispatch = useDispatch();
@@ -21,6 +24,8 @@ function CarsDetailPage() {
   const contactRef = useRef(null);
   const galleryRef = useRef(null);
   const arRef = useRef(null);
+  const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   const [show3D, setShow3D] = useState(false);
   const [openSpecCategory, setOpenSpecCategory] = useState(null);
@@ -199,7 +204,7 @@ function CarsDetailPage() {
                       <h3>{category.name}</h3>
                   </div>
                   <div className="car-detail-component_content-feature-grid">
-                    {features.map((feature,index) => (
+                    {features?.map((feature,index) => (
                       <div className={`car-detail-component_content-feature-container
                         ${index === 0 ? "feature-main" : "feature-secondary"}
                       `}>
@@ -224,7 +229,7 @@ function CarsDetailPage() {
             <div className="car-detail-component_content-specs-title">
                 <h3>Specifications</h3>
             </div>
-            {groupedSpecifications.map(category => {
+            {groupedSpecifications?.map(category => {
               const isOpen = openSpecCategory === category.id;
 
               return (
@@ -326,6 +331,62 @@ function CarsDetailPage() {
             </div>
           </div>
 
+         <button
+              className="car-detail-component_3d-button"
+              onClick={() => setShow3D(true)}
+            >
+              Show 3D View
+         </button> 
+
+         {/* 3D Viewer Modal */}
+        {show3D && (
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100vw",
+              height: "100vh",
+              backgroundColor: "rgba(0,0,0,0.7)",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              zIndex: 1000,
+            }}
+            onClick={() => setShow3D(false)} // close when clicking outside
+          >
+            <div
+              style={{
+                position: "relative",
+                width: "90%",
+                maxWidth: "700px",
+                height: "80%",
+                background: "#fff",
+              }}
+              onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
+            >
+              <button
+                onClick={() => setShow3D(false)}
+                style={{
+                  position: "absolute",
+                  top: 10,
+                  right: 10,
+                  zIndex: 10,
+                }}
+              >
+                Close
+              </button>
+
+              {/* 3D Viewer Canvas */}
+              {isMobile ? (
+                  <ARViewer />
+              ) : (
+                <Car3DViewer />
+              )}
+              
+            </div>
+          </div>
+        )}
         </div>
       </div>
     </div>

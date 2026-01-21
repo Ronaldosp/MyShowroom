@@ -55,4 +55,117 @@
       height: 100%;
     }
   }
+
+  .action-table{
+    width: 120px;
+  }
+}
+
+@media (max-width: 768px) {
+
+  /* =========================
+     MAIN CONTAINER
+     ========================= */
+  .dealerprofilespecification-container {
+    padding: 12px !important;
+  }
+
+  /* =========================
+     GRID → STACK
+     ========================= */
+  .spec-feature-grid {
+    grid-template-columns: 1fr !important;
+    padding: 0 !important;
+    gap: 16px !important;
+  }
+
+  /* =========================
+     CAR HEADER
+     ========================= */
+  .dealerprofilespecification-car-container {
+    gap: 10px !important;
+  }
+
+  .dealerprofilespecification-car-image {
+    width: 100% !important;
+    max-width: 320px !important;
+  }
+
+  .dealerprofilespecification-car-image img {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .dealerprofilespecification-car-title h2 {
+    font-size: 20px !important;
+  }
+
+  .dealerprofilespecification-car-brand h3 {
+    font-size: 16px !important;
+  }
+
+  /* =========================
+     CARDS
+     ========================= */
+  .spec-card,
+  .feature-card {
+    padding: 12px !important;
+    border-radius: 10px !important;
+  }
+
+  /* =========================
+     TABLE FIX (CRITICAL)
+     ========================= */
+  .spec-card table,
+  .feature-card table {
+    width: 100% !important;
+    table-layout: fixed !important;
+  }
+
+  .spec-card th,
+  .spec-card td,
+  .feature-card th,
+  .feature-card td {
+    font-size: 13px !important;
+    padding: 6px !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+    white-space: normal !important;
+  }
+
+  /* =========================
+     HORIZONTAL SCROLL
+     ========================= */
+  .spec-card .table-responsive,
+  .feature-card .table-responsive {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  /* =========================
+     BUTTONS
+     ========================= */
+  .spec-card button,
+  .feature-card button {
+    width: 100% !important;
+    font-size: 13px !important;
+    padding: 6px !important;
+    margin-top: 4px !important;
+  }
+
+  /* =========================
+     TABLE HEADER CLEANUP
+     ========================= */
+  .table th {
+    font-size: 12px !important;
+  }
+
+  /* =========================
+     FEATURE IMAGE
+     ========================= */
+  .feature-card img {
+    width: 100% !important;
+    max-width: 60px !important;
+    height: auto !important;
+  }
 }

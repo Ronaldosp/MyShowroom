@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from "react-bootstrap/Button";
+import "../styling/Navbar.scss"
 
 function NavBar(){
     const navigate = useNavigate();
@@ -18,7 +19,7 @@ function NavBar(){
             <Navbar.Brand as={Link} to="/">My Showroom Admin</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="position-absolute start-50 translate-middle-x">
+            <Nav className="mx-auto navbar-center">
                 <NavLink to='/brands' className="nav-link">Brands</NavLink>
                 {/* <NavLink to='/brand' className="nav-link" >Brands</NavLink> */}
                 <NavLink to='/categories' className="nav-link" >Categories</NavLink>
@@ -27,17 +28,12 @@ function NavBar(){
                 <NavLink to='/specificationcategories' className="nav-link" >Specification Categories</NavLink>
             </Nav>
             <Nav className="ms-auto">
-                {!isLoggedIn ? (
-                    <>
                     <NavLink to="/register" className="nav-link">
                         Register
                     </NavLink>
-                    </>
-                ) : (
                     <Button onClick={handleLogout} variant="danger">
                     Logout
                     </Button>
-                )}
             </Nav>
             </Navbar.Collapse>
         </Container>
