@@ -1,15 +1,53 @@
-const express = require('express')
+const express = require('express');
+const multer = require("multer");
+const path = require("path");
+const fs = require('fs');
+
 const app = express()
 const port = 3000
 const cors = require("cors");
-const {  Brand, Category, Car, Specification, SpecificationCategory, SpecificationField, FeatureCategory, Feature, UserProfile, DealerProfile, Admin } = require('./models');
+const {  Brand, Category, Car, Specification, SpecificationCategory, SpecificationField, FeatureCategory, Feature, UserProfile, DealerProfile, Admin,CarARAsset } = require('./models');
 const { comparePassword } = require('./helpers/bcrypt');
 const { signToken } = require("./helpers/jwt");
 
-app.use(cors());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(cors("*"));
+//app.use(cors());
+//app.use(cors({
+//  origin: [
+//    "https://d85f0465f7d1.ngrok-free.app",
+//    "http://localhost:5173"
+ // ],
+ // credentials: true
+//}));
+app.use("/register", express.json());
+app.use("/registerAdmin", express.json());
+app.use("/login", express.json());
+app.use("/loginAdmin", express.json());
+app.use("/userprofiles", express.json());
+app.use("/cars", express.json());
+app.use("/categories", express.json());
+app.use("/brands", express.json());
 
+app.use("/dealerprofiles", express.json());
+app.use("/dealerprofilesuser", express.json());
+app.use("/dealerprofilesbrand", express.json());
+app.use("/features", express.json());
+app.use("/featurecategories", express.json());
+app.use("/specifications", express.json());
+app.use("/specificationcategories", express.json());
+app.use("/specificationfields", express.json());
+//app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'), {
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.glb')) {
+      res.setHeader('Content-Type', 'model/gltf-binary');
+    }
+    if (filePath.endsWith('.usdz')) {
+      res.setHeader('Content-Type', 'model/vnd.usdz+zip');
+    }
+  }
+}));
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.get('/', (req, res) => {
   res.send('Hello World! we are back :)')
 })
@@ -240,6 +278,7 @@ app.get('/cars', async(req,res)=>{
         Brand,
         Category,
         DealerProfile,
+        CarARAsset,
         {
           model: Specification,
           include: [
@@ -270,6 +309,7 @@ app.get('/cars/:id', async(req,res)=>{
         Brand,
         Category,
         DealerProfile,
+        CarARAsset,
         {
           model: Specification,
           include: [
@@ -845,5 +885,105 @@ app.delete('/dealerprofiles/:id' , async(req , res)=>{
   }
 });
 
+app.get('/cararassets', async(req,res)=>{
+  try {
+    const cararassets = await CarARAsset.findAll()
+    res.status(200).json(cararassets)
+  } catch (error) {
+    res.status(500).json({message: "Internal Server Error"})
+  }
+});
+
+
+app.get('/cararassets/:id', async(req,res)=>{
+  try {
+    const id = req.params.id
+    const cararassets = await CarARAsset.findOne({
+      where : {id}
+    });
+    res.status(200).json(cararassets)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({message: "Internal Server Error"})
+  }
+});
+
+app.put('/cararassets/:id', async(req,res)=>{
+  try {
+    const {id} = req.params
+    const {car_id ,desktopAsset, mobileAsset} = req.body
+    const cararassets = await CarARAsset.update(
+      {car_id ,desktopAsset, mobileAsset},
+      {where :{id :id}}
+    )
+    if(!cararassets){
+      throw {message : 'NotFound'}
+    }
+    res.status(200).json({ message: "AR Asset has been updated" });
+  } catch (error) {
+    if (error.name === "NotFound") {
+      res.status(404).json({ message: "AR asset Not Found" });
+    } else {
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+})
+
+app.delete('/cararassets/:id' , async(req , res)=>{
+  try {
+    const {id} = req.params
+    const cararassets = await CarARAsset.findByPk(id)
+    if(!cararassets){
+      return {message : 'NotFound'}
+    }
+    await CarARAsset.destroy({where : {id}})
+    res.status(200).json({message : "AR Asset Deleted"})
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+const uploadDir = path.join(__dirname, 'uploads');
+
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir);
+  console.log('Created uploads folder');
+}
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, "uploads/"),
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage, limits: { fileSize: 50 * 1024 * 1024 } }); // 50 MB per file
+
+app.post(
+  "/cararassets",
+  upload.fields([
+    { name: "desktopAsset", maxCount: 1 },
+    { name: "mobileAsset", maxCount: 1 },
+  ]),
+  async (req, res) => {
+    try {
+      const { car_id } = req.body;
+      const desktopAsset = req.files.desktopAsset ? req.files.desktopAsset[0].filename : null;
+      const mobileAsset = req.files.mobileAsset ? req.files.mobileAsset[0].filename : null;
+
+      const carARAsset = await CarARAsset.create({
+        car_id,
+        desktopAsset,
+        mobileAsset,
+      });
+
+      res.status(201).json({ message: "Created New AR Asset", carARAsset });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+);
 
 app.post('/')

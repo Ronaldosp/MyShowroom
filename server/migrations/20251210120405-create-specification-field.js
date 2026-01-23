@@ -11,6 +11,7 @@ module.exports = {
       },
       specification_id: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references:{
           model:'Specifications',
         },

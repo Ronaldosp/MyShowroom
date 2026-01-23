@@ -1,5 +1,5 @@
-const BASE_URL = 'http://localhost:3000'
-
+//const BASE_URL = 'http://localhost:3000'
+const BASE_URL = 'https://pc6k0rjb-3000.asse.devtunnels.ms'
 export function brandsFetchSuccess(payload){
     return{
         type:"brands/get",

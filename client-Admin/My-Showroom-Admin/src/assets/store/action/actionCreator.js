@@ -1,4 +1,5 @@
-const BASE_URL = 'http://localhost:3000'
+//const BASE_URL = 'http://localhost:3000'
+const BASE_URL = 'https://pc6k0rjb-3000.asse.devtunnels.ms'
 
 export function brandsFetchSuccess(payload){
     return{
@@ -17,6 +18,13 @@ export function categoriesFetchSuccess(payload){
 export function carsFetchSuccess(payload){
     return{
         type:"cars/get",
+        payload
+    }
+}
+
+export function carsARAssetFetchSuccess(payload){
+    return{
+        type:"cararasset/get",
         payload
     }
 }
@@ -109,12 +117,15 @@ export const fetchBrands = () =>{
             const response = await fetch(BASE_URL+`/brands`,{
                 headers:{
                     'Content-Type':'application/json',
+                    'ngrok-skip-browser-warning': 'true'
                     //access_token:localStorage.access_token
                 }
             })
+             console.log(response , "response");
             if(!response.ok) throw new Error("Something wrong!")
             const data = await response.json()
-       
+            console.log(data , "data");
+            
             
             const action = brandsFetchSuccess(data)
             dispatch(action)
@@ -208,6 +219,7 @@ export const fetchCategory = () =>{
             const response = await fetch(BASE_URL+`/categories`,{
                 headers:{
                     'Content-Type':'application/json',
+                    'ngrok-skip-browser-warning': 'true'
                     //access_token:localStorage.access_token
                 }
             })
@@ -313,6 +325,7 @@ export const fetchCar = () =>{
             const response = await fetch(BASE_URL+`/cars`,{
                 headers:{
                     'Content-Type':'application/json',
+                    'ngrok-skip-browser-warning': 'true'
                     //access_token:localStorage.access_token
                 }
             })
@@ -598,6 +611,101 @@ export const deleteScpecificationCategory= (id) =>{
                 throw new Error('Something went wrong!');
             }
             dispatch(fetchScpecificationCategory())
+            
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+}
+
+//ar asset
+export const fetchCarARAsset = () =>{
+    return async(dispatch)=>{
+        try {
+            const response = await fetch(BASE_URL+`/cararassets`,{
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            })
+            if(!response.ok) throw new Error("Something wrong!")
+            const data = await response.json()
+       
+            
+            const action = carsARAssetFetchSuccess(data)
+            dispatch(action)
+       
+        } catch (error) {
+            console.log(error);
+            throw error;
+            
+        }
+    }
+}
+
+export const createCarARAsset = (formData) =>{
+    return async(dispatch)=>{
+        try {
+            console.log(formData);
+            const response = await fetch(BASE_URL+`/cararassets`,{
+                method:"POST",
+                body: formData,
+            }) 
+            console.log(response);
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+            dispatch(fetchCarARAsset())
+            
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+}
+
+export const editCarARAsset = (id , body) =>{
+    return async(dispatch)=>{
+        try {
+            console.log(body);
+            const response = await fetch(BASE_URL+`/cararassets/${id}`,{
+                method:"PUT",
+                body: JSON.stringify(body),
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+                }
+            }) 
+            console.log(response);
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+            dispatch(fetchCarARAsset())
+            
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+}
+
+export const deleteCarARAsset = (id) =>{
+    return async(dispatch)=>{
+        try {
+            const response = await fetch(BASE_URL+`/cararassets/${id}`,{
+                method:"DELETE",
+                headers:{
+                    'Content-Type':'application/json',
+                    //access_token:localStorage.access_token
+
+                }
+            }) 
+            console.log(response);
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+            dispatch(fetchCarARAsset())
             
         } catch (error) {
             console.log(error);

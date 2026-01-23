@@ -26,4 +26,6 @@
 
  *npx sequelize-cli model:generate --name FeatureCategory --attributes name:string,description:string
 * npx sequelize-cli model:generate --name Feature --attributes id:integer,specification_id:integer,featureCategory_id:integer,name:string,description:string,thumbnail:string
+
+npx sequelize-cli model:generate --name CarARAsset --attributes car_id:integer,desktopAsset:string,mobileAsset:string
  */

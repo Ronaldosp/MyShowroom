@@ -4,8 +4,8 @@ import Button from "react-bootstrap/Button";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import AddCar from "./AddCar.jsx";
 import { createCar, fetchCar } from "../store/action/actionCreator.js";
+import CarTable from "../components/CarTable.jsx";
 
 function CarPage(){
     const data = useSelector((state)=>{
@@ -17,9 +17,7 @@ function CarPage(){
     
     useEffect(()=>{
        dispatch(fetchCar())
-    },[])
-
-    const [modalShow, setModalShow] = useState(false);
+    },[dispatch])
 
     return (
         <div style={{
@@ -34,19 +32,13 @@ function CarPage(){
           alignItems: "center"
         }}>
           <div className="container " style={{
-            maxWidth: '1000px',
+            maxWidth: '1500px',
             width: '100%',
             backgroundColor: 'white',
             padding: '25px 30px',
             borderRadius: '5px',
             boxShadow: '0 5px 10px rgba(0, 0, 0, 0.15)'}}>
-          <h1 className="d-flex justify-content-center text-align-center" style={{fontFamily:'Times New Roman' , fontStyle:'italic'}}>Car List</h1>
-          <div className="d-flex justify-content-center text-align-center">
-            <Button variant="outline-primary" onClick={() => setModalShow(true)}>
-              Add New Cars
-            </Button>
-          </div>
-          <AddCar show={modalShow} onHide={() => setModalShow(false)} />
+          <h1 className="d-flex justify-content-center text-align-center">Car List</h1>
           <div className="container">
             {/* BaseCard */}
             <div className=" row container d-flex grid gap-3 mt-4 row mx-auto ">
@@ -58,14 +50,15 @@ function CarPage(){
                     <th>Brand</th>
                     <th>Model Image</th>
                     <th>Category</th>
-                    <th>Price</th>
+                    <th>Action</th>
+                    <th>AR Action</th>
                   </tr>
                 </thead>
-                {/* {(
+                {(
                   data.map((el , index) => {
-                    return <FoodTable el={el} index={++index} key={el.id} />;
+                    return <CarTable el={el} index={++index} key={el.id} />;
                   })
-                )} */}
+                )}
               </Table>
             </div>
           </div>

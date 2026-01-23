@@ -2,28 +2,26 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('DealerBrands', {
+    await queryInterface.createTable('CarARAssets', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      dealerProfileId: {
+      car_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: 'DealerProfiles',
-          key: 'id'
+        references:{
+          model:'Cars',
         },
+        onDelete: 'CASCADE'
       },
-      brandId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'Brands',
-          key: 'id'
-        },
+      desktopAsset: {
+        type: Sequelize.STRING
+      },
+      mobileAsset: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -36,6 +34,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('DealerBrands');
+    await queryInterface.dropTable('CarARAssets');
   }
 };

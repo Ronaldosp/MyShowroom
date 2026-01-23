@@ -11,12 +11,14 @@ module.exports = {
       },
       car_id: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references:{
           model:'Cars',
         },
       },
       featureCategory_id: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references:{
           model:'FeatureCategories',
         },

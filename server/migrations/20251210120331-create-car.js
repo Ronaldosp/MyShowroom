@@ -14,6 +14,7 @@ module.exports = {
       },
       brand_id: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references:{
           model:'Brands',
         },
@@ -23,6 +24,7 @@ module.exports = {
       },
       category_id: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references:{
           model:'Categories',
         }
@@ -32,6 +34,7 @@ module.exports = {
       },
       dealer_id: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references:{
           model:'DealerProfiles',
         },

@@ -345,8 +345,8 @@ function CarsDetailPage() {
               position: "fixed",
               top: 0,
               left: 0,
-              width: "100vw",
-              height: "100vh",
+              width: "100%",
+              height: "100%",
               backgroundColor: "rgba(0,0,0,0.7)",
               display: "flex",
               justifyContent: "center",
@@ -369,7 +369,7 @@ function CarsDetailPage() {
                 onClick={() => setShow3D(false)}
                 style={{
                   position: "absolute",
-                  top: 10,
+                  top: 5,
                   right: 10,
                   zIndex: 10,
                 }}

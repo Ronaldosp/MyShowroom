@@ -3,7 +3,8 @@ import brandReducer from "./brandReducer";
 import categoryReducer from "./categoryReducer";
 import carReducer from "./carReducer";
 import featureCategoryReducer from "./featureCategoryReducer";
-import specificationCategoryReducer from "./specificationCategoryReducer"
+import specificationCategoryReducer from "./specificationCategoryReducer";
+import carARAssetReducer from "./carARAssetReducer";
 
 const rootReducer = combineReducers({
     brandReducer:brandReducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
     carReducer:carReducer,
     featureCategoryReducer:featureCategoryReducer,
     specificationCategoryReducer:specificationCategoryReducer,
+    carARAssetReducer:carARAssetReducer,
 })
 
 export default rootReducer

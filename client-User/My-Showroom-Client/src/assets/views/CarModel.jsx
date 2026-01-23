@@ -3,7 +3,7 @@ import { useLayoutEffect } from "react";
 import * as THREE from "three";
 
 function CarModel({ onReady }) {
-  const { scene } = useGLTF("/models/sti.glb");
+  const { scene } = useGLTF("/models/brz.glb");
 
   useLayoutEffect(() => {
     const box = new THREE.Box3().setFromObject(scene);
