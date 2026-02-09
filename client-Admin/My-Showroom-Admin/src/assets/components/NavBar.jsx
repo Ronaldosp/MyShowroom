@@ -21,19 +21,18 @@ function NavBar(){
             <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mx-auto navbar-center">
                 <NavLink to='/brands' className="nav-link">Brands</NavLink>
-                {/* <NavLink to='/brand' className="nav-link" >Brands</NavLink> */}
                 <NavLink to='/categories' className="nav-link" >Categories</NavLink>
-                <NavLink to='/cars' className="nav-link" >Add Cars</NavLink>
+                <NavLink to='/cars' className="nav-link" >Cars</NavLink>
                 <NavLink to='/featurecategories' className="nav-link" >Feature Categories</NavLink>
                 <NavLink to='/specificationcategories' className="nav-link" >Specification Categories</NavLink>
             </Nav>
             <Nav className="ms-auto">
-                    <NavLink to="/register" className="nav-link">
-                        Register
-                    </NavLink>
-                    <Button onClick={handleLogout} variant="danger">
+                <NavLink to="/register" className="nav-link">
+                    Register
+                </NavLink>
+                <Button onClick={handleLogout} variant="danger">
                     Logout
-                    </Button>
+                </Button>
             </Nav>
             </Navbar.Collapse>
         </Container>

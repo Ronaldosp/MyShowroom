@@ -1,17 +1,20 @@
 import Button from 'react-bootstrap/Button';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { deleteScpecificationCategory } from '../store/action/actionCreator';
-
-
 
 function SpecificationCategoryTable({el , index}) {
   const dispatch = useDispatch()
   const handleDelete=(event)=>{
     event.preventDefault()
     const id = el.id
-    dispatch(deleteScpecificationCategory(id))
-    Swal.fire("Specification Category Successfully Deleted");
+    dispatch(deleteScpecificationCategory(id));
+    Swal.fire({
+      icon: "success",
+      title: "Deleted!",
+      ext: "Specification Category has been deleted.",
+      timer: 1500,
+      showConfirmButton: false,
+    });
   }
 
   return (

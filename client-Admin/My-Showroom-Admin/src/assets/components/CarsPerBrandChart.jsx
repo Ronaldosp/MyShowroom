@@ -1,5 +1,4 @@
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
-
 import { useState, useEffect } from "react";
 
 function abbreviate(name) {
@@ -34,7 +33,6 @@ function CarsPerBrandChart({ cars, brands }) {
           <XAxis dataKey="name" />
           <YAxis allowDecimals={false} />
 
-          {/* 🔥 FULL NAME ON HOVER */}
           <Tooltip
             formatter={(value) => value}
             labelFormatter={(label, payload) =>

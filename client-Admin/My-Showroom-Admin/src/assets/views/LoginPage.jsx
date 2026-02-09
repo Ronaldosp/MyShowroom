@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { login } from "../store/action/actionCreator";
 
 function LoginPage() {
@@ -16,13 +15,16 @@ function LoginPage() {
       email,
       password
     }
+    console.log(loginData,"LOG");
+    
     dispatch(login(loginData))
     .then(()=>{
-      Swal.fire("Admin Login Successfull");
+      Swal.fire("Success", "Admin Login Successful!", "success");
       navigate('/')
     })
-    
-    
+    .catch((error)=>{
+      Swal.fire("Error", error.message, "error");
+    })
   }
 
   return (
@@ -52,7 +54,6 @@ function LoginPage() {
           event.preventDefault();
           dispatch(handleLogin())
         }}
-        
       >
         <div className="email-group mb-3">
           <label className="form-label">Email</label>

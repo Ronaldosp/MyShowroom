@@ -1,6 +1,5 @@
 import Button from 'react-bootstrap/Button';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { deleteCategory } from '../store/action/actionCreator';
 
 
@@ -11,7 +10,13 @@ function CategoryTable({el , index}) {
     event.preventDefault()
     const id = el.id
     dispatch(deleteCategory(id))
-    Swal.fire("Category Successfully Deleted");
+    Swal.fire({
+      icon: "success",
+      title: "Deleted!",
+      ext: "Category has been deleted.",
+      timer: 1500,
+      showConfirmButton: false,
+    });
   }
 
   return (
@@ -21,7 +26,7 @@ function CategoryTable({el , index}) {
           <td>{el.name}</td>
           <td >
             <div style={{ display: "flex" , gap: 2 }} >
-           <Button onClick={handleDelete} variant="danger">Delete</Button>
+              <Button onClick={handleDelete} variant="danger">Delete</Button>
             </div>
           </td>
         </tr>

@@ -5,7 +5,6 @@ function RecentlyAddedCars({ cars }) {
   return (
     <div className="dashboard-card">
       <h4>Recently Added Cars</h4>
-
       <div className="recent-cars-list">
         {recentCars.map(car => (
           <div key={car.id} className="recent-car-item">
@@ -24,4 +23,5 @@ function RecentlyAddedCars({ cars }) {
     </div>
   );
 }
+
 export default RecentlyAddedCars;

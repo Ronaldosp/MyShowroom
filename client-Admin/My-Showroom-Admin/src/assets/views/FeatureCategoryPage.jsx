@@ -1,11 +1,11 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import AddFeatureCategory from "./AddFeatureCategory";
-import { createFeatureCategory, fetchFeatureCategory } from "../store/action/actionCreator.js";
+import { fetchFeatureCategory } from "../store/action/actionCreator.js";
 import FeatureCategoryTable from "../components/FeatureCategoryTable";
 
 function FeatureCategoryPage(){
@@ -13,12 +13,11 @@ function FeatureCategoryPage(){
         return state.featureCategoryReducer.featureCategories
     })
 
-    console.log(data , "data");
     const dispatch = useDispatch()
     
     useEffect(()=>{
        dispatch(fetchFeatureCategory())
-    },[])
+    },[dispatch])
 
     const [modalShow, setModalShow] = useState(false);
 
@@ -26,7 +25,6 @@ function FeatureCategoryPage(){
         <div style={{
           backgroundImage: 'url("")',
           backgroundSize: "cover",
-          // backgroundColor: '#20B2AA',
           backgroundRepeat: "no-repeat",
           minHeight: "100vh",
           display: "flex",
@@ -41,36 +39,36 @@ function FeatureCategoryPage(){
             padding: '25px 30px',
             borderRadius: '5px',
             boxShadow: '0 5px 10px rgba(0, 0, 0, 0.15)'}}>
-          <h1 className="d-flex justify-content-center text-align-center" >Feature Category List</h1>
-          <div className="d-flex justify-content-center text-align-center">
-            <Button variant="outline-primary" onClick={() => setModalShow(true)}>
-              Add New Category
-            </Button>
-          </div>
-          <AddFeatureCategory show={modalShow} onHide={() => setModalShow(false)} />
-          <div className="container">
-            {/* BaseCard */}
-            <div className=" row container d-flex grid gap-3 mt-4 row mx-auto ">
-              <Table striped bordered hover>
-                <thead >
-                  <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                {(
-                  data.map((el , index) => {
-                    return <FeatureCategoryTable el={el} index={++index} key={el.id} />;
-                  })
-                )}
-              </Table>
+            <h1 className="d-flex justify-content-center text-align-center" >Feature Category List</h1>
+            <div className="d-flex justify-content-center text-align-center">
+              <Button variant="outline-primary" onClick={() => setModalShow(true)}>
+                Add New Category
+              </Button>
             </div>
-          </div>
-          <Outlet />
+            <AddFeatureCategory show={modalShow} onHide={() => setModalShow(false)} />
+            <div className="container">
+              {/* BaseCard */}
+              <div className=" row container d-flex grid gap-3 mt-4 row mx-auto ">
+                <Table striped bordered hover>
+                  <thead >
+                    <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  {(
+                    data.map((el , index) => {
+                      return <FeatureCategoryTable el={el} index={++index} key={el.id} />;
+                    })
+                  )}
+                </Table>
+              </div>
+            </div>
+            <Outlet/>
           </div>
         </div>
-      );
+    );
 }
 
 export default FeatureCategoryPage;

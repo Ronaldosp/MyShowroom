@@ -1,5 +1,5 @@
 import "../styling/HomePage.scss";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { fetchBrands, fetchCategory, fetchFeatureCategory , fetchScpecificationCategory , fetchCar} from "../store/action/actionCreator.js";

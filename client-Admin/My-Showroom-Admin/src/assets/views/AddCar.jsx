@@ -19,11 +19,11 @@ function AddCar({ carId, ...props }) {
     }
 
     const formData = new FormData();
-    formData.append("car_id", carId); // send carId automatically
+    formData.append("car_id", carId);
     formData.append("desktopAsset", desktopFile);
     formData.append("mobileAsset", mobileFile);
 
-    dispatch(createCarARAsset(formData)); // make sure your action supports FormData
+    dispatch(createCarARAsset(formData));
     props.onHide();
     dispatch(fetchCar());
   };
@@ -40,7 +40,7 @@ function AddCar({ carId, ...props }) {
             <input
               className="form-control"
               type="file"
-              accept=".glb,.usdz,.gltf" // restrict to AR file types
+              accept=".glb,.usdz,.gltf"
               onChange={(e) => setDesktopFile(e.target.files[0])}
             />
           </div>
@@ -60,9 +60,9 @@ function AddCar({ carId, ...props }) {
               Add
             </button>
           </div>
+          
         </form>
       </Modal.Body>
-
       <Modal.Footer>
         <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer>

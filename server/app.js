@@ -123,7 +123,7 @@ app.post('/login', async(req , res)=>{
 app.post('/loginAdmin', async(req , res)=>{
   try {
     const {email , password} = req.body;
-    const user = Admin.findOne({Where : email});
+    const user = await Admin.findOne({Where : email});
     if(!user){
       throw { message : "UserNotFound" };
     }
@@ -175,7 +175,6 @@ app.post('/brands', async(req,res)=>{
     res.status(201).json(`Created New Brand ${name}`)
   } catch (error) {
     console.log(error);
-    
     res.status(500).json({ message: "Internal Server Error" });
   }
 });

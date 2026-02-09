@@ -1,9 +1,6 @@
 import Button from 'react-bootstrap/Button';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { deleteFeatureCategory } from '../store/action/actionCreator';
-
-
 
 function FeatureCategoryTable({el , index}) {
   const dispatch = useDispatch()
@@ -11,7 +8,13 @@ function FeatureCategoryTable({el , index}) {
     event.preventDefault()
     const id = el.id
     dispatch(deleteFeatureCategory(id))
-    Swal.fire("Feature Category Successfully Deleted");
+    Swal.fire({
+      icon: "success",
+      title: "Deleted!",
+      ext: "Feature Category has been deleted.",
+      timer: 1500,
+      showConfirmButton: false,
+    });
   }
 
   return (

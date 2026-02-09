@@ -1,5 +1,5 @@
-//const BASE_URL = 'http://localhost:3000'
-const BASE_URL = 'https://pc6k0rjb-3000.asse.devtunnels.ms'
+const BASE_URL = 'http://localhost:3000'
+//const BASE_URL = 'https://pc6k0rjb-3000.asse.devtunnels.ms'
 
 export function brandsFetchSuccess(payload){
     return{
@@ -46,7 +46,6 @@ export function specificationCategoriesFetchSuccess(payload){
 export const register = (body) =>{
     return async (dispatch)=>{
         try {
-            console.log(body);
             const response = await fetch(BASE_URL+`/registerAdmin`,{
                 method:"POST",
                 body: JSON.stringify(body),
@@ -54,9 +53,11 @@ export const register = (body) =>{
                     'Content-Type':'application/json'
                 }
             }) 
-            console.log(response);
+
+            const data = await response.json();
+
             if (!response.ok) {
-                throw new Error('Something went wrong!');
+                throw new Error(data.message || 'Something went wrong!');
             }
         } catch (error) {
             console.log(error);
@@ -68,7 +69,6 @@ export const register = (body) =>{
 export const registerDealer = (body) =>{
     return async (dispatch)=>{
         try {
-            console.log(body);
             const response = await fetch(BASE_URL+`/register`,{
                 method:"POST",
                 body: JSON.stringify(body),
@@ -76,9 +76,11 @@ export const registerDealer = (body) =>{
                     'Content-Type':'application/json'
                 }
             }) 
-            console.log(response);
+
+            const data = await response.json();
+
             if (!response.ok) {
-                throw new Error('Something went wrong!');
+                throw new Error(data.message || 'Something went wrong!');
             }
         } catch (error) {
             console.log(error);
@@ -96,15 +98,17 @@ export const login = (body) =>{
                 headers:{
                     'Content-Type':'application/json',
                 }
-            }) 
+            })
+            const data = await response.json();
+
             if (!response.ok) {
-                throw new Error('Something went wrong!');
+                throw new Error(data.message || 'Something went wrong!');
             }
-            const data = await response.json()
+            
             localStorage.setItem("access_token", data.access_token)
 
         } catch (error) {
-            console.log(error);
+            console.log(error.message);
             throw error;
         }
     }
@@ -121,12 +125,8 @@ export const fetchBrands = () =>{
                     //access_token:localStorage.access_token
                 }
             })
-             console.log(response , "response");
             if(!response.ok) throw new Error("Something wrong!")
             const data = await response.json()
-            console.log(data , "data");
-            
-            
             const action = brandsFetchSuccess(data)
             dispatch(action)
        
@@ -149,7 +149,7 @@ export const createBrands = (body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response);
+
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -165,7 +165,6 @@ export const createBrands = (body) =>{
 export const editBrand = (id , body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body);
             const response = await fetch(BASE_URL+`/brands/${id}`,{
                 method:"PUT",
                 body: JSON.stringify(body),
@@ -174,7 +173,7 @@ export const editBrand = (id , body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response);
+
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -198,7 +197,7 @@ export const deleteBrand= (id) =>{
 
                 }
             }) 
-            console.log(response);
+
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -246,7 +245,6 @@ export const fetchCategory = () =>{
 export const createCategory = (body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body);
             const response = await fetch(BASE_URL+`/categories`,{
                 method:"POST",
                 body: JSON.stringify(body),
@@ -255,7 +253,7 @@ export const createCategory = (body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response);
+
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -271,7 +269,6 @@ export const createCategory = (body) =>{
 export const editCategory = (id , body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body);
             const response = await fetch(BASE_URL+`/categories/${id}`,{
                 method:"PUT",
                 body: JSON.stringify(body),
@@ -280,7 +277,7 @@ export const editCategory = (id , body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response);
+
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -304,7 +301,7 @@ export const deleteCategory= (id) =>{
 
                 }
             }) 
-            console.log(response);
+
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -347,7 +344,6 @@ export const fetchCar = () =>{
 export const createCar = (body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body);
             const response = await fetch(BASE_URL+`/cars`,{
                 method:"POST",
                 body: JSON.stringify(body),
@@ -356,7 +352,7 @@ export const createCar = (body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response);
+
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -372,7 +368,6 @@ export const createCar = (body) =>{
 export const editCar = (id , body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body);
             const response = await fetch(BASE_URL+`/cars/${id}`,{
                 method:"PUT",
                 body: JSON.stringify(body),
@@ -381,7 +376,7 @@ export const editCar = (id , body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response);
+
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -405,7 +400,7 @@ export const deleteCar= (id) =>{
 
                 }
             }) 
-            console.log(response);
+
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -473,7 +468,6 @@ export const createFeatureCategory = (body) =>{
 export const editFeatureCategory = (id , body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body);
             const response = await fetch(BASE_URL+`/featurecategories/${id}`,{
                 method:"PUT",
                 body: JSON.stringify(body),
@@ -482,7 +476,7 @@ export const editFeatureCategory = (id , body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response);
+
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -506,7 +500,7 @@ export const deleteFeatureCategory= (id) =>{
 
                 }
             }) 
-            console.log(response);
+
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -573,7 +567,6 @@ export const createScpecificationCategory = (body) =>{
 export const editScpecificationCategory = (id , body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body);
             const response = await fetch(BASE_URL+`/specificationcategories/${id}`,{
                 method:"PUT",
                 body: JSON.stringify(body),
@@ -582,7 +575,7 @@ export const editScpecificationCategory = (id , body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response);
+
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -606,7 +599,7 @@ export const deleteScpecificationCategory= (id) =>{
 
                 }
             }) 
-            console.log(response);
+
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -652,7 +645,7 @@ export const createCarARAsset = (formData) =>{
                 method:"POST",
                 body: formData,
             }) 
-            console.log(response);
+
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -668,7 +661,6 @@ export const createCarARAsset = (formData) =>{
 export const editCarARAsset = (id , body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body);
             const response = await fetch(BASE_URL+`/cararassets/${id}`,{
                 method:"PUT",
                 body: JSON.stringify(body),
@@ -677,7 +669,7 @@ export const editCarARAsset = (id , body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response);
+
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -701,7 +693,7 @@ export const deleteCarARAsset = (id) =>{
 
                 }
             }) 
-            console.log(response);
+
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }

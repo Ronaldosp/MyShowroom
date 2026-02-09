@@ -17,8 +17,6 @@ function CarTable({ el, index }) {
   const handleViewAsset = (type) => {
     if (!el.CarARAsset) return;
 
-    console.log("[CarTable] View asset:", type);
-
     if (type === "3d") {
       setSelectedAsset(el.CarARAsset.desktopAsset);
       setViewerType("3d");
