@@ -601,8 +601,11 @@ app.get('/featurecategories', async(req,res)=>{
 
 app.post('/featurecategories', async(req,res)=>{
   try {
+    console.log(req.body);
+    
     const{name ,description, thumbnail} = req.body
     const featurecategories= await FeatureCategory.create({name,description , thumbnail})
+    console.log(featurecategories);
     res.status(201).json(`Created New Feature Category ${name}`)
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
@@ -672,8 +675,11 @@ app.post('/features', async(req,res)=>{
     
     const{ car_id , featureCategory_id, name, description , thumbnail} = req.body
     const features= await Feature.create({ car_id , featureCategory_id, name, description , thumbnail})
+    console.log("test" ,features);
     res.status(201).json(`Created New Feature ${name}`)
   } catch (error) {
+    console.log(error);
+    
     res.status(500).json({ message: "Internal Server Error" });
   }
 });

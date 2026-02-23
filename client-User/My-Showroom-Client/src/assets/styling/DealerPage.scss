@@ -78,6 +78,9 @@
             max-width: 400px;
             height: auto;
             transition: transform 0.3s, box-shadow 0.3s;
+            border-radius: 1.25rem;
+            background-color: #f8f9fa;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
             img{
                 width: 400px;
                 height: 250px;
@@ -97,7 +100,9 @@
                 }
                 .dealerprofile-detail-cars-card__button{
                     padding-top: 10px;
-
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
                     &:hover{
                         cursor: pointer;
                         transform: scale(1.05);

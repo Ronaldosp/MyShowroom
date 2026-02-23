@@ -35,125 +35,149 @@ function ModalPop(props){
     },[])
     
     return <Modal
-    {...props}
-    size="lg"
-    aria-labelledby="contained-modal-title-vcenter"
-    centered
-  >
-    <Modal.Header closeButton>
-      <Modal.Title id="contained-modal-title-vcenter">
-       Create Dealer Profile
-      </Modal.Title>
-    </Modal.Header>
-    <Modal.Body>
-    <div className="container " style={{width:400 , padding: 25, border:5 }}>
-      
-        <div className="container" >
-     <form onSubmit={(event)=>{
-      event.preventDefault()
-      const dealerData = {
-        shopName,
-        type,
-        address,
-        instagramLink,
-        whatsAppLink,
-        brand_id,
-        user_id  
-      }
-      console.log(dealerData);
-      dispatch(createDealer(dealerData))
-      props.onHide()
-    }}>
-      <div className="mb-3">
-        <label className="form-label">Name</label>
-        <input 
-        className="form-control" 
-        type="text"
-        value={shopName}
-        onChange={(event)=>{
-          const value = event.target.value
-          setShopName(value)
-        }}
-         />
-      </div>
-      <div className="mb-3">
-        <label className="form-label">Shop Logo</label>
-        <input 
-        className="form-control" 
-        type="text"
-        value={type}
-        onChange={(event)=>{
-          const value = event.target.value
-          setType(value)
-        }}
-         />
-      </div>
-      <div className="mb-3">
-        <label className="form-label">Address</label>
-        <input 
-        className="form-control" 
-        type="text"
-        value={address}
-        onChange={(event)=>{
-          const value = event.target.value
-          setAddress(value)
-        }}
-         />
-      </div>
-      <label className="form-label">Brands</label>
-        <Form.Select
-        multiple
-        value={brand_id}
-        onChange={(event) => {
-            const values = Array.from(
-            event.target.selectedOptions,
-            (option) => Number(option.value)
-            );
-            setBrandId(values);
-        }}
-        >
-        {data.map((el) => (
-            <option key={el.id} value={el.id}>
-            {el.name}
-            </option>
-        ))}
-        </Form.Select>
-      <div className="mb-3">
-        <label className="form-label">Instagram Link</label>
-        <input 
-        className="form-control" 
-        type="text"
-        value={instagramLink}
-        onChange={(event)=>{
-          const value = event.target.value
-          setInstagramLink(value)
-        }}
-         />
-      </div>
-      <div className="mb-3">
-        <label className="form-label">WhatsApp Link</label>
-        <input 
-        className="form-control" 
-        type="text"
-        value={whatsAppLink}
-        onChange={(event)=>{
-          const value = event.target.value
-          setWhatsAppLink(value)
-        }}
-         />
-      </div>
-        <div className="d-flex justify-content-center text-align-center">
-        <button type="submit" className="btn btn-success">
-          Create
-        </button>
-      </div>
-    </form>
-    </div>
-    </div>
-    </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
-      </Modal.Footer>
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+        Create Dealer Profile
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <div className="container " style={{width:400 , padding: 25, border:5 }}>
+          <div className="container" >
+            <form onSubmit={(event)=>{
+              event.preventDefault();
+
+              if(!shopName.trim() || !address.trim() || !type.trim() || !whatsAppLink.trim() || !brand_id){
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Shop Name, Address, Image, Brand and WhatsAppLink are required",
+                });
+
+                if(!user_id){
+                  Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Internal Server Error (Logic Issue)",
+                  });
+                }
+                return;
+              }
+
+              const dealerData = {
+                shopName,
+                type,
+                address,
+                instagramLink,
+                whatsAppLink,
+                brand_id,
+                user_id  
+              }
+
+              dispatch(createDealer(dealerData))
+              .then(() => {
+                Swal.fire("Success", "Dealer Profile Created Successfully!", "success");
+                props.onHide();
+              })
+              .catch(() => {
+                Swal.fire("Error", "Failed to create dealer profile", "error");
+              });
+              
+            }}>
+              <div className="mb-3">
+                <label className="form-label">Name</label>
+                <input 
+                className="form-control" 
+                type="text"
+                value={shopName}
+                onChange={(event)=>{
+                  const value = event.target.value
+                  setShopName(value)
+                }}
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Shop Logo</label>
+                <input 
+                className="form-control" 
+                type="text"
+                value={type}
+                onChange={(event)=>{
+                  const value = event.target.value
+                  setType(value)
+                }}
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Address</label>
+                <input 
+                className="form-control" 
+                type="text"
+                value={address}
+                onChange={(event)=>{
+                  const value = event.target.value
+                  setAddress(value)
+                }}
+                />
+              </div>
+              <label className="form-label">Brands</label>
+                <Form.Select
+                multiple
+                value={brand_id}
+                onChange={(event) => {
+                    const values = Array.from(
+                    event.target.selectedOptions,
+                    (option) => Number(option.value)
+                    );
+                    setBrandId(values);
+                }}
+                >
+                {data.map((el) => (
+                    <option key={el.id} value={el.id}>
+                    {el.name}
+                    </option>
+                ))}
+                </Form.Select>
+              <div className="mb-3">
+                <label className="form-label">Instagram Link</label>
+                <input 
+                className="form-control" 
+                type="text"
+                value={instagramLink}
+                onChange={(event)=>{
+                  const value = event.target.value
+                  setInstagramLink(value)
+                }}
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">WhatsApp Link</label>
+                <input 
+                className="form-control" 
+                type="text"
+                value={whatsAppLink}
+                onChange={(event)=>{
+                  const value = event.target.value
+                  setWhatsAppLink(value)
+                }}
+                />
+              </div>
+                <div className="d-flex justify-content-center text-align-center">
+                <button type="submit" className="btn btn-success">
+                  Create
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={props.onHide}>Close</Button>
+        </Modal.Footer>
     </Modal>
 }
 

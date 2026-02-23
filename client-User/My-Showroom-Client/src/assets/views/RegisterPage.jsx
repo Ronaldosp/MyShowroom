@@ -3,13 +3,16 @@ import {useNavigate} from "react-router-dom"
 import {useDispatch} from "react-redux"
 import Button from 'react-bootstrap/Button';
 import { register } from "../store/action/actionCreator";
+
 function RegisterPage(){
-    const [username , setUsername] = useState("")
-    const [email, setEmail] = useState("")
-    const [password , setPassword] = useState("")
-    const [role, setRole] = useState("")
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
+    const [username , setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password , setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [role, setRole] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     return <>
         <div style={{
         backgroundImage: 'url("https://www.pierarchitects.co.uk/wp-content/uploads/2024/07/modern-car-showroom-architects.jpg")',
@@ -31,11 +34,38 @@ function RegisterPage(){
             <h1 className="d-flex justify-content-center text-align-center">Register Form</h1>
             <div className="container" >
          <form onSubmit={(event)=>{
-          event.preventDefault()
+          event.preventDefault();
+
+          if(!email.trim() || !password.trim() || !username.trim()){
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "email , password , username are required",
+            });
+            return;
+          }
+
+          if (password !== confirmPassword) {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Passwords do not match",
+            });
+            return;
+          }
+
           const registerData={
             email , password , username , role
           };
+
           dispatch(register(registerData))
+          .then(()=>{
+            Swal.fire("Success", "Register Successful!", "success");
+            navigate('/')
+          })
+          .catch((error)=>{
+            Swal.fire("Error", error.message, "error");
+          })
           navigate('/')
 
         }}>
@@ -65,15 +95,30 @@ function RegisterPage(){
           </div>
           <div className="mb-3">
             <label className="form-label">Password</label>
-            <input 
-            type="password" 
-            className="form-control"
-            value={password}
-            onChange={(event)=>{
-              const value = event.target.value
-              setPassword(value)
-            }}
-             />
+            <div className="input-group">
+              <input
+                type={showPassword ? "text" : "password"}
+                className="form-control"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button
+                type="button"
+                className="btn btn-outline-secondary"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Confirm Password</label>
+            <input
+              type={showPassword ? "text" : "password"}
+              className="form-control"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
           </div>
           
           <div className="d-flex justify-content-center text-align-center">

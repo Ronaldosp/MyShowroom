@@ -1,6 +1,9 @@
 import "../styling/CategoryCards.scss"
+import { useNavigate } from "react-router-dom";
 
 export default function CategoryCards({el , index}){
+    const navigate = useNavigate();
+
     const categoryImages = [
         "https://cdn.prod.website-files.com/6751695b5f949fbb13dd9170/67517fd4540593fb2c03d31b_category-thumb-08-p-500.jpg",
         "https://images.unsplash.com/photo-1688398658165-9f404b8617d3?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bWNsYXJlbiUyMDc2NWx0fGVufDB8fDB8fHww&fm=jpg&q=60&w=3000",
@@ -19,7 +22,7 @@ export default function CategoryCards({el , index}){
         <div className="category-cards-card-title">
             <h5>{el.name}</h5>
         </div>
-        <a href="">
+        <a onClick={() => navigate('/listing')}>
             <img src={image} alt={el.name}/>
         </a>
     </div>

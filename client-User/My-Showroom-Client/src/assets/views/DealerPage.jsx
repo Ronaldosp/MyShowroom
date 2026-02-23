@@ -4,7 +4,7 @@ import EditModal from "../components/EditModal";
 import { useState , useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import { useSelector,useDispatch } from "react-redux";
-import { fetchDealerIdCars  } from "../store/action/actionCreator";
+import { fetchDealerIdCars , deleteCar  } from "../store/action/actionCreator";
 import { useNavigate } from "react-router-dom";
 
 export default function DealerPage(){
@@ -48,10 +48,22 @@ export default function DealerPage(){
             dispatch(fetchDealerIdCars(dealerProfile[0].id));
         }
     }, [dealerProfile, dispatch]);
-    const profile = dealerProfile?.[0];
-    console.log(profile , "profile");
-    
 
+    const profile = dealerProfile?.[0];
+
+    const handleDelete= (event,carId) => {
+        event.preventDefault();
+        dispatch(deleteCar(carId))
+            Swal.fire({
+            icon: "success",
+            title: "Deleted!",
+            text: "Car has been deleted.",
+            timer: 1500,
+            showConfirmButton: false,
+        });
+        dispatch(fetchDealerIdCars(profile.id));
+    };
+    
     return(
         <div className="dealerprofile-container">
             <div className="dealerprofile-modal-button">
@@ -128,6 +140,7 @@ export default function DealerPage(){
                             <p className="dealerprofile-detail-cars-card__price">Rp. {car.price.toLocaleString("id-ID")} IDR</p>
                             <div className="dealerprofile-detail-cars-card__button">
                                 <Button variant="secondary" onClick={() => navigate(`/dealer/cars/${car.id}`)}>Specification</Button>
+                                <Button variant="danger" onClick={(e) => handleDelete(e ,car.id)}>Delete</Button>
                             </div>
                         </div>
                     </div>

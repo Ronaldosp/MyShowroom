@@ -1,5 +1,4 @@
 import "../styling/CarsDetailPage.scss"
-import Button from "react-bootstrap/Button";
 import { useNavigate , useParams } from "react-router-dom";
 import { useState , useEffect , useRef } from "react";
 import { useSelector,useDispatch } from "react-redux";
@@ -11,7 +10,6 @@ import powerLogo from "../images/logo-power-output.png";
 import priceLogo from "../images/logo-price.png";
 import Car3DViewer from "../views/Car3DViewer";
 import ARViewer from "../views/ARViewer";
-import IOSARViewer  from "../views/IOSARViewer";
 
 function CarsDetailPage() {
   const dispatch = useDispatch();
@@ -90,16 +88,43 @@ function CarsDetailPage() {
     }));
   };
 
-  const handleBookNow = () => {
-    const whatsappLink = carData?.DealerProfile?.whatsapplink;
+  const [formErrors, setFormErrors] = useState({
+    name: false,
+    email: false,
+    phone: false
+  });
 
+  const handleBookNow = () => {
+    const whatsappLink = carData?.DealerProfile?.whatsAppLink;
+
+    const errors = {
+      name: !contactForm.name.trim(),
+      email: !contactForm.email.trim(),
+      phone: !contactForm.phone.trim()
+    };
+
+    setFormErrors(errors);
+
+    // If any field is invalid
+    if (errors.name || errors.email || errors.phone) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Name, Email, and Phone are required",
+      });
+      return;
+    }
     if (!whatsappLink) {
       alert("Dealer WhatsApp not available");
       return;
     }
 
     if (!contactForm.agreed) {
-      alert("Please agree to the terms");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please agree to the terms and conditions",
+      });
       return;
     }
 
@@ -285,6 +310,7 @@ function CarsDetailPage() {
                     placeholder="Name"
                     value={contactForm.name}
                     onChange={handleInputChange}
+                    className={formErrors.name ? "input-error" : ""}
                   />
                   <input
                     type="email"
@@ -292,6 +318,7 @@ function CarsDetailPage() {
                     placeholder="Email"
                     value={contactForm.email}
                     onChange={handleInputChange}
+                    className={formErrors.email ? "input-error" : ""}
                   />
                 </div>
 
@@ -302,6 +329,7 @@ function CarsDetailPage() {
                     placeholder="Phone Number"
                     value={contactForm.phone}
                     onChange={handleInputChange}
+                    className={formErrors.phone ? "input-error" : ""}
                   />
                   <input
                     type="text"

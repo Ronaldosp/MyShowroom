@@ -5,7 +5,6 @@ import { useState , useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import { useSelector,useDispatch } from "react-redux";
 import { fetchCar , fetchCategory , fetchBrands, fetchFeatureCategory , fetchSpecificationCategory , fetchCarId  , createSpecifications , deleteSpecifications , deleteSpecificationFields , deleteFeature} from "../store/action/actionCreator";
-import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 export default function DealerCarSpecification(){
@@ -54,6 +53,14 @@ export default function DealerCarSpecification(){
             await dispatch(deleteSpecificationFields(fieldId));
             await dispatch(deleteSpecifications(specificationId));
 
+            Swal.fire({
+                icon: "success",
+                title: "Deleted!",
+                ext: "Car Specification has been deleted.",
+                timer: 1500,
+                showConfirmButton: false,
+            });
+
             dispatch(fetchCarId(id));
         } catch (err) {
             console.error(err);
@@ -66,6 +73,14 @@ export default function DealerCarSpecification(){
 
         try {
             await dispatch(deleteFeature(fieldId));
+
+            Swal.fire({
+                icon: "success",
+                title: "Deleted!",
+                ext: "Car Feature has been deleted.",
+                timer: 1500,
+                showConfirmButton: false,
+            });
 
             dispatch(fetchCarId(id));
         } catch (err) {
@@ -107,9 +122,6 @@ export default function DealerCarSpecification(){
                     const specifications = carData?.Specifications?.filter(
                         s => s.SpecificationCategory?.id === spec.id
                     );
-
-                    console.log(specifications , "specification");
-                    
 
                     return (
                         <div key={spec.id} className="spec-card">

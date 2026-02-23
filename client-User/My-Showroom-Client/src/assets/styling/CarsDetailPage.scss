@@ -191,6 +191,11 @@
                 &.full {
                     grid-template-columns: 1fr;
                 }
+
+                .input-error {
+                    border: 2px solid #ff4d4f !important;
+                    background-color: #fff1f0;
+                }
             }
 
             /* TERMS */
@@ -207,6 +212,7 @@
                 input {
                     margin-right: 8px;
                     width: unset;
+                    
                 }
 
                 label{

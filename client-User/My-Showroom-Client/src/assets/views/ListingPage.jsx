@@ -1,5 +1,4 @@
 import "../styling/ListingPage.scss";
-import testCar8 from "../images/test-car-8.jpg";
 import { useNavigate } from "react-router-dom";
 import { useState , useEffect } from "react";
 import { useSelector,useDispatch } from "react-redux";
@@ -9,7 +8,7 @@ export default function ListingPage(){
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [showFilter, setShowFilter] = useState(false);
-
+    const isLoggedIn = !!localStorage.getItem("access_token");
     const dataCategories = useSelector((state)=>{
       return state.categoryReducer.categories
     })
@@ -84,16 +83,13 @@ export default function ListingPage(){
     }, []);
 
    const filteredCars = carData.filter((car) => {
-        // 1. Search match
         const searchMatch =
             car.model.toLowerCase().includes(searchQuery.toLowerCase());
 
-        // 2. No brand/category filter → only search applies
         if (selectedBrands.length === 0 && selectedCategories.length === 0) {
             return searchMatch;
         }
 
-        // 3. Brand / category OR logic
         const brandMatch = selectedBrands.includes(car.brand_id);
         const categoryMatch = selectedCategories.includes(car.category_id);
 
@@ -106,7 +102,14 @@ export default function ListingPage(){
                 {compareCount > 0 && (
                     <div
                         className="compare-floating"
-                        onClick={() => navigate("/compare")}
+                        onClick={() => {
+                                if(!isLoggedIn){
+                                    Swal.fire("Error", "Must be Logged in to view compare", "error");
+                                }else{
+                                    navigate("/compare")
+                                }
+                            }
+                        }
                     >
                         Compare ({compareCount})
                     </div>
@@ -217,7 +220,14 @@ export default function ListingPage(){
                                             <p>Rp. {car.price.toLocaleString("id-ID")} IDR</p>
                                         </div>
                                         <div className="listing-page-card-button">
-                                                <a onClick={() => navigate(`/detail/${car.id}`)} >Learn More</a>
+                                                <a onClick={() => {
+                                                        if(!isLoggedIn){
+                                                            Swal.fire("Error", "Must be Logged in to view detail", "error");
+                                                        }else{
+                                                            navigate(`/detail/${car.id}`)
+                                                        }
+                                                    }
+                                                } >Detail</a>
                                         </div>
                                     </div>
                                 </div>

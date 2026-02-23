@@ -70,13 +70,43 @@ export default function AddCar(){
             <h1 className="d-flex justify-content-center text-align-center">Add New Car for Dealer</h1>
             <div className="container" >
          <form onSubmit={(event)=>{
-          event.preventDefault()
+          event.preventDefault();
+
+          if(!model.trim() || !brand_id || !thumbnail.trim() || !category_id || !price ){
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Model, Brand, Image, Category and Price are required",
+              });
+
+              if(!dealer_id){
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Internal Server Error (Logic Issue)",
+                });
+              }
+              return;
+          }
+
           const carData={
             model , brand_id , thumbnail , category_id , price , dealer_id
           };
-          dispatch(createCar(carData))
-          navigate('/')
 
+          dispatch(createCar(carData))
+          .then(() => {
+            Swal.fire("Success", "Car added!", "success");
+            setModel("");
+            setBrandId(null);
+            setThumbnail("");
+            setCategoryId(null);
+            setPrice(null);
+          })
+          .catch((error) => {
+            Swal.fire("Error", "Failed to add car", "error");
+          });
+
+          navigate('/dealer')
         }}>
           <div className="mb-3">
             <label className="form-label">Model Name</label>

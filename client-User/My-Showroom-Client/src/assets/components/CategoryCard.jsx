@@ -1,4 +1,4 @@
-import { useState , useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector,useDispatch } from "react-redux";
 import "../styling/CategoryCards.scss"
 import { fetchCategory } from "../store/action/actionCreator";
@@ -8,11 +8,11 @@ export default function CategoryCards(){
     const data = useSelector((state)=>{
       return state.categoryReducer.categories
     })
-    console.log(data);
+
     const dispatch = useDispatch();
     useEffect(()=>{
         dispatch(fetchCategory())
-    },[])
+    },[dispatch])
 
     return(
         <div className="category-cards-container">

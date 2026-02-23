@@ -1,13 +1,7 @@
 import { useEffect, useState } from "react"
 import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-import { useDispatch, useSelector } from "react-redux";
-import Form from 'react-bootstrap/Form';
-import { createSpecificationFields, fetchSpecificationCategory } from "../store/action/actionCreator";
-import { jwtDecode } from "jwt-decode";
-import { useParams } from "react-router-dom";
-
-
+import { useDispatch } from "react-redux";
+import { createSpecificationFields } from "../store/action/actionCreator";
 
 function AddSpecificationFieldsModal({ show, onHide, specificationId , specificationName}){
 
@@ -21,8 +15,6 @@ function AddSpecificationFieldsModal({ show, onHide, specificationId , specifica
       "Power Output",
       "Drive System"
     ];
-    console.log(specificationId ,"specificationId MODAL");
-    console.log(specificationName ,"specificationName MODAL");
 
     const overviewWithoutUnit = ["Engine Name", "Drive System"];
     const isOverviewWithoutUnit =
@@ -57,21 +49,35 @@ function AddSpecificationFieldsModal({ show, onHide, specificationId , specifica
       
     <div className="container" >
      <form onSubmit={(event)=>{
-      event.preventDefault()
+      event.preventDefault();
+
+      if(!key.trim() || !value.trim() || !unit.trim()){
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Name, Value and Unit are required",
+        });
+        return;
+      }
+
       const fieldData = {
         specification_id :specificationId,
         key: specificationName === "Overview" ? overviewType : key,
         value,
         unit: isOverviewWithoutUnit ? "N/A" : unit,
       }
-      console.log(fieldData, "FIELDS DATA");
+
       dispatch(createSpecificationFields(fieldData)).then(() => {
+        Swal.fire("Success", "Car Specification added!", "success");
+        setKey("");
+        setValue("");
+        setUnit("");
         onHide();
+      })
+      .catch(() => {
+        Swal.fire("Error", "Failed to add car specification", "error");
       });
-      setKey("");
-      setValue("");
-      setUnit("");
-      setOverviewType("");
+
     }}>
       {specificationName === "Overview" ? (
         <div className="mb-3">

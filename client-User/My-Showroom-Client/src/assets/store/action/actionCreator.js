@@ -1,5 +1,5 @@
-//const BASE_URL = 'http://localhost:3000'
-const BASE_URL = 'https://pc6k0rjb-3000.asse.devtunnels.ms'
+const BASE_URL = 'http://localhost:3000'
+//const BASE_URL = 'https://pc6k0rjb-3000.asse.devtunnels.ms'
 export function brandsFetchSuccess(payload){
     return{
         type:"brands/get",
@@ -93,7 +93,6 @@ export function specificationFetchSuccess(payload){
 export const register = (body) =>{
     return async (dispatch)=>{
         try {
-            console.log(body);
             const response = await fetch(BASE_URL+`/register`,{
                 method:"POST",
                 body: JSON.stringify(body),
@@ -101,10 +100,13 @@ export const register = (body) =>{
                     'Content-Type':'application/json'
                 }
             }) 
-            console.log(response);
+
+            const data = await response.json();
+
             if (!response.ok) {
-                throw new Error('Something went wrong!');
+                throw new Error(data.message || 'Something went wrong!');
             }
+
         } catch (error) {
             console.log(error);
             throw error;
@@ -122,12 +124,12 @@ export const login = (body) =>{
                     'Content-Type':'application/json',
                 }
             }) 
+            const data = await response.json();
+
             if (!response.ok) {
-                throw new Error('Something went wrong!');
+                throw new Error(data.message || 'Something went wrong!');
             }
-            const data = await response.json()
             localStorage.setItem("access_token", data.access_token);
-            console.log(data , "LOGINDATA");
             
             return data;
 
@@ -167,7 +169,6 @@ export const fetchBrands = () =>{
 export const createBrands = (body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body);
             const response = await fetch(BASE_URL+`/brands`,{
                 method:"POST",
                 body: JSON.stringify(body),
@@ -176,7 +177,7 @@ export const createBrands = (body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response);
+
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -192,7 +193,6 @@ export const createBrands = (body) =>{
 export const editBrand = (id , body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body);
             const response = await fetch(BASE_URL+`/brands/${id}`,{
                 method:"PUT",
                 body: JSON.stringify(body),
@@ -201,7 +201,7 @@ export const editBrand = (id , body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response);
+
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -225,7 +225,7 @@ export const deleteBrand= (id) =>{
 
                 }
             }) 
-            console.log(response);
+            
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -269,7 +269,6 @@ export const fetchCategory = () =>{
 export const createCategory = (body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body);
             const response = await fetch(BASE_URL+`/categories`,{
                 method:"POST",
                 body: JSON.stringify(body),
@@ -278,7 +277,7 @@ export const createCategory = (body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response);
+            
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -294,7 +293,6 @@ export const createCategory = (body) =>{
 export const editCategory = (id , body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body);
             const response = await fetch(BASE_URL+`/categories/${id}`,{
                 method:"PUT",
                 body: JSON.stringify(body),
@@ -303,7 +301,7 @@ export const editCategory = (id , body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response);
+            
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -327,7 +325,7 @@ export const deleteCategory= (id) =>{
 
                 }
             }) 
-            console.log(response);
+            
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -393,7 +391,6 @@ export const fetchCarId = (id) =>{
 export const createCar = (body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body , "create car");
             const response = await fetch(BASE_URL+`/cars`,{
                 method:"POST",
                 body: JSON.stringify(body),
@@ -402,9 +399,10 @@ export const createCar = (body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response,"create car");
+            const data = await response.json();
+
             if (!response.ok) {
-                throw new Error('Something went wrong!');
+                throw new Error(data.message || 'Something went wrong!');
             }
             dispatch(fetchCar())
             
@@ -418,7 +416,6 @@ export const createCar = (body) =>{
 export const editCar = (id , body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body);
             const response = await fetch(BASE_URL+`/cars/${id}`,{
                 method:"PUT",
                 body: JSON.stringify(body),
@@ -427,7 +424,7 @@ export const editCar = (id , body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response);
+            
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -451,7 +448,7 @@ export const deleteCar= (id) =>{
 
                 }
             }) 
-            console.log(response);
+            
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -520,7 +517,6 @@ export const fetchDealerId = (id) =>{
 export const fetchDealerIdCars = (id) =>{
     return async(dispatch)=>{
         try {
-            console.log("id response:", id);
             const response = await fetch(BASE_URL+`/dealerprofiles/${id}`,{
                 headers:{
                     'Content-Type':'application/json',
@@ -529,7 +525,6 @@ export const fetchDealerIdCars = (id) =>{
             })
             if(!response.ok) throw new Error("Something wrong!")
             const data = await response.json();
-            console.log("API response:", data);
 
             // Ambil cars
             const dealerCars = data.Cars || [];
@@ -549,7 +544,6 @@ export const fetchDealerIdCars = (id) =>{
 export const fetchDetailCars = (id) =>{
     return async(dispatch)=>{
         try {
-            console.log("id response:", id);
             const response = await fetch(BASE_URL+`/cars/${id}`,{
                 headers:{
                     'Content-Type':'application/json',
@@ -558,7 +552,6 @@ export const fetchDetailCars = (id) =>{
             })
             if(!response.ok) throw new Error("Something wrong!")
             const data = await response.json();
-            console.log("API response:", data);
 
             // Ambil cars
             const dealerCars = data.Cars || [];
@@ -660,7 +653,6 @@ export const fetchDealerBrand = () =>{
 export const createDealer = (body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body);
             const response = await fetch(BASE_URL+`/dealerprofiles`,{
                 method:"POST",
                 body: JSON.stringify(body),
@@ -669,7 +661,7 @@ export const createDealer = (body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response);
+            
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -685,7 +677,6 @@ export const createDealer = (body) =>{
 export const editDealer = (id , body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body);
             const response = await fetch(BASE_URL+`/dealerprofiles/${id}`,{
                 method:"PUT",
                 body: JSON.stringify(body),
@@ -694,7 +685,7 @@ export const editDealer = (id , body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response);
+            
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -718,7 +709,7 @@ export const deleteDealer= (id) =>{
 
                 }
             }) 
-            console.log(response);
+            
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -742,10 +733,8 @@ export const fetchFeatureCategory = () =>{
                 }
             })
             if(!response.ok) throw new Error("Something wrong!")
-            console.log(response,"response feature category");
             const data = await response.json()
        
-            console.log(data,"data feature category");
             
             const action = featureCategoriesFetchSuccess(data)
             dispatch(action)
@@ -761,7 +750,6 @@ export const fetchFeatureCategory = () =>{
 export const createFeatureCategory = (body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body , "feature category body");
             const response = await fetch(BASE_URL+`/featurecategories`,{
                 method:"POST",
                 body: JSON.stringify(body),
@@ -770,9 +758,10 @@ export const createFeatureCategory = (body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response , "feature category response create");
+            const data = await response.json();
+
             if (!response.ok) {
-                throw new Error('Something went wrong!');
+                throw new Error(data.message || 'Something went wrong!');
             }
             dispatch(fetchFeatureCategory())
             
@@ -786,7 +775,6 @@ export const createFeatureCategory = (body) =>{
 export const editFeatureCategory = (id , body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body);
             const response = await fetch(BASE_URL+`/featurecategories/${id}`,{
                 method:"PUT",
                 body: JSON.stringify(body),
@@ -795,7 +783,7 @@ export const editFeatureCategory = (id , body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response);
+            
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -819,7 +807,7 @@ export const deleteFeatureCategory= (id) =>{
 
                 }
             }) 
-            console.log(response);
+            
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -843,10 +831,10 @@ export const fetchFeature = () =>{
                 }
             })
             if(!response.ok) throw new Error("Something wrong!")
-            console.log(response,"response features");
+            
             const data = await response.json()
        
-            console.log(data,"data features");
+            
             
             const action = featureFetchSuccess(data)
             dispatch(action)
@@ -862,7 +850,6 @@ export const fetchFeature = () =>{
 export const createFeature = (body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body , "feature body");
             const response = await fetch(BASE_URL+`/features`,{
                 method:"POST",
                 body: JSON.stringify(body),
@@ -871,9 +858,10 @@ export const createFeature = (body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response , "feature response create");
+            const data = await response.json();
+
             if (!response.ok) {
-                throw new Error('Something went wrong!');
+                throw new Error(data.message || 'Something went wrong!');
             }
             dispatch(fetchFeature())
             
@@ -887,7 +875,6 @@ export const createFeature = (body) =>{
 export const editFeature = (id , body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body);
             const response = await fetch(BASE_URL+`/features/${id}`,{
                 method:"PUT",
                 body: JSON.stringify(body),
@@ -896,7 +883,7 @@ export const editFeature = (id , body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response);
+            
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -920,7 +907,7 @@ export const deleteFeature = (id) =>{
 
                 }
             }) 
-            console.log(response);
+            
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -944,10 +931,7 @@ export const fetchSpecificationCategory = () =>{
                 }
             })
             if(!response.ok) throw new Error("Something wrong!")
-            console.log(response,"response feature category");
             const data = await response.json()
-       
-            console.log(data,"data feature category");
             
             const action = specificationCategoriesFetchSuccess(data)
             dispatch(action)
@@ -963,7 +947,6 @@ export const fetchSpecificationCategory = () =>{
 export const createSpecificationCategory = (body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body , "feature category body");
             const response = await fetch(BASE_URL+`/specificationcategories`,{
                 method:"POST",
                 body: JSON.stringify(body),
@@ -972,7 +955,6 @@ export const createSpecificationCategory = (body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response , "feature category response create");
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -987,7 +969,6 @@ export const createSpecificationCategory = (body) =>{
 export const editSpecificationCategory = (id , body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body);
             const response = await fetch(BASE_URL+`/specificationcategories/${id}`,{
                 method:"PUT",
                 body: JSON.stringify(body),
@@ -996,7 +977,7 @@ export const editSpecificationCategory = (id , body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response);
+            
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -1020,7 +1001,7 @@ export const deleteSpecificationCategory= (id) =>{
 
                 }
             }) 
-            console.log(response);
+            
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -1044,10 +1025,10 @@ export const fetchSpecificationFields = () =>{
                 }
             })
             if(!response.ok) throw new Error("Something wrong!")
-            console.log(response,"response specification fields");
+            
             const data = await response.json()
        
-            console.log(data,"data specification fields");
+            
             
             const action = specificationFieldsFetchSuccess(data)
             dispatch(action)
@@ -1063,7 +1044,7 @@ export const fetchSpecificationFields = () =>{
 export const createSpecificationFields = (body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body , "feature specification fields");
+            
             const response = await fetch(BASE_URL+`/specificationfields`,{
                 method:"POST",
                 body: JSON.stringify(body),
@@ -1072,13 +1053,12 @@ export const createSpecificationFields = (body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response , "specification fields response create");
+            
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
 
             const data = await response.json();
-            console.log(data , "SPEC FIELDS DATA");
             
             dispatch(fetchSpecificationFields())
             return data;
@@ -1093,7 +1073,6 @@ export const createSpecificationFields = (body) =>{
 export const editSpecificationFields = (id , body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body);
             const response = await fetch(BASE_URL+`/specificationfields/${id}`,{
                 method:"PUT",
                 body: JSON.stringify(body),
@@ -1102,7 +1081,7 @@ export const editSpecificationFields = (id , body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response);
+            
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -1126,7 +1105,7 @@ export const deleteSpecificationFields = (id) =>{
 
                 }
             }) 
-            console.log(response);
+            
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -1150,10 +1129,8 @@ export const fetchSpecifications = () =>{
                 }
             })
             if(!response.ok) throw new Error("Something wrong!")
-            console.log(response,"response specification ");
             const data = await response.json()
        
-            console.log(data,"data specification ");
             
             const action = specificationFetchSuccess(data)
             dispatch(action)
@@ -1169,7 +1146,6 @@ export const fetchSpecifications = () =>{
 export const createSpecifications = (body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body , "feature specification ");
             const response = await fetch(BASE_URL+`/specifications`,{
                 method:"POST",
                 body: JSON.stringify(body),
@@ -1178,13 +1154,12 @@ export const createSpecifications = (body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response , "specification  response create");
+
             const data = await response.json(); 
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
             dispatch(fetchSpecifications())
-            console.log(data , "SPEC FIELDS DATA");
             
             return data; 
         } catch (error) {
@@ -1197,7 +1172,6 @@ export const createSpecifications = (body) =>{
 export const editSpecifications = (id , body) =>{
     return async(dispatch)=>{
         try {
-            console.log(body);
             const response = await fetch(BASE_URL+`/specifications/${id}`,{
                 method:"PUT",
                 body: JSON.stringify(body),
@@ -1206,7 +1180,7 @@ export const editSpecifications = (id , body) =>{
                     //access_token:localStorage.access_token
                 }
             }) 
-            console.log(response);
+            
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -1230,7 +1204,7 @@ export const deleteSpecifications = (id) =>{
 
                 }
             }) 
-            console.log(response);
+            
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }

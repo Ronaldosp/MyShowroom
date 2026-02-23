@@ -14,7 +14,7 @@ function LoginPage() {
   const handleLogin = async () => {
     try {
       await dispatch(login({ email, password }));
-      Swal.fire("Success", "Login successful", "success");
+      Swal.fire("Success", "Login Successful!", "success");
       navigate("/");
     } catch (error) {
       Swal.fire("Error", error.message || "Login failed", "error");
