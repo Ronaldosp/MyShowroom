@@ -61,7 +61,7 @@ function RegisterPage(){
           dispatch(register(registerData))
           .then(()=>{
             Swal.fire("Success", "Register Successful!", "success");
-            navigate('/')
+            navigate('/login')
           })
           .catch((error)=>{
             Swal.fire("Error", error.message, "error");

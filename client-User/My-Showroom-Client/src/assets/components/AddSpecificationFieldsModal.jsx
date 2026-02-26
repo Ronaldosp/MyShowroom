@@ -15,7 +15,7 @@ function AddSpecificationFieldsModal({ show, onHide, specificationId , specifica
       "Power Output",
       "Drive System"
     ];
-
+    const overviewOptionalValue = ["Engine Name", "Drive System"];
     const overviewWithoutUnit = ["Engine Name", "Drive System"];
     const isOverviewWithoutUnit =
     specificationName === "Overview" &&
@@ -50,21 +50,33 @@ function AddSpecificationFieldsModal({ show, onHide, specificationId , specifica
     <div className="container" >
      <form onSubmit={(event)=>{
       event.preventDefault();
+      
+      if (specificationName === "Overview") {
+        if (!overviewType.trim()) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Overview type is required",
+          });
+          return;
+        }
 
-      if(!key.trim() || !value.trim() || !unit.trim()){
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Name, Value and Unit are required",
-        });
-        return;
+        // Only require value for some overview types
+        if (!overviewOptionalValue.includes(overviewType) && !value.trim()) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Value is required for this overview type",
+          });
+          return;
+        }
       }
 
       const fieldData = {
         specification_id :specificationId,
         key: specificationName === "Overview" ? overviewType : key,
-        value,
-        unit: isOverviewWithoutUnit ? "N/A" : unit,
+        value: value.trim() || "N/A",
+        unit: isOverviewWithoutUnit || !unit.trim() ? "N/A" : unit,
       }
 
       dispatch(createSpecificationFields(fieldData)).then(() => {

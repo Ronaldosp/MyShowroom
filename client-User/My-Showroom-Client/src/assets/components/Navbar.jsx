@@ -6,7 +6,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from "react-bootstrap/Button";
 import { jwtDecode } from "jwt-decode";
-import { fetchDealerUserProfile } from "../store/action/actionCreator";
+import { fetchDealerUserProfile , fetchUserProfileId } from "../store/action/actionCreator";
 import "../styling/Navbar.scss"
 
 function NavBar(){
@@ -16,6 +16,13 @@ function NavBar(){
     const dealerProfile = useSelector(
         (state) => state.dealerReducer.dealerProfiles
     );
+
+    const userProfile = useSelector(
+        (state) => state.userProfileReducer.userProfiles
+    );
+
+    const username = userProfile?.username;
+
     const isLoggedIn = !!localStorage.getItem("access_token");
     const token = localStorage.getItem("access_token");
     const [decodedUser, setDecodedUser] = useState(null);
@@ -33,13 +40,20 @@ function NavBar(){
 
     useEffect(() => {
         if (decodedUser?.role === "dealer") {
-        dispatch(fetchDealerUserProfile(decodedUser.id));
+            dispatch(fetchDealerUserProfile(decodedUser.id));
         }
-    }, [dispatch, decodedUser?.id]); 
+
+        if(decodedUser){
+            if(decodedUser.id){
+                dispatch(fetchUserProfileId(decodedUser.id))
+            }
+        }
+    }, [dispatch, decodedUser?.id, decodedUser?.role]); 
 
     const isDealer = decodedUser?.role === "dealer";
 
-    const hasDealerProfile = !!dealerProfile;
+    const profile = dealerProfile?.find(p => p?.user_id === decodedUser?.id);
+    const hasDealerProfile = !!profile?.id;
 
     const handleLogout = () => {
         localStorage.clear();
@@ -50,7 +64,11 @@ function NavBar(){
     return <div>
         <Navbar expand="lg" className="bg-body-tertiary">
         <Container>
-            
+            {isLoggedIn && (
+                <span className="me-3 ">
+                Welcome, {username || "User"}
+                </span>
+            )}
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mx-auto navbar-center">
@@ -74,6 +92,7 @@ function NavBar(){
                 )}
 
                 <NavLink to='/listing' className="nav-link" >Car List</NavLink>
+                <NavLink to='/listing' className="nav-link" >Informasi</NavLink>
                 {isDealer && !hasDealerProfile && (
                     <NavLink to="/dealer" className="nav-link">
                         Create Dealer Profile
@@ -86,7 +105,7 @@ function NavBar(){
                     </NavLink>
                 )}
                 
-                {isDealer && (
+                {isDealer && hasDealerProfile && (
                     <NavLink to="/addcar" className="nav-link">
                         Add Cars
                     </NavLink>

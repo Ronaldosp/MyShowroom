@@ -14,7 +14,7 @@ function CarPage(){
     const dispatch = useDispatch()
     
     useEffect(()=>{
-       dispatch(fetchCar())
+      dispatch(fetchCar())
     },[dispatch])
 
     return (

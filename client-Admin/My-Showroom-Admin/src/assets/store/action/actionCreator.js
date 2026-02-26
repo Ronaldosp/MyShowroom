@@ -1,5 +1,6 @@
-const BASE_URL = 'http://localhost:3000'
-//const BASE_URL = 'https://pc6k0rjb-3000.asse.devtunnels.ms'
+//const BASE_URL = 'http://localhost:3000'
+//const BASE_URL = 'https://807e-2404-8000-1060-2e4-ed77-9a96-7fe6-623d.ngrok-free.app'
+const BASE_URL = 'https://sailing-job-sorts-identification.trycloudflare.com'
 
 export function brandsFetchSuccess(payload){
     return{

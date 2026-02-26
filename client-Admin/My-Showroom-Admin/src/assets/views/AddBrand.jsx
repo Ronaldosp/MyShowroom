@@ -80,7 +80,7 @@ function AddBrand(props){
               />
             </div>
             <div className="mb-3">
-              <label className="form-label">Logo Url Test</label>
+              <label className="form-label">Logo Url</label>
               <input 
               className="form-control" 
               type="text"

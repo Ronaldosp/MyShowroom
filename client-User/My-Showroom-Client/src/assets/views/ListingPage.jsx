@@ -82,18 +82,17 @@ export default function ListingPage(){
         setCompareCount(getCompareList().length);
     }, []);
 
-   const filteredCars = carData.filter((car) => {
-        const searchMatch =
-            car.model.toLowerCase().includes(searchQuery.toLowerCase());
+    const filteredCars = carData.filter((car) => {
+        const searchMatch = car.model.toLowerCase().includes(searchQuery.toLowerCase());
 
-        if (selectedBrands.length === 0 && selectedCategories.length === 0) {
-            return searchMatch;
-        }
+        const brandMatch =
+            selectedBrands.length === 0 ? true : selectedBrands.includes(car.brand_id);
 
-        const brandMatch = selectedBrands.includes(car.brand_id);
-        const categoryMatch = selectedCategories.includes(car.category_id);
+        const categoryMatch =
+            selectedCategories.length === 0 ? true : selectedCategories.includes(car.category_id);
 
-        return searchMatch && (brandMatch || categoryMatch);
+        
+        return searchMatch && brandMatch && categoryMatch;
     });
 
     return(

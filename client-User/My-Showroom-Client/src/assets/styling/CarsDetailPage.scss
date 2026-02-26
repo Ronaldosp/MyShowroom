@@ -250,6 +250,51 @@
 
         }
     }
+    
+    .car-detail-component_3d-button{
+        background-color: white;
+    }
+
+    .car-detail-component_3d-wrapper {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+
+        .car-detail-component_3d-button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #007bff, #00c6ff);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            transition: transform 0.2s, box-shadow 0.2s;
+            
+            &:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+            }
+
+            .car-detail-component_3d-icon {
+            width: 30px;
+            height: 30px;
+            }
+
+            .car-detail-component_3d-text {
+            display: flex;
+            flex-direction: column;
+            color: #fff;
+            font-weight: 600;
+
+            small {
+                font-size: 10px;
+                opacity: 0.8;
+            }
+            }
+        }
+        }
 }
 
 @media (max-width: 768px) {
@@ -293,6 +338,7 @@
 
     .car-detail-component_content-feature-grid {
       grid-template-columns: 1fr !important;
+      display: unset !important;
     }
 
     .feature-main img,

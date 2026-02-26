@@ -8,6 +8,7 @@ import featureCategoryReducer from "./featureCategoryReducer";
 import featureReducer from "./featureReducer";
 import specificationFieldReducer from "./specificationFieldReducer";
 import specificationReducer from "./specificationReducer";
+import userProfileReducer from "./userProfileReducer";
 
 const rootReducer = combineReducers({
     brandReducer:brandReducer,
@@ -19,7 +20,7 @@ const rootReducer = combineReducers({
     featureReducer:featureReducer,
     specificationFieldReducer:specificationFieldReducer,
     specificationReducer:specificationReducer,
-
+    userProfileReducer:userProfileReducer
 })
 
 export default rootReducer

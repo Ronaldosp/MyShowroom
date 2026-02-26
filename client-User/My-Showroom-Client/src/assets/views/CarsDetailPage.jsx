@@ -22,12 +22,17 @@ function CarsDetailPage() {
   const contactRef = useRef(null);
   const galleryRef = useRef(null);
   const arRef = useRef(null);
+  const [selectedAsset, setSelectedAsset] = useState(null);
+  const [selectedAssetMobileDesk, setSelectedAssetMobileDesk] = useState(null);
   const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-
+  const isLoggedIn = !!localStorage.getItem("access_token");
   const [show3D, setShow3D] = useState(false);
   const [openSpecCategory, setOpenSpecCategory] = useState(null);
-
+  if(!isLoggedIn){
+    Swal.fire("Error", "Must be Logged in to view detail", "error");
+    navigate(`/`)
+  }
   const carData = useSelector(
     (state) => state.carReducer.carsId
   );
@@ -44,6 +49,28 @@ function CarsDetailPage() {
     spec => spec.SpecificationCategory?.name === "Overview"
   );
 
+  useEffect(() => {
+    if (carData?.CarARAsset) {
+      setSelectedAsset(carData.CarARAsset.mobileAsset || null);
+      setSelectedAssetMobileDesk(carData.CarARAsset.desktopAsset || null);
+    } else {
+      setSelectedAsset(null);
+      setSelectedAssetMobileDesk(null);
+    }
+  }, [carData]);
+
+  useEffect(() => {
+    if (show3D) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [show3D]);
+  
   const toggleSpecCategory = (categoryId) => {
     setOpenSpecCategory(prev =>
       prev === categoryId ? null : categoryId
@@ -56,8 +83,6 @@ function CarsDetailPage() {
       spec => spec.specificationCategory_id === category.id
     )
   }));
-
-  console.log(carData , "carData");
 
   const specificationLogoMap = {
     Acceleration: accelerationLogo,
@@ -114,10 +139,8 @@ function CarsDetailPage() {
       });
       return;
     }
-    if (!whatsappLink) {
-      alert("Dealer WhatsApp not available");
-      return;
-    }
+    const whatsappBase = carData?.DealerProfile?.whatsAppLink;
+    if (!whatsappBase) return alert("Dealer WhatsApp not available");
 
     if (!contactForm.agreed) {
       Swal.fire({
@@ -139,8 +162,9 @@ function CarsDetailPage() {
     `;
 
     const encodedMessage = encodeURIComponent(message);
+    const separator = whatsappBase.includes("?") ? "&" : "?";
 
-    window.open(`${whatsappLink}?text=${encodedMessage}`, "_blank");
+    window.open(`${whatsappBase}${separator}text=${encodedMessage}`, "_blank");
   };
   
   useEffect(() => {
@@ -296,7 +320,30 @@ function CarsDetailPage() {
               );
             })}
           </div>
-          
+
+          <div className="car-detail-component_3d-wrapper" ref={arRef}>
+            <button
+              className="car-detail-component_3d-button"
+              onClick={() => {
+                if (!selectedAsset && !selectedAssetMobileDesk) {
+                  Swal.fire("No AR Model", "This car has no AR asset uploaded", "info");
+                  return;
+                }
+                setShow3D(true);
+              }}
+            >
+              <img 
+                src="https://static.thenounproject.com/png/997223-200.png" 
+                alt="3D / AR Icon" 
+                className="car-detail-component_3d-icon"
+              />
+              <div className="car-detail-component_3d-text">
+                <span>AR / 3D View</span>
+                <small>Explore this car interactively</small>
+              </div>
+            </button>
+          </div>
+
           <div className="car-detail-component-contact-us" ref={contactRef}>
             <div className="car-detail-component-contact-us-container">
               <div className="car-detail-component-contact-us-title">
@@ -358,14 +405,7 @@ function CarsDetailPage() {
               </div>
             </div>
           </div>
-
-         <button
-              className="car-detail-component_3d-button"
-              onClick={() => setShow3D(true)}
-            >
-              Show 3D View
-         </button> 
-
+          
          {/* 3D Viewer Modal */}
         {show3D && (
           <div
@@ -404,14 +444,8 @@ function CarsDetailPage() {
               >
                 Close
               </button>
-
               {/* 3D Viewer Canvas */}
-              {isMobile ? (
-                  <ARViewer />
-              ) : (
-                <Car3DViewer />
-              )}
-              
+              <ARViewer imageUrl={`https://sailing-job-sorts-identification.trycloudflare.com/uploads/${selectedAssetMobileDesk}`} iosUrl={isIOS ? `https://sailing-job-sorts-identification.trycloudflare.com/uploads/${selectedAsset}`: undefined} />
             </div>
           </div>
         )}

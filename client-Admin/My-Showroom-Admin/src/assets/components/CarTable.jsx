@@ -2,17 +2,19 @@ import Button from 'react-bootstrap/Button';
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import AddCar from "../views/AddCar.jsx";
+import EditCar from "../views/EditCar.jsx";
 import Car3DViewer from "../views/Car3DViewer";
 import ARViewer from "../views/ARViewer";
 
 function CarTable({ el, index }) {
   const dispatch = useDispatch();
-  const [modalShow, setModalShow] = useState(false);
+  const [showAdd, setShowAdd] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
   const [showViewer, setShowViewer] = useState(false);
   const [viewerType, setViewerType] = useState(null);
   const [selectedAsset, setSelectedAsset] = useState(null);
   const [selectedAssetMobileDesk, setSelectedAssetMobileDesk] = useState(null);
-  console.log("selectedAsset:", selectedAsset);
+  
   const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
   const handleViewAsset = (type) => {
     if (!el.CarARAsset) return;
@@ -48,18 +50,26 @@ function CarTable({ el, index }) {
         {/* Add / Edit AR Asset */}
         <td>
           <Button
-            variant={el.CarARAsset ? 'warning' : 'success'}
-            onClick={() => setModalShow(true)}
+            variant={el.CarARAsset ? "warning" : "success"}
+            onClick={() => {
+              if (el.CarARAsset) setShowEdit(true);
+              else setShowAdd(true);
+            }}
           >
-            {el.CarARAsset ? 'Edit AR Asset' : 'Add AR Asset'}
+            {el.CarARAsset ? "Edit AR Asset" : "Add AR Asset"}
           </Button>
 
-          <AddCar
-            show={modalShow}
-            onHide={() => setModalShow(false)}
-            carId={el.id}
-            carARAsset={el.CarARAsset || null}
-          />
+          <AddCar show={showAdd} onHide={() => setShowAdd(false)} carId={el.id} />
+
+          {el.CarARAsset && (
+            <EditCar
+              show={showEdit}
+              onHide={() => setShowEdit(false)}
+              assetId={el.CarARAsset.id}
+              carId={el.id}
+              carARAsset={el.CarARAsset}
+            />
+          )}
         </td>
 
         {/* VIEW BUTTONS */}
@@ -122,11 +132,11 @@ function CarTable({ el, index }) {
                 </button>
 
                 {viewerType === "3d" && (
-                  <Car3DViewer modelUrl={`https://pc6k0rjb-3000.asse.devtunnels.ms/uploads/${selectedAsset}`} />
+                  <Car3DViewer modelUrl={`https://sailing-job-sorts-identification.trycloudflare.com/uploads/${selectedAsset}`} />
                 )}
 
                 {viewerType === "ar" && (
-                  <ARViewer imageUrl={`https://pc6k0rjb-3000.asse.devtunnels.ms/uploads/${selectedAssetMobileDesk}`} iosUrl={isIOS ? `https://pc6k0rjb-3000.asse.devtunnels.ms/uploads/${selectedAsset}`: undefined} />
+                  <ARViewer imageUrl={`https://sailing-job-sorts-identification.trycloudflare.com/uploads/${selectedAssetMobileDesk}`} iosUrl={isIOS ? `https://sailing-job-sorts-identification.trycloudflare.com/uploads/${selectedAsset}`: undefined} />
                 )}
               </div>
             </div>

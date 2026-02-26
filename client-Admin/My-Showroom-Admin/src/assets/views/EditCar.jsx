@@ -2,9 +2,9 @@ import { useState } from "react";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { useDispatch } from "react-redux";
-import { createCarARAsset , fetchCar } from "../store/action/actionCreator.js";
+import { editCarARAsset , fetchCar } from "../store/action/actionCreator.js";
 
-function AddCar({ carId, ...props }) {
+function EditCar({ carId, assetId, ...props }) {
   const [desktopFile, setDesktopFile] = useState(null);
   const [mobileFile, setMobileFile] = useState(null);
 
@@ -23,7 +23,7 @@ function AddCar({ carId, ...props }) {
     formData.append("desktopAsset", desktopFile);
     formData.append("mobileAsset", mobileFile);
 
-    dispatch(createCarARAsset(formData));
+    dispatch(editCarARAsset(assetId , formData));
     props.onHide();
     dispatch(fetchCar());
   };
@@ -31,7 +31,7 @@ function AddCar({ carId, ...props }) {
   return (
     <Modal {...props} size="lg" centered>
       <Modal.Header closeButton>
-        <Modal.Title>Add Car AR Asset</Modal.Title>
+        <Modal.Title>Edit Car AR Asset</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <form onSubmit={handleSubmit}>
@@ -66,4 +66,4 @@ function AddCar({ carId, ...props }) {
   );
 }
 
-export default AddCar;
+export default EditCar;
